@@ -1,0 +1,1025 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lanacord Grammys 2026 — Executive Admin Suite</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🛡️</text></svg>">
+  <style>
+    .admin-badge {
+      background: rgba(212, 175, 55, 0.15);
+      border: 1px solid var(--border-gold);
+      color: var(--gold-light);
+      padding: 4px 10px;
+      border-radius: var(--radius-full);
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .admin-card {
+      background: #141013;
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 22px;
+      margin-bottom: 24px;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .admin-card:hover {
+      border-color: rgba(212, 175, 55, 0.35);
+    }
+    .admin-card.card-winner {
+      border-color: var(--gold-primary);
+      box-shadow: 0 0 25px rgba(212, 175, 55, 0.15);
+    }
+    .nominee-admin-pill {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 10px 14px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      transition: all 0.2s;
+    }
+    .nominee-admin-pill:hover {
+      background: rgba(255, 255, 255, 0.06);
+      border-color: rgba(255, 255, 255, 0.15);
+    }
+    .nominee-admin-pill.is-winner {
+      background: rgba(212, 175, 55, 0.15);
+      border-color: var(--gold-primary);
+    }
+    .sync-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.78rem;
+      color: #6ee7b7;
+      font-weight: 600;
+    }
+    .sync-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #10b981;
+      box-shadow: 0 0 8px #10b981;
+    }
+
+    /* Auth Gate Screen */
+    #auth-gate-screen {
+      min-height: 80vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .auth-gate-box {
+      background: #161014;
+      border: 1px solid var(--border-gold);
+      border-radius: var(--radius-lg);
+      padding: 36px 30px;
+      max-width: 440px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8), var(--shadow-gold);
+      animation: fadeIn 0.3s ease-out;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================== -->
+  <!-- AUTHENTICATION GATE SCREEN (SHOWN WHEN LOCKED) -->
+  <!-- ============================================== -->
+  <div id="auth-gate-screen">
+    <div class="auth-gate-box">
+      <div style="font-size: 48px; margin-bottom: 14px; filter: drop-shadow(0 0 12px rgba(212, 175, 55, 0.5));">🔒</div>
+      <div class="admin-badge" style="margin-bottom: 10px;">Executive Verification</div>
+      <h2 style="font-size: 1.6rem; font-weight: 900; color: #fff; margin-bottom: 8px;">
+        Admin Suite Restricted
+      </h2>
+      <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 24px; line-height: 1.5;">
+        This portal is reserved for Lanacord Grammys hosts. Enter your executive passcode to manage categories, server nominees, and declare winners.
+      </p>
+
+      <form id="auth-form" onsubmit="handleAuthSubmit(event)">
+        <div class="form-group" style="text-align: left; margin-bottom: 20px;">
+          <label class="form-label">Executive Passcode</label>
+          <div style="position: relative;">
+            <input type="password" id="admin-passcode-input" class="form-input" placeholder="Enter admin passcode..." autocomplete="current-password" autofocus required>
+            <button type="button" onclick="togglePasswordVisibility()" style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 1.1rem;">
+              👁️
+            </button>
+          </div>
+          <div id="auth-error-msg" style="color: #fda4af; font-size: 0.8rem; margin-top: 8px; display: none;"></div>
+        </div>
+
+        <button type="submit" id="btn-unlock-suite" class="btn btn-gold" style="width: 100%; padding: 12px; font-size: 1rem;">
+          🔓 Unlock Admin Suite
+        </button>
+      </form>
+
+      <div style="margin-top: 24px; padding-top: 18px; border-top: 1px solid var(--border-subtle); display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem;">
+        <span style="color: var(--text-muted);">Accidental click?</span>
+        <a href="/" class="btn btn-outline btn-sm">👑 Return to Voter Gala</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================== -->
+  <!-- MAIN ADMIN DASHBOARD (SHOWN WHEN UNLOCKED)     -->
+  <!-- ============================================== -->
+  <div id="admin-dashboard-container" style="display: none;">
+    <!-- Navbar -->
+    <header class="navbar">
+      <a href="/admin" class="nav-brand">
+        <div class="brand-trophy">🛡️</div>
+        <div class="brand-text">
+          <h1>LANACORD GRAMMYS</h1>
+          <div class="brand-badge">Executive Admin & Ceremony Director</div>
+        </div>
+      </a>
+
+      <div class="nav-center">
+        <div class="sync-status">
+          <span class="sync-dot"></span>
+          Real-Time Live Sync Active (SSE)
+        </div>
+      </div>
+
+      <div class="nav-actions">
+        <!-- Audio Toggle -->
+        <button id="btn-audio" class="btn btn-outline btn-icon" title="Toggle Sound">
+          <span id="audio-icon">🔊</span>
+        </button>
+
+        <!-- Change Passcode Button -->
+        <button class="btn btn-outline" onclick="openModal('change-passcode-modal')">
+          🔑 Change Passcode
+        </button>
+
+        <!-- Reset & Defaults Menu Button -->
+        <button class="btn btn-outline" onclick="openModal('reset-modal')">
+          ⚙️ Reset / Presets
+        </button>
+
+        <!-- View Public Voter Site -->
+        <a href="/" target="_blank" class="btn btn-gold">
+          👑 View Voter Site ↗
+        </a>
+
+        <!-- Lock / Log Out Button -->
+        <button class="btn btn-velvet btn-sm" onclick="handleLockOut()" title="Lock Admin Suite">
+          🔒 Lock Suite
+        </button>
+      </div>
+    </header>
+
+    <main class="container">
+      <!-- Header Summary & Quick Actions -->
+      <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 24px; flex-wrap: wrap; gap: 16px;">
+        <div>
+          <div class="admin-badge">Ceremony Controls</div>
+          <h2 style="font-size: 2.2rem; font-weight: 900; margin-top: 6px; color: #fff;">
+            Category & Member Manager
+          </h2>
+          <p style="color: var(--text-muted); font-size: 0.95rem; max-width: 650px;">
+            Add or remove categories, manage nominated Discord members, lock betting pools, and declare winners. All actions update the voter site <strong>instantly in real time</strong>.
+          </p>
+        </div>
+
+        <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+          <button class="btn btn-gold" onclick="openAddCategoryModal()">
+            ✨ + Add New Category
+          </button>
+        </div>
+      </div>
+
+      <!-- Stats Ribbon -->
+      <div class="stats-ribbon" style="margin-bottom: 30px;">
+        <div class="stat-card">
+          <div class="stat-icon">🏆</div>
+          <div class="stat-content">
+            <div class="stat-val" id="admin-stat-categories">0</div>
+            <div class="stat-label">Total Categories</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">👥</div>
+          <div class="stat-content">
+            <div class="stat-val" id="admin-stat-nominees">0</div>
+            <div class="stat-label">Total Nominees</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">🎟️</div>
+          <div class="stat-content">
+            <div class="stat-val" id="admin-stat-bets">0</div>
+            <div class="stat-label">Bets Placed</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">🍒</div>
+          <div class="stat-content">
+            <div class="stat-val" id="admin-stat-volume">0</div>
+            <div class="stat-label">Total Pool Volume</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Filter & Search Controls -->
+      <div class="controls-bar">
+        <div class="tabs-wrapper" id="admin-section-tabs">
+          <button class="tab-btn active" data-section="all">
+            All Categories (<span id="count-all">0</span>)
+          </button>
+          <button class="tab-btn" data-section="Album Fan Categories">
+            💿 Album Fan (<span id="count-album">0</span>)
+          </button>
+          <button class="tab-btn" data-section="Most Likely To Categories">
+            🚨 Most Likely To (<span id="count-likely">0</span>)
+          </button>
+          <button class="tab-btn" data-section="Best/Most/Favorite Categories">
+            👑 Best / Most / Favorite (<span id="count-best">0</span>)
+          </button>
+        </div>
+
+        <div class="search-filter-row">
+          <div class="search-box">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="admin-category-search" placeholder="Filter categories or nominees...">
+          </div>
+        </div>
+      </div>
+
+      <!-- Categories Management List -->
+      <div id="admin-categories-list">
+        <!-- Injected dynamically via JS -->
+      </div>
+    </main>
+  </div>
+
+  <!-- ============================================== -->
+  <!-- MODAL: ADD CATEGORY -->
+  <!-- ============================================== -->
+  <div class="modal-overlay" id="add-category-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">✨ Add Grammys Category</h3>
+        <button class="modal-close" onclick="closeModal('add-category-modal')">&times;</button>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Category Section</label>
+        <select id="new-cat-section" class="form-select">
+          <option value="Album Fan Categories">Album Fan Categories</option>
+          <option value="Most Likely To Categories">Most Likely To Categories</option>
+          <option value="Best/Most/Favorite Categories">Best/Most/Favorite Categories</option>
+          <option value="Special Honors">Special Honors</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Category Title</label>
+        <input type="text" id="new-cat-name" class="form-input" placeholder="e.g. Biggest Chemtrails Defender">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Description / Subtitle</label>
+        <textarea id="new-cat-desc" class="form-textarea" rows="3" placeholder="Explain the criteria or vibe for this category..."></textarea>
+      </div>
+
+      <div style="display: flex; gap: 10px; margin-top: 20px;">
+        <button class="btn btn-outline" style="flex: 1;" onclick="closeModal('add-category-modal')">Cancel</button>
+        <button class="btn btn-gold" style="flex: 2;" onclick="submitNewCategory()">Create Category</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================== -->
+  <!-- MODAL: BULK ADD NOMINEES -->
+  <!-- ============================================== -->
+  <div class="modal-overlay" id="bulk-nominees-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div>
+          <h3 class="modal-title">⚡ Bulk Add Members</h3>
+          <p id="bulk-modal-category-name" style="font-size: 0.85rem; color: var(--gold-light); margin-top: 4px;">
+            Category
+          </p>
+        </div>
+        <button class="modal-close" onclick="closeModal('bulk-nominees-modal')">&times;</button>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Member Usernames</label>
+        <p style="font-size: 0.78rem; color: var(--text-muted); margin-bottom: 8px;">
+          Paste multiple usernames separated by commas, spaces, or line breaks (with or without @):
+        </p>
+        <textarea id="bulk-nominees-input" class="form-textarea" rows="6" placeholder="@cinnamon_girl, @venice_bitch, @ultraviolence&#10;norman_stan&#10;diet_mtn_dew"></textarea>
+      </div>
+
+      <div style="display: flex; gap: 10px;">
+        <button class="btn btn-outline" style="flex: 1;" onclick="closeModal('bulk-nominees-modal')">Cancel</button>
+        <button class="btn btn-gold" style="flex: 2;" onclick="submitBulkNominees()">Add All Members</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================== -->
+  <!-- MODAL: CHANGE ADMIN PASSCODE -->
+  <!-- ============================================== -->
+  <div class="modal-overlay" id="change-passcode-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">🔑 Change Admin Passcode</h3>
+        <button class="modal-close" onclick="closeModal('change-passcode-modal')">&times;</button>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">New Passcode</label>
+        <input type="password" id="new-admin-passcode-input" class="form-input" placeholder="Enter new secret passcode (min 4 chars)..." minlength="4">
+      </div>
+
+      <div style="display: flex; gap: 10px; margin-top: 20px;">
+        <button class="btn btn-outline" style="flex: 1;" onclick="closeModal('change-passcode-modal')">Cancel</button>
+        <button class="btn btn-gold" style="flex: 2;" onclick="submitChangePasscode()">Save Passcode</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================== -->
+  <!-- MODAL: RESET & DEFAULTS -->
+  <!-- ============================================== -->
+  <div class="modal-overlay" id="reset-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">⚙️ Reset & Presets</h3>
+        <button class="modal-close" onclick="closeModal('reset-modal')">&times;</button>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 14px;">
+        <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-subtle); padding: 16px; border-radius: var(--radius-md);">
+          <div style="font-weight: 700; color: #fff; margin-bottom: 4px;">🧹 Reset All Bets</div>
+          <div style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 12px;">
+            Clears all placed bets and resets pending pools and winners, refunding active wagers back to users.
+          </div>
+          <button class="btn btn-outline-gold btn-sm" onclick="executeReset('bets_only')">
+            Clear Bets & Results
+          </button>
+        </div>
+
+        <div style="background: rgba(225, 29, 72, 0.08); border: 1px solid rgba(225, 29, 72, 0.3); padding: 16px; border-radius: var(--radius-md);">
+          <div style="font-weight: 700; color: #fda4af; margin-bottom: 4px;">🔄 Restore 33 Default Categories</div>
+          <div style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 12px;">
+            Restores the original 33 Lanacord Grammys categories (Album Fan, Most Likely To, Best/Most/Favorite) with fresh nominee rosters.
+          </div>
+          <button class="btn btn-velvet btn-sm" onclick="executeReset('defaults')">
+            Restore Default 33 Categories
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast-container"></div>
+
+  <!-- Scripts -->
+  <script src="/static/effects.js"></script>
+  <script>
+    let state = {
+      categories: [],
+      stats: {}
+    };
+
+    let activeSection = 'all';
+    let searchQuery = '';
+    let currentBulkCategoryId = null;
+
+    // Check Authentication on Page Load
+    document.addEventListener('DOMContentLoaded', async () => {
+      setupFilters();
+      setupAudioToggle();
+
+      const savedPwd = sessionStorage.getItem('lanacord_admin_pwd');
+      if (savedPwd) {
+        const ok = await verifyPasscode(savedPwd);
+        if (ok) {
+          unlockDashboard();
+          return;
+        }
+      }
+
+      // If not authenticated, show gate screen
+      showAuthGate();
+    });
+
+    // Passcode Verification API call
+    async function verifyPasscode(pwd) {
+      try {
+        const res = await fetch('/api/admin/verify', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ password: pwd })
+        });
+        const data = await res.json();
+        return res.ok && data.success === true;
+      } catch (err) {
+        return false;
+      }
+    }
+
+    // Handle Form Submit on Login Gate
+    async function handleAuthSubmit(e) {
+      e.preventDefault();
+      const input = document.getElementById('admin-passcode-input');
+      const errBox = document.getElementById('auth-error-msg');
+      const btn = document.getElementById('btn-unlock-suite');
+      const pwd = input.value.trim();
+
+      if (!pwd) return;
+
+      btn.disabled = true;
+      btn.textContent = 'Verifying...';
+      errBox.style.display = 'none';
+
+      const ok = await verifyPasscode(pwd);
+      btn.disabled = false;
+      btn.textContent = '🔓 Unlock Admin Suite';
+
+      if (ok) {
+        sessionStorage.setItem('lanacord_admin_pwd', pwd);
+        showToast('Executive Access Granted!', 'success');
+        playFanfare();
+        unlockDashboard();
+      } else {
+        errBox.textContent = '❌ Incorrect admin passcode. Access denied.';
+        errBox.style.display = 'block';
+        input.select();
+        playClick();
+      }
+    }
+
+    function togglePasswordVisibility() {
+      const input = document.getElementById('admin-passcode-input');
+      input.type = input.type === 'password' ? 'text' : 'password';
+    }
+
+    function showAuthGate() {
+      document.getElementById('auth-gate-screen').style.display = 'flex';
+      document.getElementById('admin-dashboard-container').style.display = 'none';
+      sessionStorage.removeItem('lanacord_admin_pwd');
+    }
+
+    function unlockDashboard() {
+      document.getElementById('auth-gate-screen').style.display = 'none';
+      document.getElementById('admin-dashboard-container').style.display = 'block';
+      fetchState();
+      initSSE();
+
+      // Polling fallback
+      setInterval(() => {
+        if (sessionStorage.getItem('lanacord_admin_pwd')) {
+          fetchState(true);
+        }
+      }, 8000);
+    }
+
+    function handleLockOut() {
+      playClick();
+      showAuthGate();
+      showToast('Admin suite locked.', 'info');
+    }
+
+    // Authenticated API Fetch Wrapper
+    async function adminFetch(url, options = {}) {
+      const pwd = sessionStorage.getItem('lanacord_admin_pwd') || '';
+      options.headers = options.headers || {};
+      options.headers['Content-Type'] = options.headers['Content-Type'] || 'application/json';
+      options.headers['X-Admin-Password'] = pwd;
+
+      const res = await fetch(url, options);
+      if (res.status === 401) {
+        showToast('Session expired or passcode invalid. Please re-enter passcode.', 'error');
+        showAuthGate();
+        throw new Error('Unauthorized');
+      }
+      return res;
+    }
+
+    async function fetchState(silent = false) {
+      try {
+        const res = await fetch('/api/state');
+        if (!res.ok) throw new Error('Failed to load state');
+        state = await res.json();
+        renderUI();
+      } catch (err) {
+        if (!silent) console.error(err);
+      }
+    }
+
+    // Server-Sent Events (SSE)
+    function initSSE() {
+      const evtSource = new EventSource('/api/events');
+
+      evtSource.onmessage = () => fetchState(true);
+      evtSource.addEventListener('CATEGORY_ADDED', () => fetchState(true));
+      evtSource.addEventListener('CATEGORY_DELETED', () => fetchState(true));
+      evtSource.addEventListener('CATEGORY_EDITED', () => fetchState(true));
+      evtSource.addEventListener('CATEGORY_LOCKED', () => fetchState(true));
+      evtSource.addEventListener('NOMINEE_ADDED', () => fetchState(true));
+      evtSource.addEventListener('NOMINEE_DELETED', () => fetchState(true));
+      evtSource.addEventListener('NOMINEES_BULK_ADDED', () => fetchState(true));
+      evtSource.addEventListener('WINNER_DECLARED', () => fetchState(true));
+      evtSource.addEventListener('WINNER_CLEARED', () => fetchState(true));
+      evtSource.addEventListener('BET_PLACED', () => fetchState(true));
+      evtSource.addEventListener('BOARD_RESET', () => fetchState(true));
+    }
+
+    function setupAudioToggle() {
+      const btn = document.getElementById('btn-audio');
+      const icon = document.getElementById('audio-icon');
+      btn.addEventListener('click', () => {
+        soundEnabled = !soundEnabled;
+        icon.textContent = soundEnabled ? '🔊' : '🔇';
+        btn.classList.toggle('btn-outline-gold', soundEnabled);
+        showToast(soundEnabled ? 'Audio FX Enabled' : 'Audio FX Muted');
+      });
+    }
+
+    function setupFilters() {
+      const tabs = document.querySelectorAll('#admin-section-tabs .tab-btn');
+      tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          tabs.forEach(t => t.classList.remove('active'));
+          tab.classList.add('active');
+          activeSection = tab.dataset.section;
+          renderCategories();
+        });
+      });
+
+      const searchInput = document.getElementById('admin-category-search');
+      searchInput.addEventListener('input', (e) => {
+        searchQuery = e.target.value.toLowerCase().trim();
+        renderCategories();
+      });
+    }
+
+    function renderUI() {
+      renderStats();
+      renderCounts();
+      renderCategories();
+    }
+
+    function renderStats() {
+      const stats = state.stats || {};
+      document.getElementById('admin-stat-categories').textContent = stats.totalCategories || 0;
+      document.getElementById('admin-stat-nominees').textContent = stats.totalNominees || 0;
+      document.getElementById('admin-stat-bets').textContent = (stats.totalBets || 0).toLocaleString();
+      document.getElementById('admin-stat-volume').textContent = (stats.totalVolume || 0).toLocaleString() + ' 🍒';
+    }
+
+    function renderCounts() {
+      const cats = state.categories || [];
+      document.getElementById('count-all').textContent = cats.length;
+      document.getElementById('count-album').textContent = cats.filter(c => c.section === 'Album Fan Categories').length;
+      document.getElementById('count-likely').textContent = cats.filter(c => c.section === 'Most Likely To Categories').length;
+      document.getElementById('count-best').textContent = cats.filter(c => c.section === 'Best/Most/Favorite Categories').length;
+    }
+
+    function renderCategories() {
+      const container = document.getElementById('admin-categories-list');
+      let list = state.categories || [];
+
+      if (activeSection !== 'all') {
+        list = list.filter(c => c.section === activeSection);
+      }
+
+      if (searchQuery) {
+        list = list.filter(c => {
+          const matchCat = c.name.toLowerCase().includes(searchQuery) || (c.description || '').toLowerCase().includes(searchQuery);
+          const matchNom = (c.nominees || []).some(n => n.name.toLowerCase().includes(searchQuery));
+          return matchCat || matchNom;
+        });
+      }
+
+      if (!list.length) {
+        container.innerHTML = `
+          <div style="text-align: center; padding: 60px 20px; color: var(--text-muted); background: var(--bg-card); border-radius: var(--radius-lg);">
+            <div style="font-size: 32px; margin-bottom: 8px;">🥀</div>
+            <h3>No categories match your filters</h3>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = list.map(cat => {
+        const hasWinner = cat.winnerId !== null;
+        const winnerNominee = hasWinner ? (cat.nominees || []).find(n => n.id === cat.winnerId) : null;
+
+        return `
+          <div class="admin-card ${hasWinner ? 'card-winner' : ''}" id="admin-cat-${cat.id}">
+            <!-- Card Header -->
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; margin-bottom: 16px; flex-wrap: wrap;">
+              <div>
+                <span class="card-section-tag">${escapeHtml(cat.section)}</span>
+                <h3 style="font-size: 1.4rem; font-weight: 800; color: #fff;">${escapeHtml(cat.name)}</h3>
+                <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 4px;">${escapeHtml(cat.description || '')}</p>
+              </div>
+
+              <!-- Header Actions: Lock, Delete -->
+              <div style="display: flex; gap: 8px; align-items: center;">
+                <button class="btn btn-sm ${cat.isLocked ? 'btn-velvet' : 'btn-outline'}" onclick="toggleLock('${cat.id}', ${!cat.isLocked})" title="${cat.isLocked ? 'Betting Locked' : 'Betting Open'}">
+                  ${cat.isLocked ? '🔒 Locked' : '🟢 Open for Bets'}
+                </button>
+
+                <button class="btn btn-sm btn-outline" style="color: #fda4af; border-color: rgba(225,29,72,0.4);" onclick="deleteCategory('${cat.id}', '${escapeAttr(cat.name)}')">
+                  🗑️ Delete
+                </button>
+              </div>
+            </div>
+
+            <!-- Winner announcement banner if settled -->
+            ${hasWinner ? `
+              <div style="background: rgba(212, 175, 55, 0.18); border: 1px solid var(--gold-primary); border-radius: var(--radius-md); padding: 12px 18px; margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between;">
+                <div style="display: flex; align-items: center; gap: 10px; font-weight: 700; color: var(--gold-light);">
+                  <span style="font-size: 1.4rem;">🏆</span>
+                  <span>WINNER DECLARED: <strong>@${escapeHtml(winnerNominee ? winnerNominee.name : 'Unknown')}</strong> (Bets Settled & Paid Out)</span>
+                </div>
+                <button class="btn btn-sm btn-outline" style="border-color: var(--border-gold);" onclick="clearWinner('${cat.id}')">
+                  ↩️ Undo / Clear Winner
+                </button>
+              </div>
+            ` : ''}
+
+            <!-- Nominees Management Box -->
+            <div style="background: rgba(0,0,0,0.25); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 16px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 10px;">
+                <h4 style="font-size: 0.9rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-secondary);">
+                  Nominated Members (${(cat.nominees || []).length})
+                </h4>
+
+                <button class="btn btn-sm btn-outline-gold" onclick="openBulkNomineesModal('${cat.id}', '${escapeAttr(cat.name)}')">
+                  ⚡ Bulk Add Members
+                </button>
+              </div>
+
+              <!-- Nominees list -->
+              <div style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 14px;">
+                ${(cat.nominees && cat.nominees.length) ? cat.nominees.map(nom => {
+                  const oddsData = (cat.odds && cat.odds[nom.id]) || { odds: 2.50, pool: 0, betCount: 0, sharePercentage: 0 };
+                  const isWinner = cat.winnerId === nom.id;
+
+                  return `
+                    <div class="nominee-admin-pill ${isWinner ? 'is-winner' : ''}">
+                      <div style="display: flex; align-items: center; gap: 10px; min-width: 0;">
+                        <span style="font-size: 1.2rem;">${getAvatarEmoji(nom.avatar)}</span>
+                        <div>
+                          <strong style="color: ${isWinner ? 'var(--gold-light)' : '#fff'}; font-size: 0.95rem;">@${escapeHtml(nom.name)}</strong>
+                          ${isWinner ? '<span style="font-size: 0.72rem; font-weight: 800; color: var(--gold-light); margin-left: 6px;">WINNER 🏆</span>' : ''}
+                          <div style="font-size: 0.75rem; color: var(--text-muted);">
+                            ${oddsData.pool} 🍒 (${oddsData.sharePercentage}%) • ${oddsData.betCount} bets • Odds: ${oddsData.odds}x
+                          </div>
+                        </div>
+                      </div>
+
+                      <div style="display: flex; align-items: center; gap: 8px; flex-shrink: 0;">
+                        ${!isWinner ? `
+                          <button class="btn btn-sm btn-gold" onclick="declareWinner('${cat.id}', '${nom.id}', '${escapeAttr(nom.name)}')">
+                            🏆 Declare Winner
+                          </button>
+                        ` : ''}
+
+                        <button class="btn btn-sm btn-outline" style="padding: 5px 8px; color: #fda4af;" onclick="deleteNominee('${cat.id}', '${nom.id}', '${escapeAttr(nom.name)}')" title="Remove Nominee">
+                          &times;
+                        </button>
+                      </div>
+                    </div>
+                  `;
+                }).join('') : `
+                  <div style="text-align: center; color: var(--text-muted); padding: 12px; font-size: 0.85rem;">
+                    No members nominated yet. Add members below.
+                  </div>
+                `}
+              </div>
+
+              <!-- Quick Add Single Member Input -->
+              <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+                <div style="position: relative; flex: 1; min-width: 180px;">
+                  <span style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-weight: 700;">@</span>
+                  <input type="text" id="quick-nom-name-${cat.id}" class="form-input" style="padding: 8px 12px 8px 30px; font-size: 0.88rem;" placeholder="Member username...">
+                </div>
+
+                <select id="quick-nom-avatar-${cat.id}" class="form-select" style="width: auto; padding: 8px 10px; font-size: 0.88rem;">
+                  <option value="cherry">🍒 Cherry</option>
+                  <option value="crown">👑 Crown</option>
+                  <option value="flower">🌸 Flower</option>
+                  <option value="lipstick">💄 Lipstick</option>
+                  <option value="sunglasses">🕶️ Shades</option>
+                  <option value="ribbon">🎀 Ribbon</option>
+                  <option value="wine">🍷 Wine</option>
+                  <option value="mic">🎤 Mic</option>
+                  <option value="rose">🌹 Rose</option>
+                  <option value="coffee">☕ Coffee</option>
+                  <option value="wave">🌊 Wave</option>
+                </select>
+
+                <button class="btn btn-sm btn-gold" onclick="submitQuickNominee('${cat.id}')">
+                  + Add Member
+                </button>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // Add New Category
+    function openAddCategoryModal() {
+      playClick();
+      document.getElementById('new-cat-name').value = '';
+      document.getElementById('new-cat-desc').value = '';
+      openModal('add-category-modal');
+    }
+
+    async function submitNewCategory() {
+      const name = document.getElementById('new-cat-name').value.trim();
+      const section = document.getElementById('new-cat-section').value;
+      const description = document.getElementById('new-cat-desc').value.trim();
+
+      if (!name) {
+        showToast('Please enter a category title!', 'warning');
+        return;
+      }
+
+      try {
+        const res = await adminFetch('/api/admin/category/add', {
+          method: 'POST',
+          body: JSON.stringify({ name, section, description })
+        });
+        const data = await res.json();
+        if (!res.ok || !data.success) throw new Error(data.error || 'Failed to create category');
+
+        closeModal('add-category-modal');
+        showToast(`Category "${name}" created!`, 'success');
+        playClick();
+        fetchState();
+      } catch (err) {
+        showToast(err.message, 'error');
+      }
+    }
+
+    // Delete Category
+    async function deleteCategory(categoryId, categoryName) {
+      if (!confirm(`Are you sure you want to delete "${categoryName}"?\nAny pending bets on this category will be refunded.`)) {
+        return;
+      }
+
+      try {
+        const res = await adminFetch('/api/admin/category/delete', {
+          method: 'POST',
+          body: JSON.stringify({ categoryId })
+        });
+        const data = await res.json();
+        if (!res.ok || !data.success) throw new Error(data.error || 'Failed to delete category');
+
+        showToast(`Category "${categoryName}" deleted.`, 'info');
+        fetchState();
+      } catch (err) {
+        showToast(err.message, 'error');
+      }
+    }
+
+    // Toggle Category Lock
+    async function toggleLock(categoryId, lockState) {
+      playClick();
+      try {
+        const res = await adminFetch('/api/admin/category/lock', {
+          method: 'POST',
+          body: JSON.stringify({ categoryId, isLocked: lockState })
+        });
+        const data = await res.json();
+        if (!res.ok || !data.success) throw new Error(data.error || 'Lock toggle failed');
+
+        showToast(lockState ? 'Betting locked for category.' : 'Betting reopened.', 'info');
+        fetchState();
+      } catch (err) {
+        showToast(err.message, 'error');
+      }
+    }
+
+    // Quick Add Single Nominee
+    async function submitQuickNominee(categoryId) {
+      const nameInput = document.getElementById(`quick-nom-name-${categoryId}`);
+      const avatarSelect = document.getElementById(`quick-nom-avatar-${categoryId}`);
+
+      const name = nameInput.value.trim().replace(/^@/, '');
+      const avatar = avatarSelect.value;
+
+      if (!name) {
+        showToast('Please enter a username!', 'warning');
+        return;
+      }
+
+      try {
+        const res = await adminFetch('/api/admin/nominee/add', {
+          method: 'POST',
+          body: JSON.stringify({ categoryId, name, avatar })
+        });
+        const data = await res.json();
+        if (!res.ok || !data.success) throw new Error(data.error || 'Failed to add nominee');
+
+        nameInput.value = '';
+        showToast(`@${name} added to category!`, 'success');
+        playClick();
+        fetchState();
+      } catch (err) {
+        showToast(err.message, 'error');
+      }
+    }
+
+    // Delete Nominee
+    async function deleteNominee(categoryId, nomineeId, nomineeName) {
+      if (!confirm(`Remove @${nomineeName} from this category?\nAny bets placed on them will be refunded.`)) {
+        return;
+      }
+
+      try {
+        const res = await adminFetch('/api/admin/nominee/delete', {
+          method: 'POST',
+          body: JSON.stringify({ categoryId, nomineeId })
+        });
+        const data = await res.json();
+        if (!res.ok || !data.success) throw new Error(data.error || 'Failed to remove nominee');
+
+        showToast(`@${nomineeName} removed.`, 'info');
+        fetchState();
+      } catch (err) {
+        showToast(err.message, 'error');
+      }
+    }
+
+    // Bulk Add Nominees
+    function openBulkNomineesModal(categoryId, categoryName) {
+      currentBulkCategoryId = categoryId;
+      document.getElementById('bulk-modal-category-name').textContent = 'Target Category: ' + categoryName;
+      document.getElementById('bulk-nominees-input').value = '';
+      openModal('bulk-nominees-modal');
+    }
+
+    async function submitBulkNominees() {
+      if (!currentBulkCategoryId) return;
+      const rawText = document.getElementById('bulk-nominees-input').value;
+      const names = rawText
+        .split(/[,\n]+/)
+        .map(s => s.trim().replace(/^@/, ''))
+        .filter(s => s.length > 0);
+
+      if (!names.length) {
+        showToast('Please enter at least one member name!', 'warning');
+        return;
+      }
+
+      try {
+        const res = await adminFetch('/api/admin/nominee/bulk-add', {
+          method: 'POST',
+          body: JSON.stringify({ categoryId: currentBulkCategoryId, names })
+        });
+        const data = await res.json();
+        if (!res.ok || !data.success) throw new Error(data.error || 'Bulk add failed');
+
+        closeModal('bulk-nominees-modal');
+        showToast(`Added ${data.addedCount} members to category!`, 'success');
+        playClick();
+        fetchState();
+      } catch (err) {
+        showToast(err.message, 'error');
+      }
+    }
+
+    // Declare Winner
+    async function declareWinner(categoryId, nomineeId, nomineeName) {
+      if (!confirm(`🏆 Declare @${nomineeName} as the WINNER of this category?\nThis will immediately settle all bets and distribute winnings to all victorious bettors!`)) {
+        return;
+      }
+
+      try {
+        const res = await adminFetch('/api/admin/category/declare-winner', {
+          method: 'POST',
+          body: JSON.stringify({ categoryId, nomineeId })
+        });
+        const data = await res.json();
+        if (!res.ok || !data.success) throw new Error(data.error || 'Failed to declare winner');
+
+        playFanfare();
+        launchConfetti();
+        showToast(`🏆 @${nomineeName} officially crowned Grammy Winner! Paid out ${data.totalPayout} 🍒.`, 'success');
+        fetchState();
+      } catch (err) {
+        showToast(err.message, 'error');
+      }
+    }
+
+    // Clear / Undo Winner
+    async function clearWinner(categoryId) {
+      if (!confirm('Undo winner declaration? Winnings will be reversed and bets returned to pending.')) {
+        return;
+      }
+
+      try {
+        const res = await adminFetch('/api/admin/category/clear-winner', {
+          method: 'POST',
+          body: JSON.stringify({ categoryId })
+        });
+        const data = await res.json();
+        if (!res.ok || !data.success) throw new Error(data.error || 'Failed to clear winner');
+
+        showToast('Winner cleared. Bets reverted to pending.', 'info');
+        fetchState();
+      } catch (err) {
+        showToast(err.message, 'error');
+      }
+    }
+
+    // Change Admin Passcode
+    async function submitChangePasscode() {
+      const input = document.getElementById('new-admin-passcode-input');
+      const newPwd = input.value.trim();
+
+      if (!newPwd || newPwd.length < 4) {
+        showToast('New passcode must be at least 4 characters long!', 'warning');
+        return;
+      }
+
+      try {
+        const res = await adminFetch('/api/admin/change-password', {
+          method: 'POST',
+          body: JSON.stringify({ newPassword: newPwd })
+        });
+        const data = await res.json();
+        if (!res.ok || !data.success) throw new Error(data.error || 'Failed to change passcode');
+
+        sessionStorage.setItem('lanacord_admin_pwd', newPwd);
+        closeModal('change-passcode-modal');
+        input.value = '';
+        showToast('Admin passcode updated successfully!', 'success');
+      } catch (err) {
+        showToast(err.message, 'error');
+      }
+    }
+
+    // Reset Actions
+    async function executeReset(type) {
+      const confirmMsg = type === 'defaults'
+        ? 'RESTORE DEFAULT 33 CATEGORIES?\nThis will overwrite custom categories and reset all bets!'
+        : 'CLEAR ALL BETS?\nThis will refund pending bets and reset pools.';
+
+      if (!confirm(confirmMsg)) return;
+
+      try {
+        const res = await adminFetch('/api/admin/reset', {
+          method: 'POST',
+          body: JSON.stringify({ type })
+        });
+        const data = await res.json();
+        if (!res.ok || !data.success) throw new Error('Reset failed');
+
+        closeModal('reset-modal');
+        showToast('Reset executed successfully!', 'info');
+        fetchState();
+      } catch (err) {
+        showToast(err.message, 'error');
+      }
+    }
+
+    // Modal helpers
+    function openModal(id) {
+      document.getElementById(id).classList.add('open');
+    }
+    function closeModal(id) {
+      document.getElementById(id).classList.remove('open');
+    }
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    function escapeAttr(str) {
+      if (!str) return '';
+      return String(str).replace(/'/g, "\\'").replace(/"/g, '&quot;');
+    }
+  </script>
+</body>
+</html>

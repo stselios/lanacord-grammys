@@ -1,0 +1,1006 @@
+{
+  "categories": [
+    {
+      "id": "cat_1_biggest_btd_fan",
+      "section": "Album Fan Categories",
+      "name": "Biggest BTD Fan",
+      "description": "Who lives and breathes Born To Die, Lolita ribbons, and vintage red lipstick?",
+      "nominees": [
+        {
+          "id": "nom_404a011c",
+          "name": "cinnamon_girl",
+          "avatar": "cherry"
+        },
+        {
+          "id": "nom_1cf5325d",
+          "name": "venice_bitch",
+          "avatar": "wave"
+        },
+        {
+          "id": "nom_636bafc5",
+          "name": "ultraviolence_slut",
+          "avatar": "lipstick"
+        }
+      ],
+      "winnerId": null,
+      "isLocked": false
+    },
+    {
+      "id": "cat_2_biggest_paradise_fan",
+      "section": "Album Fan Categories",
+      "name": "Biggest Paradise Fan",
+      "description": "Who embodies Ride, Gods & Monsters, and the wild side of Paradise?",
+      "nominees": [
+        {
+          "id": "nom_fb09a920",
+          "name": "ultraviolence_slut",
+          "avatar": "lipstick"
+        },
+        {
+          "id": "nom_12274870",
+          "name": "cherry_blossom",
+          "avatar": "flower"
+        },
+        {
+          "id": "nom_ed888242",
+          "name": "norman_stan",
+          "avatar": "sailor"
+        },
+        {
+          "id": "nom_3a069381",
+          "name": "brooklyn_baby",
+          "avatar": "sunglasses"
+        }
+      ],
+      "winnerId": null,
+      "isLocked": false
+    },
+    {
+      "id": "cat_3_biggest_uv_fan",
+      "section": "Album Fan Categories",
+      "name": "Biggest UV Fan",
+      "description": "Crying tears of gold, leather jackets, Brooklyn Baby, and pure Ultraviolence.",
+      "nominees": [
+        {
+          "id": "nom_a5bc5561",
+          "name": "norman_stan",
+          "avatar": "sailor"
+        },
+        {
+          "id": "nom_0a87fc0c",
+          "name": "brooklyn_baby",
+          "avatar": "sunglasses"
+        },
+        {
+          "id": "nom_f91b1b41",
+          "name": "diet_mtn_dew",
+          "avatar": "can"
+        }
+      ],
+      "winnerId": null,
+      "isLocked": false
+    },
+    {
+      "id": "cat_4_biggest_lfl_fan",
+      "section": "Album Fan Categories",
+      "name": "Biggest LFL Fan",
+      "description": "Stargirls, space aesthetics, and who has Lust for Life on 24/7 repeat?",
+      "nominees": [
+        {
+          "id": "nom_4b12b410",
+          "name": "diet_mtn_dew",
+          "avatar": "can"
+        },
+        {
+          "id": "nom_31236cac",
+          "name": "salvatore_wine",
+          "avatar": "wine"
+        },
+        {
+          "id": "nom_76a6e2e2",
+          "name": "lanita_del_rey",
+          "avatar": "crown"
+        },
+        {
+          "id": "nom_cb800b47",
+          "name": "waffle_house_waitress",
+          "avatar": "coffee"
+        }
+      ],
+      "winnerId": null,
+      "isLocked": false
+    },
+    {
+      "id": "cat_5_biggest_nfr_fan",
+      "section": "Album Fan Categories",
+      "name": "Biggest NFR Fan",
+      "description": "Cinnamon Girl defenders, poetic souls, Norman Fucking Rockwell worshipers.",
+      "nominees": [
+        {
+          "id": "nom_a9acbf30",
+          "name": "lanita_del_rey",
+          "avatar": "crown"
+        },
+        {
+          "id": "nom_b398b509",
+          "name": "waffle_house_waitress",
+          "avatar": "coffee"
+        },
+        {
+          "id": "nom_13df72ba",
+          "name": "ocean_blvd_ghost",
+          "avatar": "ribbon"
+        }
+      ],
+      "winnerId": null,
+      "isLocked": false
+    },
+    {
+      "id": "cat_6_biggest_cotcc_fan",
+      "section": "Album Fan Categories",
+      "name": "Biggest COTCC Fan",
+      "description": "Chemtrails Over The Country Club, candlelit acoustics, and cottagecore royalty.",
+      "nominees": [
+        {
+          "id": "nom_59503cfd",
+          "name": "ocean_blvd_ghost",
+          "avatar": "ribbon"
+        },
+        {
+          "id": "nom_1fb83393",
+          "name": "radio_star",
+          "avatar": "mic"
+        },
+        {
+          "id": "nom_8c1c4799",
+          "name": "born_to_die_hard",
+          "avatar": "rose"
+        },
+        {
+          "id": "nom_5f74b3c1",
+          "name": "tupelo_honey",
+          "avatar": "sparkles"
+        }
+      ],
+      "winnerId": null,
+      "isLocked": false
+    },
+    {
+      "id": "cat_7_biggest_bb_fan",
+      "section": "Album Fan Categories",
+      "name": "Biggest BB Fan",
+      "description": "Blue Banisters tears, Arcadia hymns, and beautiful watercolor melancholia.",
+      "nominees": [
+        {
+          "id": "nom_3ef0ed47",
+          "name": "born_to_die_hard",
+          "avatar": "rose"
+        },
+        {
+          "id": "nom_cc432b36",
+          "name": "tupelo_honey",
+          "avatar": "sparkles"
+        },
+        {
+          "id": "nom_7f6f0a0d",
+          "name": "cinnamon_girl",
+          "avatar": "cherry"
+        }
+      ],
+      "winnerId": null,
+      "isLocked": false
+    },
+    {
+      "id": "cat_8_biggest_bb_hater",
+      "section": "Album Fan Categories",
+      "name": "Biggest BB Hater",
+      "description": "The certified Blue Banisters skeptic who won't stop complaining in general chat.",
+      "nominees": [
+        {
+          "id": "nom_9bd218de",
+          "name": "cinnamon_girl",
+          "avatar": "cherry"
+        },
+        {
+          "id": "nom_f8790f76",
+          "name": "venice_bitch",
+          "avatar": "wave"
+        },
+        {
+          "id": "nom_aa2d564e",
+          "name": "ultraviolence_slut",
+          "avatar": "lipstick"
+        },
+        {
+          "id": "nom_e3b1b91c",
+          "name": "cherry_blossom",
+          "avatar": "flower"
+        }
+      ],
+      "winnerId": null,
+      "isLocked": false
+    },
+    {
+      "id": "cat_9_biggest_dykttatuob_fan",
+      "section": "Album Fan Categories",
+      "name": "Biggest DYKTTATUOB Fan",
+      "description": "Did you know that there's a tunnel under Ocean Blvd emotional damage enthusiast.",
+      "nominees": [
+        {
+          "id": "nom_37a75fee",
+          "name": "ultraviolence_slut",
+          "avatar": "lipstick"
+        },
+        {
+          "id": "nom_fa595463",
+          "name": "cherry_blossom",
+          "avatar": "flower"
+        },
+        {
+          "id": "nom_4d80b5f4",
+          "name": "norman_stan",
+          "avatar": "sailor"
+        }
+      ],
+      "winnerId": null,
+      "isLocked": false
+    },
+    {
+      "id": "cat_10_biggest_lana_fan",
+      "section": "Album Fan Categories",
+      "name": "Biggest Lana Fan",
+      "description": "The ultimate Lanita/Lanito. The grand deity of Lanacord Stan Twitter & Discord.",
+      "nominees": [
+        {
+          "id": "nom_10c40d6b",
+          "name": "norman_stan",
+          "avatar": "sailor"
+        },
+        {
+          "id": "nom_34e619e2",
+          "name": "brooklyn_baby",
+          "avatar": "sunglasses"
+        },
+        {
+          "id": "nom_752dc5d3",
+          "name": "diet_mtn_dew",
+          "avatar": "can"
+        },
+        {
+          "id": "nom_412b24e4",
+          "name": "salvatore_wine",
+          "avatar": "wine"
+        }
+      ],
+      "winnerId": null,
+      "isLocked": false
+    },
+    {
+      "id": "cat_11_get_arrested",
+      "section": "Most Likely To Categories",
+      "name": "Get Arrested",
+      "description": "Most likely to end up in handcuffs on a Lana concert livestream.",
+      "nominees": [
+        {
+          "id": "nom_d18a8aa2",
+          "name": "diet_mtn_dew",
+          "avatar": "can"
+        },
+        {
+          "id": "nom_ad030711",
+          "name": "salvatore_wine",
+          "avatar": "wine"
+        },
+        {
+          "id": "nom_6e843843",
+          "name": "lanita_del_rey",
+          "avatar": "crown"
+        }
+      ],
+      "winnerId": null,
+      "isLocked": false
+    },
+    {
+      "id": "cat_12_burn_a_house_down",
+      "section": "Most Likely To Categories",
+      "name": "Burn a House Down",
+      "description": "High drama, volatile energy, and arson-worthy aesthetics.",
+      "nominees": [
+        {
+          "id": "nom_c4bfefad",
+          "name": "lanita_del_rey",
+          "avatar": "crown"
+        },
+        {
+          "id": "nom_0af2405c",
+          "name": "waffle_house_waitress",
+          "avatar": "coffee"
+        },
+        {
+          "id": "nom_7f92af9f",
+          "name": "ocean_blvd_ghost",
+          "avatar": "ribbon"
+        },
+        {
+          "id": "nom_ac9676a6",
+          "name": "radio_star",
+          "avatar": "mic"
+        }
+      ],
+      "winnerId": null,
+      "isLocked": false
+    },
+    {
+      "id": "cat_13_fake_a_death",
+      "section": "Most Likely To Categories",
+      "name": "Fake a Death",
+      "description": "Going off the grid dramatic-style just to see who writes condolences.",
+      "nominees": [
+        {
+          "id": "nom_3b25ae23",
+          "name": "ocean_blvd_ghost",
+          "avatar": "ribbon"
+        },
+        {
+          "id": "nom_aca5bf0c",
+          "name": "radio_star",
+          "avatar": "mic"
+        },
+        {
+          "id": "nom_003db451",
+          "name": "born_to_die_hard",
+          "avatar": "rose"
+        }
+      ],
+      "winnerId": null,
+      "isLocked": false
+    },
+    {
+      "id": "cat_14_be_in_a_cult",
+      "section": "Most Likely To Categories",
+      "name": "Be in a Cult",
+      "description": "Would drink the kool-aid if the cult leader quotes Salvatore lyrics.",
+      "nominees": [
+        {
+          "id": "nom_6e406fad",
+          "name": "born_to_die_hard",
+          "avatar": "rose"
+        },
+        {
+          "id": "nom_aec773fc",
+          "name": "tupelo_honey",
+          "avatar": "sparkles"
+        },
+        {
+          "id": "nom_76fe92c9",
+          "name": "cinnamon_girl",
+          "avatar": "cherry"
+        },
+        {
+          "id": "nom_ee530bd7",
+          "name": "venice_bitch",
+          "avatar": "wave"
+        }
+      ],
+      "winnerId": null,
+      "isLocked": false
+    },
+    {
+      "id": "cat_15_get_banned",
+      "section": "Most Likely To Categories",
+      "name": "Get Banned",
+      "description": "Constantly walking on thin ice with the Lanacord mods and automod.",
+      "nominees": [
+        {
+          "id": "nom_685e2293",
+          "name": "cinnamon_girl",
+          "avatar": "cherry"
+        },
+        {
+          "id": "nom_d96d4504",
+          "name": "venice_bitch",
+          "avatar": "wave"
+        },
+        {
+          "id": "nom_63b5c198",
+          "name": "ultraviolence_slut",
+          "avatar": "lipstick"
+        }
+      ],
+      "winnerId": null,
+      "isLocked": false
+    },
+    {
+      "id": "cat_16_meet_lana",
+      "section": "Most Likely To Categories",
+      "name": "Meet Lana",
+      "description": "Manifesting a Waffle House run-in or VIP backstage encounter.",
+      "nominees": [
+        {
+          "id": "nom_6fc48bba",
+          "name": "ultraviolence_slut",
+          "avatar": "lipstick"
+        },
+        {
+          "id": "nom_595f9996",
+          "name": "cherry_blossom",
+          "avatar": "flower"
+        },
+        {
+          "id": "nom_43871dc5",
+          "name": "norman_stan",
+          "avatar": "sailor"
+        },
+        {
+          "id": "nom_d66b0cd0",
+          "name": "brooklyn_baby",
+          "avatar": "sunglasses"
+        }
+      ],
+      "winnerId": null,
+      "isLocked": false
+    },
+    {
+      "id": "cat_17_become_famous",
+      "section": "Most Likely To Categories",
+      "name": "Become Famous",
+      "description": "Destined for viral TikTok fame or indie darling stardom.",
+      "nominees": [
+        {
+          "id": "nom_63fa00e5",
+          "name": "norman_stan",
+          "avatar": "sailor"
+        },
+        {
+          "id": "nom_4a25a178",
+          "name": "brooklyn_baby",
+          "avatar": "sunglasses"
+        },
+        {
+          "id": "nom_d702dbe9",
+          "name": "diet_mtn_dew",
+          "avatar": "can"
+        }
+      ],
+      "winnerId": null,
+      "isLocked": false
+    },
+    {
+      "id": "cat_18_become_rich",
+      "section": "Most Likely To Categories",
+      "name": "Become Rich",
+      "description": "Either dropshipping vinyl records or manifesting millions.",
+      "nominees": [
+        {
+          "id": "nom_c513f39d",
+          "name": "diet_mtn_dew",
+          "avatar": "can"
+        },
+        {
+          "id": "nom_86b516f9",
+          "name": "salvatore_wine",
+          "avatar": "wine"
+        },
+        {
+          "id": "nom_355b92a7",
+          "name": "lanita_del_rey",
+          "avatar": "crown"
+        },
+        {
+          "id": "nom_ff84c1d3",
+          "name": "waffle_house_waitress",
+          "avatar": "coffee"
+        }
+      ],
+      "winnerId": null,
+      "isLocked": false
+    },
+    {
+      "id": "cat_19_become_president",
+      "section": "Most Likely To Categories",
+      "name": "Become President",
+      "description": "Campaign slogan: 'God bless America and all the beautiful women in it'.",
+      "nominees": [
+        {
+          "id": "nom_a46fdd46",
+          "name": "lanita_del_rey",
+          "avatar": "crown"
+        },
+        {
+          "id": "nom_e4f35c6e",
+          "name": "waffle_house_waitress",
+          "avatar": "coffee"
+        },
+        {
+          "id": "nom_0a1b9a84",
+          "name": "ocean_blvd_ghost",
+          "avatar": "ribbon"
+        }
+      ],
+      "winnerId": null,
+      "isLocked": false
+    },
+    {
+      "id": "cat_20_best_music_taste",
+      "section": "Best/Most/Favorite Categories",
+      "name": "Best Music Taste",
+      "description": "Their Spotify blend and Last.fm stats are simply immaculate.",
+      "nominees": [
+        {
+          "id": "nom_332da4e3",
+          "name": "ocean_blvd_ghost",
+          "avatar": "ribbon"
+        },
+        {
+          "id": "nom_39ce8458",
+          "name": "radio_star",
+          "avatar": "mic"
+        },
+        {
+          "id": "nom_9c0f7976",
+          "name": "born_to_die_hard",
+          "avatar": "rose"
+        },
+        {
+          "id": "nom_69a80a0d",
+          "name": "tupelo_honey",
+          "avatar": "sparkles"
+        }
+      ],
+      "winnerId": null,
+      "isLocked": false
+    },
+    {
+      "id": "cat_21_best_merch",
+      "section": "Best/Most/Favorite Categories",
+      "name": "Best Merch",
+      "description": "Owns rare unreleased vinyl, vintage tour tees, and the Lana lighters.",
+      "nominees": [
+        {
+          "id": "nom_91c5f920",
+          "name": "born_to_die_hard",
+          "avatar": "rose"
+        },
+        {
+          "id": "nom_a072f978",
+          "name": "tupelo_honey",
+          "avatar": "sparkles"
+        },
+        {
+          "id": "nom_9d85a5f7",
+          "name": "cinnamon_girl",
+          "avatar": "cherry"
+        }
+      ],
+      "winnerId": null,
+      "isLocked": false
+    },
+    {
+      "id": "cat_22_most_chronically_online",
+      "section": "Best/Most/Favorite Categories",
+      "name": "Most Chronically Online",
+      "description": "Never leaves Discord voice chat or #general for more than 4 minutes.",
+      "nominees": [
+        {
+          "id": "nom_8bd975ee",
+          "name": "cinnamon_girl",
+          "avatar": "cherry"
+        },
+        {
+          "id": "nom_59517679",
+          "name": "venice_bitch",
+          "avatar": "wave"
+        },
+        {
+          "id": "nom_a874b706",
+          "name": "ultraviolence_slut",
+          "avatar": "lipstick"
+        },
+        {
+          "id": "nom_d13e9510",
+          "name": "cherry_blossom",
+          "avatar": "flower"
+        }
+      ],
+      "winnerId": null,
+      "isLocked": false
+    },
+    {
+      "id": "cat_23_funniest_member",
+      "section": "Best/Most/Favorite Categories",
+      "name": "Funniest Member",
+      "description": "Supplies the server with top-tier Lana memes, reaction gifs, and copypastas.",
+      "nominees": [
+        {
+          "id": "nom_d10dd20d",
+          "name": "ultraviolence_slut",
+          "avatar": "lipstick"
+        },
+        {
+          "id": "nom_da47ca36",
+          "name": "cherry_blossom",
+          "avatar": "flower"
+        },
+        {
+          "id": "nom_addd7319",
+          "name": "norman_stan",
+          "avatar": "sailor"
+        }
+      ],
+      "winnerId": null,
+      "isLocked": false
+    },
+    {
+      "id": "cat_24_messiest_member",
+      "section": "Best/Most/Favorite Categories",
+      "name": "Messiest Member",
+      "description": "Spills all the tea, starts server civil wars, and leaves popcorn behind.",
+      "nominees": [
+        {
+          "id": "nom_056f635f",
+          "name": "norman_stan",
+          "avatar": "sailor"
+        },
+        {
+          "id": "nom_82b5d087",
+          "name": "brooklyn_baby",
+          "avatar": "sunglasses"
+        },
+        {
+          "id": "nom_f3f40544",
+          "name": "diet_mtn_dew",
+          "avatar": "can"
+        },
+        {
+          "id": "nom_b51de698",
+          "name": "salvatore_wine",
+          "avatar": "wine"
+        }
+      ],
+      "winnerId": null,
+      "isLocked": false
+    },
+    {
+      "id": "cat_25_most_active",
+      "section": "Best/Most/Favorite Categories",
+      "name": "Most Active",
+      "description": "Top of the MEE6/Arcane leaderboard every single week without fail.",
+      "nominees": [
+        {
+          "id": "nom_e3b272fc",
+          "name": "diet_mtn_dew",
+          "avatar": "can"
+        },
+        {
+          "id": "nom_6029e33d",
+          "name": "salvatore_wine",
+          "avatar": "wine"
+        },
+        {
+          "id": "nom_60374fe2",
+          "name": "lanita_del_rey",
+          "avatar": "crown"
+        }
+      ],
+      "winnerId": null,
+      "isLocked": false
+    },
+    {
+      "id": "cat_26_most_helpful",
+      "section": "Best/Most/Favorite Categories",
+      "name": "Most Helpful",
+      "description": "Always linking vinyl restocks, answering questions, and welcoming newcomers.",
+      "nominees": [
+        {
+          "id": "nom_c2cf4975",
+          "name": "lanita_del_rey",
+          "avatar": "crown"
+        },
+        {
+          "id": "nom_5bae2eb6",
+          "name": "waffle_house_waitress",
+          "avatar": "coffee"
+        },
+        {
+          "id": "nom_9c00042c",
+          "name": "ocean_blvd_ghost",
+          "avatar": "ribbon"
+        },
+        {
+          "id": "nom_2d092575",
+          "name": "radio_star",
+          "avatar": "mic"
+        }
+      ],
+      "winnerId": null,
+      "isLocked": false
+    },
+    {
+      "id": "cat_27_most_dramatic",
+      "section": "Best/Most/Favorite Categories",
+      "name": "Most Dramatic",
+      "description": "Writes 5-paragraph dissertations when Lana delays an album by 2 days.",
+      "nominees": [
+        {
+          "id": "nom_7fb8a042",
+          "name": "ocean_blvd_ghost",
+          "avatar": "ribbon"
+        },
+        {
+          "id": "nom_cdb21175",
+          "name": "radio_star",
+          "avatar": "mic"
+        },
+        {
+          "id": "nom_ad80473d",
+          "name": "born_to_die_hard",
+          "avatar": "rose"
+        }
+      ],
+      "winnerId": null,
+      "isLocked": false
+    },
+    {
+      "id": "cat_28_best_profile_picture",
+      "section": "Best/Most/Favorite Categories",
+      "name": "Best Profile Picture",
+      "description": "PFP game is always aesthetic, high-res, and beautifully curated.",
+      "nominees": [
+        {
+          "id": "nom_6f276103",
+          "name": "born_to_die_hard",
+          "avatar": "rose"
+        },
+        {
+          "id": "nom_55630051",
+          "name": "tupelo_honey",
+          "avatar": "sparkles"
+        },
+        {
+          "id": "nom_98061677",
+          "name": "cinnamon_girl",
+          "avatar": "cherry"
+        },
+        {
+          "id": "nom_5f3255f7",
+          "name": "venice_bitch",
+          "avatar": "wave"
+        }
+      ],
+      "winnerId": null,
+      "isLocked": false
+    },
+    {
+      "id": "cat_29_best_layout",
+      "section": "Best/Most/Favorite Categories",
+      "name": "Best Layout",
+      "description": "Their Discord profile bio, banners, badges, and colors are peak art.",
+      "nominees": [
+        {
+          "id": "nom_2b04a77a",
+          "name": "cinnamon_girl",
+          "avatar": "cherry"
+        },
+        {
+          "id": "nom_c2585c57",
+          "name": "venice_bitch",
+          "avatar": "wave"
+        },
+        {
+          "id": "nom_9bb5210e",
+          "name": "ultraviolence_slut",
+          "avatar": "lipstick"
+        }
+      ],
+      "winnerId": null,
+      "isLocked": false
+    },
+    {
+      "id": "cat_30_best_username",
+      "section": "Best/Most/Favorite Categories",
+      "name": "Best Username",
+      "description": "The most iconic, creative, or unhinged handle in Lanacord history.",
+      "nominees": [
+        {
+          "id": "nom_27c9717f",
+          "name": "ultraviolence_slut",
+          "avatar": "lipstick"
+        },
+        {
+          "id": "nom_dd142b53",
+          "name": "cherry_blossom",
+          "avatar": "flower"
+        },
+        {
+          "id": "nom_53880293",
+          "name": "norman_stan",
+          "avatar": "sailor"
+        },
+        {
+          "id": "nom_ac039c28",
+          "name": "brooklyn_baby",
+          "avatar": "sunglasses"
+        }
+      ],
+      "winnerId": null,
+      "isLocked": false
+    },
+    {
+      "id": "cat_31_best_duo_group",
+      "section": "Best/Most/Favorite Categories",
+      "name": "Best Duo/Group",
+      "description": "The inseparable dynamic duo or chaotic group chat of the server.",
+      "nominees": [
+        {
+          "id": "nom_0cd510b4",
+          "name": "norman_stan",
+          "avatar": "sailor"
+        },
+        {
+          "id": "nom_391e7851",
+          "name": "brooklyn_baby",
+          "avatar": "sunglasses"
+        },
+        {
+          "id": "nom_0173b2c4",
+          "name": "diet_mtn_dew",
+          "avatar": "can"
+        }
+      ],
+      "winnerId": null,
+      "isLocked": false
+    },
+    {
+      "id": "cat_32_best_red_carpet_outfit",
+      "section": "Best/Most/Favorite Categories",
+      "name": "Best Red Carpet Outfit",
+      "description": "Serving the best gala looks, met-gala tier glamour, or camp fits.",
+      "nominees": [
+        {
+          "id": "nom_ae2275a1",
+          "name": "diet_mtn_dew",
+          "avatar": "can"
+        },
+        {
+          "id": "nom_41b295f9",
+          "name": "salvatore_wine",
+          "avatar": "wine"
+        },
+        {
+          "id": "nom_076edd96",
+          "name": "lanita_del_rey",
+          "avatar": "crown"
+        },
+        {
+          "id": "nom_beb8636d",
+          "name": "waffle_house_waitress",
+          "avatar": "coffee"
+        }
+      ],
+      "winnerId": null,
+      "isLocked": false
+    },
+    {
+      "id": "cat_33_favorite_member",
+      "section": "Best/Most/Favorite Categories",
+      "name": "Favorite Member",
+      "description": "The people's princess of Lanacord. Loved by everyone unanimously.",
+      "nominees": [
+        {
+          "id": "nom_ae38f779",
+          "name": "lanita_del_rey",
+          "avatar": "crown"
+        },
+        {
+          "id": "nom_4691d80e",
+          "name": "waffle_house_waitress",
+          "avatar": "coffee"
+        },
+        {
+          "id": "nom_2938e054",
+          "name": "ocean_blvd_ghost",
+          "avatar": "ribbon"
+        }
+      ],
+      "winnerId": null,
+      "isLocked": false
+    }
+  ],
+  "users": {
+    "demo_voter": {
+      "id": "demo_voter",
+      "username": "LanacordVIP",
+      "balance": 2000,
+      "createdAt": 1792362557.940876
+    },
+    "user_1c00f305": {
+      "id": "user_1c00f305",
+      "username": "hi",
+      "balance": 718,
+      "createdAt": 1792362918.2141619
+    },
+    "user_d540afe2": {
+      "id": "user_d540afe2",
+      "username": "hollywoodsdead",
+      "balance": 0,
+      "createdAt": 1792363186.8140259
+    }
+  },
+  "bets": [
+    {
+      "id": "bet_ebb41c21",
+      "userId": "user_1c00f305",
+      "username": "hi",
+      "categoryId": "cat_2_biggest_paradise_fan",
+      "categoryName": "Biggest Paradise Fan",
+      "nomineeId": "nom_fb09a920",
+      "nomineeName": "ultraviolence_slut",
+      "amount": 50,
+      "oddsAtBet": 4.0,
+      "potentialPayout": 200,
+      "status": "pending",
+      "timestamp": 1792362925.813906
+    },
+    {
+      "id": "bet_45830a96",
+      "userId": "user_1c00f305",
+      "username": "hi",
+      "categoryId": "cat_20_best_music_taste",
+      "categoryName": "Best Music Taste",
+      "nomineeId": "nom_332da4e3",
+      "nomineeName": "ocean_blvd_ghost",
+      "amount": 232,
+      "oddsAtBet": 4.0,
+      "potentialPayout": 928,
+      "status": "pending",
+      "timestamp": 1792362934.198221
+    },
+    {
+      "id": "bet_1d87215e",
+      "userId": "user_d540afe2",
+      "username": "hollywoodsdead",
+      "categoryId": "cat_2_biggest_paradise_fan",
+      "categoryName": "Biggest Paradise Fan",
+      "nomineeId": "nom_fb09a920",
+      "nomineeName": "ultraviolence_slut",
+      "amount": 1000,
+      "oddsAtBet": 3.0,
+      "potentialPayout": 3000,
+      "status": "pending",
+      "timestamp": 1792363216.84456
+    }
+  ],
+  "activity": [
+    {
+      "id": "act_init",
+      "text": "🥂 Welcome to the 2026 Lanacord Grammys! Place your bets on server icons.",
+      "timestamp": 1792362557.940877
+    },
+    {
+      "id": "act_8bd73d",
+      "text": "🍒 @hi placed a 50 bet on ultraviolence_slut for 'Biggest Paradise Fan'!",
+      "timestamp": 1792362925.8139122
+    },
+    {
+      "id": "act_35f600",
+      "text": "🍒 @hi placed a 232 bet on ocean_blvd_ghost for 'Best Music Taste'!",
+      "timestamp": 1792362934.198228
+    },
+    {
+      "id": "act_59a9bd",
+      "text": "🏆 GRAMMY WINNER! @cinnamon_girl wins 'Biggest BTD Fan'! 0 winning bets paid out (0 🍒 total)!",
+      "timestamp": 1792362941.695553
+    },
+    {
+      "id": "act_994ab5",
+      "text": "🍒 @hollywoodsdead placed a 1000 bet on ultraviolence_slut for 'Biggest Paradise Fan'!",
+      "timestamp": 1792363216.8445811
+    }
+  ],
+  "meta": {
+    "currencyName": "Lana Coins",
+    "currencySymbol": "🍒",
+    "version": "1.0.0",
+    "adminPassword": "lanacord2026"
+  }
+}
