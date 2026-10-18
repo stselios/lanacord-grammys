@@ -3,11 +3,13 @@
 Lanacord Grammys - Official Gala & Fake Betting Platform Server
 Zero external dependencies, powered by Python 3 standard library.
 Features:
+- Dual execution: Standalone HTTP server (with SSE) + WSGI (for PythonAnywhere)
 - Real-time Server-Sent Events (SSE) for instant cross-tab & cross-device updates
 - Voter Betting Platform
 - Admin Management & Results Control Center
 - Dynamic Pari-Mutuel Odds Engine
 - Persistent JSON State
+- Passcode Security Gate for Admin controls
 """
 
 import os
@@ -134,6 +136,7 @@ def generate_default_state():
             "isLocked": False
         })
     
+    default_pwd = os.environ.get("ADMIN_PASSWORD", "lanacord2026")
     return {
         "categories": categories,
         "users": {
@@ -155,6 +158,7 @@ def generate_default_state():
         "meta": {
             "currencyName": "Lana Coins",
             "currencySymbol": "🍒",
+            "adminPassword": default_pwd,
             "version": "1.0.0"
         }
     }
@@ -297,165 +301,86 @@ def get_public_state_data(user_id=None):
             "meta": {k: v for k, v in app_state.get("meta", {}).items() if k != "adminPassword"}
         }
 
+# ==============================================================================
+# UNIFIED REQUEST DISPATCHER (Used by both Standalone Server and WSGI/PythonAnywhere)
+# ==============================================================================
+def handle_request(method, path, query=None, headers=None, body=None):
+    if query is None: query = {}
+    if headers is None: headers = {}
+    if body is None: body = {}
 
-class GrammysHTTPRequestHandler(BaseHTTPRequestHandler):
-    def log_message(self, format, *args):
-        # Concise logging
-        if "/api/events" not in format:
-            super().log_message(format, *args)
+    h_lower = {k.lower(): v for k, v in headers.items()}
 
-    def send_cors_headers(self):
-        self.send_header("Access-Control-Allow-Origin", "*")
-        self.send_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
-        self.send_header("Access-Control-Allow-Headers", "Content-Type, Authorization")
+    def json_resp(data, status=200):
+        body_bytes = json.dumps(data).encode("utf-8")
+        res_headers = {
+            "Content-Type": "application/json; charset=utf-8",
+            "Content-Length": str(len(body_bytes)),
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+            "Access-Control-Allow-Headers": "Content-Type, Authorization, X-Admin-Password"
+        }
+        return status, res_headers, body_bytes
 
-    def do_OPTIONS(self):
-        self.send_response(204)
-        self.send_cors_headers()
-        self.end_headers()
-
-    def send_json(self, data, status=200):
-        body = json.dumps(data).encode("utf-8")
-        self.send_response(status)
-        self.send_cors_headers()
-        self.send_header("Content-Type", "application/json; charset=utf-8")
-        self.send_header("Content-Length", str(len(body)))
-        self.end_headers()
-        self.wfile.write(body)
-
-    def send_error_json(self, message, status=400):
-        self.send_json({"error": message, "success": False}, status=status)
-
-    def parse_json_body(self):
-        try:
-            length = int(self.headers.get("Content-Length", 0))
-            if length == 0:
-                return {}
-            raw = self.rfile.read(length).decode("utf-8")
-            return json.loads(raw)
-        except Exception as e:
-            return None
-
-    def serve_file(self, file_path, content_type=None):
-        if not os.path.exists(file_path):
-            self.send_response(404)
-            self.send_header("Content-Type", "text/plain")
-            self.end_headers()
-            self.wfile.write(b"404 Not Found")
-            return
-        
-        if content_type is None:
-            content_type, _ = mimetypes.guess_type(file_path)
-            if content_type is None:
+    def file_resp(filepath, content_type=None):
+        if not os.path.exists(filepath):
+            return 404, {"Content-Type": "text/plain"}, b"404 Not Found"
+        if not content_type:
+            content_type, _ = mimetypes.guess_type(filepath)
+            if not content_type:
                 content_type = "application/octet-stream"
+        with open(filepath, "rb") as f:
+            c = f.read()
+        return 200, {
+            "Content-Type": content_type,
+            "Content-Length": str(len(c)),
+            "Cache-Control": "no-cache",
+            "Access-Control-Allow-Origin": "*"
+        }, c
 
-        try:
-            with open(file_path, "rb") as f:
-                content = f.read()
-            self.send_response(200)
-            self.send_header("Content-Type", content_type)
-            self.send_header("Content-Length", str(len(content)))
-            self.send_header("Cache-Control", "no-cache")
-            self.end_headers()
-            self.wfile.write(content)
-        except Exception as e:
-            self.send_response(500)
-            self.end_headers()
-            self.wfile.write(str(e).encode("utf-8"))
+    if method == "OPTIONS":
+        return 204, {
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+            "Access-Control-Allow-Headers": "Content-Type, Authorization, X-Admin-Password"
+        }, b""
 
-    def handle_sse(self):
-        self.send_response(200)
-        self.send_header("Content-Type", "text/event-stream")
-        self.send_header("Cache-Control", "no-cache")
-        self.send_header("Connection", "keep-alive")
-        self.send_cors_headers()
-        self.end_headers()
-
-        q = queue.Queue(maxsize=100)
-        with sse_lock:
-            sse_subscribers.append(q)
-
-        # Send initial connection greeting
-        try:
-            self.wfile.write(b"event: connected\ndata: {\"status\":\"ok\"}\n\n")
-            self.wfile.flush()
-        except Exception:
-            with sse_lock:
-                if q in sse_subscribers:
-                    sse_subscribers.remove(q)
-            return
-
-        try:
-            while True:
-                try:
-                    msg = q.get(timeout=15.0)
-                    self.wfile.write(msg.encode("utf-8"))
-                    self.wfile.flush()
-                except queue.Empty:
-                    # Heartbeat comment to keep connection alive
-                    self.wfile.write(b": ping\n\n")
-                    self.wfile.flush()
-        except (BrokenPipeError, ConnectionResetError):
-            pass
-        finally:
-            with sse_lock:
-                if q in sse_subscribers:
-                    sse_subscribers.remove(q)
-
-    def do_GET(self):
-        parsed = urlparse(self.path)
-        path = parsed.path
-        query = parse_qs(parsed.query)
-
-        if path == "/" or path == "/voter" or path == "/voter/":
-            self.serve_file(os.path.join(STATIC_DIR, "voter.html"), "text/html; charset=utf-8")
-        elif path == "/admin" or path == "/admin/":
-            self.serve_file(os.path.join(STATIC_DIR, "admin.html"), "text/html; charset=utf-8")
-        elif path == "/api/events":
-            self.handle_sse()
+    if method == "GET":
+        if path in ("/", "/voter", "/voter/"):
+            return file_resp(os.path.join(STATIC_DIR, "voter.html"), "text/html; charset=utf-8")
+        elif path in ("/admin", "/admin/"):
+            return file_resp(os.path.join(STATIC_DIR, "admin.html"), "text/html; charset=utf-8")
         elif path == "/api/state":
-            user_id = query.get("userId", [None])[0]
-            data = get_public_state_data(user_id)
-            self.send_json(data)
+            uid = query.get("userId", [None])[0]
+            data = get_public_state_data(uid)
+            return json_resp(data)
+        elif path == "/api/events":
+            return 200, {"Content-Type": "text/plain"}, b": ping\n\n"
         elif path.startswith("/static/"):
-            rel_path = path[len("/static/"):]
-            full_path = os.path.join(STATIC_DIR, rel_path)
-            self.serve_file(full_path)
+            rel = path[len("/static/"):]
+            fpath = os.path.join(STATIC_DIR, rel)
+            return file_resp(fpath)
         else:
-            # Try serving from static or fallback to voter.html
             candidate = os.path.join(STATIC_DIR, path.lstrip("/"))
             if os.path.exists(candidate) and os.path.isfile(candidate):
-                self.serve_file(candidate)
-            else:
-                self.serve_file(os.path.join(STATIC_DIR, "voter.html"), "text/html; charset=utf-8")
+                return file_resp(candidate)
+            return file_resp(os.path.join(STATIC_DIR, "voter.html"), "text/html; charset=utf-8")
 
-    def do_POST(self):
-        parsed = urlparse(self.path)
-        path = parsed.path
-        body = self.parse_json_body()
-        if body is None:
-            self.send_error_json("Invalid JSON payload", 400)
-            return
-
-        # Restrict all /api/admin/ endpoints (except /api/admin/verify) to valid admin passcode
+    elif method == "POST":
+        # Admin auth check
         if path.startswith("/api/admin/") and path != "/api/admin/verify":
-            admin_pwd = self.headers.get("X-Admin-Password") or (body.get("adminPassword") if isinstance(body, dict) else None)
+            admin_pwd = h_lower.get("x-admin-password") or (body.get("adminPassword") if isinstance(body, dict) else None)
             expected_pwd = app_state.get("meta", {}).get("adminPassword", "lanacord2026")
             if not admin_pwd or admin_pwd != expected_pwd:
-                self.send_error_json("Unauthorized: Invalid Admin Passcode", 401)
-                return
+                return json_resp({"error": "Unauthorized: Invalid Admin Passcode", "success": False}, 401)
 
-        # ==========================================
-        # USER ENDPOINTS
-        # ==========================================
+        # ---------------- USER: LOGIN ----------------
         if path == "/api/user/login":
             username = body.get("username", "").strip()
             if not username:
-                self.send_error_json("Username cannot be empty")
-                return
+                return json_resp({"error": "Username cannot be empty", "success": False}, 400)
             
             with state_lock:
-                # Find existing user or create
                 existing_user = None
                 for uid, u in app_state["users"].items():
                     if u["username"].lower() == username.lower():
@@ -474,25 +399,22 @@ class GrammysHTTPRequestHandler(BaseHTTPRequestHandler):
                     save_state(app_state)
                     broadcast_event("USER_JOINED", {"user": existing_user})
 
-            self.send_json({"success": True, "user": existing_user})
+            return json_resp({"success": True, "user": existing_user})
 
+        # ---------------- USER: CLAIM ----------------
         elif path == "/api/user/claim":
             user_id = body.get("userId")
             with state_lock:
                 if user_id not in app_state["users"]:
-                    self.send_error_json("User not found", 404)
-                    return
+                    return json_resp({"error": "User not found", "success": False}, 404)
                 user = app_state["users"][user_id]
-                claim_amount = 250
-                user["balance"] += claim_amount
+                user["balance"] += 250
                 save_state(app_state)
                 broadcast_event("BALANCE_UPDATED", {"userId": user_id, "newBalance": user["balance"]})
 
-            self.send_json({"success": True, "balance": user["balance"]})
+            return json_resp({"success": True, "balance": user["balance"]})
 
-        # ==========================================
-        # BETTING ENDPOINT
-        # ==========================================
+        # ---------------- USER: PLACE BET ----------------
         elif path == "/api/bet":
             user_id = body.get("userId")
             category_id = body.get("categoryId")
@@ -502,45 +424,35 @@ class GrammysHTTPRequestHandler(BaseHTTPRequestHandler):
             try:
                 amount = int(amount)
             except (ValueError, TypeError):
-                self.send_error_json("Invalid bet amount")
-                return
+                return json_resp({"error": "Invalid bet amount", "success": False}, 400)
 
             if amount <= 0:
-                self.send_error_json("Bet amount must be greater than 0")
-                return
+                return json_resp({"error": "Bet amount must be greater than 0", "success": False}, 400)
 
             with state_lock:
                 if user_id not in app_state["users"]:
-                    self.send_error_json("User not found. Please log in first.")
-                    return
+                    return json_resp({"error": "User not found. Please log in first.", "success": False}, 400)
                 
                 user = app_state["users"][user_id]
                 if user["balance"] < amount:
-                    self.send_error_json(f"Insufficient funds! You have {user['balance']} 🍒.")
-                    return
+                    return json_resp({"error": f"Insufficient funds! You have {user['balance']} 🍒.", "success": False}, 400)
 
                 category = next((c for c in app_state["categories"] if c["id"] == category_id), None)
                 if not category:
-                    self.send_error_json("Category not found")
-                    return
+                    return json_resp({"error": "Category not found", "success": False}, 404)
                 
                 if category.get("isLocked") or category.get("winnerId"):
-                    self.send_error_json("Betting for this category is currently locked or concluded.")
-                    return
+                    return json_resp({"error": "Betting for this category is currently locked or concluded.", "success": False}, 400)
 
                 nominee = next((n for n in category.get("nominees", []) if n["id"] == nominee_id), None)
                 if not nominee:
-                    self.send_error_json("Nominee not found in this category")
-                    return
+                    return json_resp({"error": "Nominee not found in this category", "success": False}, 404)
 
-                # Calculate odds at time of bet
                 odds_map = calculate_category_odds(category_id, app_state)
                 current_odds = odds_map.get(nominee_id, {}).get("odds", 2.0)
                 potential_payout = int(round(amount * current_odds))
 
-                # Deduct balance
                 user["balance"] -= amount
-
                 bet_id = f"bet_{uuid.uuid4().hex[:8]}"
                 new_bet = {
                     "id": bet_id,
@@ -558,7 +470,6 @@ class GrammysHTTPRequestHandler(BaseHTTPRequestHandler):
                 }
                 app_state["bets"].append(new_bet)
 
-                # Add to activity feed
                 activity_item = {
                     "id": f"act_{uuid.uuid4().hex[:6]}",
                     "text": f"🍒 @{user['username']} placed a {amount} bet on {nominee['name']} for '{category['name']}'!",
@@ -575,42 +486,34 @@ class GrammysHTTPRequestHandler(BaseHTTPRequestHandler):
                     "categoryId": category_id
                 })
 
-            self.send_json({"success": True, "bet": new_bet, "newBalance": user["balance"]})
+            return json_resp({"success": True, "bet": new_bet, "newBalance": user["balance"]})
 
-        # ==========================================
-        # ADMIN AUTHENTICATION
-        # ==========================================
+        # ---------------- ADMIN: VERIFY PASSCODE ----------------
         elif path == "/api/admin/verify":
             pwd = body.get("password", "")
             expected_pwd = app_state.get("meta", {}).get("adminPassword", "lanacord2026")
             if pwd == expected_pwd:
-                self.send_json({"success": True})
-            else:
-                self.send_error_json("Invalid admin passcode", 401)
-            return
+                return json_resp({"success": True})
+            return json_resp({"error": "Invalid admin passcode", "success": False}, 401)
 
+        # ---------------- ADMIN: CHANGE PASSCODE ----------------
         elif path == "/api/admin/change-password":
             new_pwd = body.get("newPassword", "").strip()
             if not new_pwd or len(new_pwd) < 4:
-                self.send_error_json("New passcode must be at least 4 characters")
-                return
+                return json_resp({"error": "New passcode must be at least 4 characters", "success": False}, 400)
             with state_lock:
                 app_state["meta"]["adminPassword"] = new_pwd
                 save_state(app_state)
-            self.send_json({"success": True})
-            return
+            return json_resp({"success": True})
 
-        # ==========================================
-        # ADMIN: CATEGORY MANAGEMENT
-        # ==========================================
+        # ---------------- ADMIN: CATEGORY ADD ----------------
         elif path == "/api/admin/category/add":
             name = body.get("name", "").strip()
             section = body.get("section", "Album Fan Categories").strip()
             description = body.get("description", "").strip()
 
             if not name:
-                self.send_error_json("Category name is required")
-                return
+                return json_resp({"error": "Category name is required", "success": False}, 400)
 
             with state_lock:
                 cat_id = f"cat_{int(time.time())}_{name.lower().replace(' ', '_').replace('/', '_')}"
@@ -624,7 +527,6 @@ class GrammysHTTPRequestHandler(BaseHTTPRequestHandler):
                     "isLocked": False
                 }
                 app_state["categories"].append(new_cat)
-                
                 app_state["activity"].append({
                     "id": f"act_{uuid.uuid4().hex[:6]}",
                     "text": f"✨ New Grammys Category added: '{name}' in {section}!",
@@ -633,18 +535,17 @@ class GrammysHTTPRequestHandler(BaseHTTPRequestHandler):
                 save_state(app_state)
                 broadcast_event("CATEGORY_ADDED", {"category": new_cat})
 
-            self.send_json({"success": True, "category": new_cat})
+            return json_resp({"success": True, "category": new_cat})
 
+        # ---------------- ADMIN: CATEGORY DELETE ----------------
         elif path == "/api/admin/category/delete":
             category_id = body.get("categoryId")
             with state_lock:
                 cat = next((c for c in app_state["categories"] if c["id"] == category_id), None)
                 if not cat:
-                    self.send_error_json("Category not found")
-                    return
+                    return json_resp({"error": "Category not found", "success": False}, 404)
                 
                 app_state["categories"] = [c for c in app_state["categories"] if c["id"] != category_id]
-                # Refund any pending bets for this category
                 refunded_count = 0
                 for b in app_state["bets"]:
                     if b["categoryId"] == category_id and b.get("status") == "pending":
@@ -662,8 +563,9 @@ class GrammysHTTPRequestHandler(BaseHTTPRequestHandler):
                 save_state(app_state)
                 broadcast_event("CATEGORY_DELETED", {"categoryId": category_id})
 
-            self.send_json({"success": True})
+            return json_resp({"success": True})
 
+        # ---------------- ADMIN: CATEGORY EDIT ----------------
         elif path == "/api/admin/category/edit":
             category_id = body.get("categoryId")
             name = body.get("name", "").strip()
@@ -673,21 +575,16 @@ class GrammysHTTPRequestHandler(BaseHTTPRequestHandler):
             with state_lock:
                 cat = next((c for c in app_state["categories"] if c["id"] == category_id), None)
                 if not cat:
-                    self.send_error_json("Category not found")
-                    return
-                
-                if name:
-                    cat["name"] = name
-                if section:
-                    cat["section"] = section
-                if description:
-                    cat["description"] = description
-
+                    return json_resp({"error": "Category not found", "success": False}, 404)
+                if name: cat["name"] = name
+                if section: cat["section"] = section
+                if description: cat["description"] = description
                 save_state(app_state)
                 broadcast_event("CATEGORY_EDITED", {"category": cat})
 
-            self.send_json({"success": True, "category": cat})
+            return json_resp({"success": True, "category": cat})
 
+        # ---------------- ADMIN: CATEGORY LOCK ----------------
         elif path == "/api/admin/category/lock":
             category_id = body.get("categoryId")
             locked = bool(body.get("isLocked", True))
@@ -695,46 +592,31 @@ class GrammysHTTPRequestHandler(BaseHTTPRequestHandler):
             with state_lock:
                 cat = next((c for c in app_state["categories"] if c["id"] == category_id), None)
                 if not cat:
-                    self.send_error_json("Category not found")
-                    return
+                    return json_resp({"error": "Category not found", "success": False}, 404)
                 cat["isLocked"] = locked
                 save_state(app_state)
                 broadcast_event("CATEGORY_LOCKED", {"categoryId": category_id, "isLocked": locked})
 
-            self.send_json({"success": True, "isLocked": locked})
+            return json_resp({"success": True, "isLocked": locked})
 
-        # ==========================================
-        # ADMIN: NOMINEE / MEMBER MANAGEMENT
-        # ==========================================
+        # ---------------- ADMIN: NOMINEE ADD ----------------
         elif path == "/api/admin/nominee/add":
             category_id = body.get("categoryId")
             name = body.get("name", "").strip()
             avatar = body.get("avatar", "cherry").strip()
 
             if not name:
-                self.send_error_json("Nominee member name is required")
-                return
+                return json_resp({"error": "Nominee member name is required", "success": False}, 400)
 
             with state_lock:
                 cat = next((c for c in app_state["categories"] if c["id"] == category_id), None)
                 if not cat:
-                    self.send_error_json("Category not found")
-                    return
-                
-                # Check duplicate
+                    return json_resp({"error": "Category not found", "success": False}, 404)
                 if any(n["name"].lower() == name.lower() for n in cat.get("nominees", [])):
-                    self.send_error_json(f"Nominee '{name}' is already in this category.")
-                    return
+                    return json_resp({"error": f"Nominee '{name}' is already in this category.", "success": False}, 400)
 
-                new_nominee = {
-                    "id": f"nom_{uuid.uuid4().hex[:8]}",
-                    "name": name,
-                    "avatar": avatar
-                }
-                if "nominees" not in cat:
-                    cat["nominees"] = []
-                cat["nominees"].append(new_nominee)
-
+                new_nominee = {"id": f"nom_{uuid.uuid4().hex[:8]}", "name": name, "avatar": avatar}
+                cat.setdefault("nominees", []).append(new_nominee)
                 app_state["activity"].append({
                     "id": f"act_{uuid.uuid4().hex[:6]}",
                     "text": f"🌟 Nominee added: @{name} in '{cat['name']}'!",
@@ -743,8 +625,9 @@ class GrammysHTTPRequestHandler(BaseHTTPRequestHandler):
                 save_state(app_state)
                 broadcast_event("NOMINEE_ADDED", {"categoryId": category_id, "nominee": new_nominee})
 
-            self.send_json({"success": True, "nominee": new_nominee})
+            return json_resp({"success": True, "nominee": new_nominee})
 
+        # ---------------- ADMIN: NOMINEE DELETE ----------------
         elif path == "/api/admin/nominee/delete":
             category_id = body.get("categoryId")
             nominee_id = body.get("nomineeId")
@@ -752,13 +635,11 @@ class GrammysHTTPRequestHandler(BaseHTTPRequestHandler):
             with state_lock:
                 cat = next((c for c in app_state["categories"] if c["id"] == category_id), None)
                 if not cat:
-                    self.send_error_json("Category not found")
-                    return
+                    return json_resp({"error": "Category not found", "success": False}, 404)
                 
                 nominee = next((n for n in cat.get("nominees", []) if n["id"] == nominee_id), None)
                 cat["nominees"] = [n for n in cat.get("nominees", []) if n["id"] != nominee_id]
 
-                # Refund bets placed specifically on this nominee
                 refunded_count = 0
                 for b in app_state["bets"]:
                     if b["categoryId"] == category_id and b["nomineeId"] == nominee_id and b.get("status") == "pending":
@@ -778,17 +659,17 @@ class GrammysHTTPRequestHandler(BaseHTTPRequestHandler):
                 save_state(app_state)
                 broadcast_event("NOMINEE_DELETED", {"categoryId": category_id, "nomineeId": nominee_id})
 
-            self.send_json({"success": True})
+            return json_resp({"success": True})
 
+        # ---------------- ADMIN: NOMINEE BULK ADD ----------------
         elif path == "/api/admin/nominee/bulk-add":
             category_id = body.get("categoryId")
-            names = body.get("names", []) # array of strings
+            names = body.get("names", [])
             
             with state_lock:
                 cat = next((c for c in app_state["categories"] if c["id"] == category_id), None)
                 if not cat:
-                    self.send_error_json("Category not found")
-                    return
+                    return json_resp({"error": "Category not found", "success": False}, 404)
                 
                 added = []
                 current_names = {n["name"].lower() for n in cat.get("nominees", [])}
@@ -797,11 +678,7 @@ class GrammysHTTPRequestHandler(BaseHTTPRequestHandler):
                     name = raw_name.strip().lstrip("@")
                     if name and name.lower() not in current_names:
                         av = avatars[n_idx % len(avatars)]
-                        nom = {
-                            "id": f"nom_{uuid.uuid4().hex[:8]}",
-                            "name": name,
-                            "avatar": av
-                        }
+                        nom = {"id": f"nom_{uuid.uuid4().hex[:8]}", "name": name, "avatar": av}
                         cat.setdefault("nominees", []).append(nom)
                         current_names.add(name.lower())
                         added.append(nom)
@@ -809,11 +686,9 @@ class GrammysHTTPRequestHandler(BaseHTTPRequestHandler):
                 save_state(app_state)
                 broadcast_event("NOMINEES_BULK_ADDED", {"categoryId": category_id, "nominees": added})
 
-            self.send_json({"success": True, "addedCount": len(added), "nominees": added})
+            return json_resp({"success": True, "addedCount": len(added), "nominees": added})
 
-        # ==========================================
-        # ADMIN: DECLARE WINNER & SETTLE BETS
-        # ==========================================
+        # ---------------- ADMIN: DECLARE WINNER ----------------
         elif path == "/api/admin/category/declare-winner":
             category_id = body.get("categoryId")
             winner_id = body.get("nomineeId")
@@ -821,18 +696,15 @@ class GrammysHTTPRequestHandler(BaseHTTPRequestHandler):
             with state_lock:
                 cat = next((c for c in app_state["categories"] if c["id"] == category_id), None)
                 if not cat:
-                    self.send_error_json("Category not found")
-                    return
+                    return json_resp({"error": "Category not found", "success": False}, 404)
                 
                 winner_nominee = next((n for n in cat.get("nominees", []) if n["id"] == winner_id), None)
                 if not winner_nominee:
-                    self.send_error_json("Winner nominee not found")
-                    return
+                    return json_resp({"error": "Winner nominee not found", "success": False}, 404)
 
                 cat["winnerId"] = winner_id
                 cat["isLocked"] = True
 
-                # Settle all bets for this category
                 won_count = 0
                 total_payout_pool = 0
                 for b in app_state["bets"]:
@@ -843,7 +715,6 @@ class GrammysHTTPRequestHandler(BaseHTTPRequestHandler):
                             b["payoutReceived"] = payout
                             total_payout_pool += payout
                             won_count += 1
-                            # Credit user
                             uid = b["userId"]
                             if uid in app_state["users"]:
                                 app_state["users"][uid]["balance"] += payout
@@ -864,22 +735,21 @@ class GrammysHTTPRequestHandler(BaseHTTPRequestHandler):
                     "categoryName": cat["name"]
                 })
 
-            self.send_json({
+            return json_resp({
                 "success": True,
                 "winner": winner_nominee,
                 "wonBetsCount": won_count,
                 "totalPayout": total_payout_pool
             })
 
+        # ---------------- ADMIN: CLEAR WINNER ----------------
         elif path == "/api/admin/category/clear-winner":
             category_id = body.get("categoryId")
             with state_lock:
                 cat = next((c for c in app_state["categories"] if c["id"] == category_id), None)
                 if not cat:
-                    self.send_error_json("Category not found")
-                    return
+                    return json_resp({"error": "Category not found", "success": False}, 404)
                 
-                # Revert bets for this category: deduct payouts if won, set to pending
                 for b in app_state["bets"]:
                     if b["categoryId"] == category_id:
                         if b.get("status") == "won":
@@ -892,7 +762,6 @@ class GrammysHTTPRequestHandler(BaseHTTPRequestHandler):
                 
                 cat["winnerId"] = None
                 cat["isLocked"] = False
-                
                 app_state["activity"].append({
                     "id": f"act_{uuid.uuid4().hex[:6]}",
                     "text": f"🔄 Winner for '{cat['name']}' was reset. Bets returned to pending.",
@@ -901,17 +770,14 @@ class GrammysHTTPRequestHandler(BaseHTTPRequestHandler):
                 save_state(app_state)
                 broadcast_event("WINNER_CLEARED", {"categoryId": category_id})
 
-            self.send_json({"success": True})
+            return json_resp({"success": True})
 
-        # ==========================================
-        # ADMIN: RESET ACTIONS
-        # ==========================================
+        # ---------------- ADMIN: RESET ----------------
         elif path == "/api/admin/reset":
             reset_type = body.get("type", "bets_only")
 
             with state_lock:
                 if reset_type == "bets_only":
-                    # Refund all pending bets and clear all bets
                     for b in app_state["bets"]:
                         if b.get("status") == "pending":
                             uid = b["userId"]
@@ -940,10 +806,104 @@ class GrammysHTTPRequestHandler(BaseHTTPRequestHandler):
                 save_state(app_state)
                 broadcast_event("BOARD_RESET", {"type": reset_type})
 
-            self.send_json({"success": True})
+            return json_resp({"success": True})
 
         else:
-            self.send_error_json("Unknown API endpoint", 404)
+            return json_resp({"error": "Unknown API endpoint", "success": False}, 404)
+
+    return json_resp({"error": "Method Not Allowed", "success": False}, 405)
+
+
+# ==============================================================================
+# STANDALONE HTTP SERVER REQUEST HANDLER
+# ==============================================================================
+class GrammysHTTPRequestHandler(BaseHTTPRequestHandler):
+    def log_message(self, format, *args):
+        if "/api/events" not in format:
+            super().log_message(format, *args)
+
+    def do_OPTIONS(self):
+        status, headers, body = handle_request("OPTIONS", self.path)
+        self.send_response(status)
+        for k, v in headers.items():
+            self.send_header(k, v)
+        self.end_headers()
+
+    def handle_sse(self):
+        self.send_response(200)
+        self.send_header("Content-Type", "text/event-stream")
+        self.send_header("Cache-Control", "no-cache")
+        self.send_header("Connection", "keep-alive")
+        self.send_header("Access-Control-Allow-Origin", "*")
+        self.end_headers()
+
+        q = queue.Queue(maxsize=100)
+        with sse_lock:
+            sse_subscribers.append(q)
+
+        try:
+            self.wfile.write(b"event: connected\ndata: {\"status\":\"ok\"}\n\n")
+            self.wfile.flush()
+        except Exception:
+            with sse_lock:
+                if q in sse_subscribers:
+                    sse_subscribers.remove(q)
+            return
+
+        try:
+            while True:
+                try:
+                    msg = q.get(timeout=15.0)
+                    self.wfile.write(msg.encode("utf-8"))
+                    self.wfile.flush()
+                except queue.Empty:
+                    self.wfile.write(b": ping\n\n")
+                    self.wfile.flush()
+        except (BrokenPipeError, ConnectionResetError):
+            pass
+        finally:
+            with sse_lock:
+                if q in sse_subscribers:
+                    sse_subscribers.remove(q)
+
+    def do_GET(self):
+        parsed = urlparse(self.path)
+        path = parsed.path
+        if path == "/api/events":
+            self.handle_sse()
+            return
+
+        query = parse_qs(parsed.query)
+        status, headers, body = handle_request("GET", path, query, dict(self.headers))
+        self.send_response(status)
+        for k, v in headers.items():
+            self.send_header(k, v)
+        self.end_headers()
+        self.wfile.write(body)
+
+    def do_POST(self):
+        parsed = urlparse(self.path)
+        path = parsed.path
+        length = int(self.headers.get("Content-Length", 0))
+        body = {}
+        if length > 0:
+            try:
+                raw = self.rfile.read(length).decode("utf-8")
+                body = json.loads(raw)
+            except Exception:
+                self.send_response(400)
+                self.send_header("Content-Type", "application/json")
+                self.end_headers()
+                self.wfile.write(json.dumps({"error": "Invalid JSON", "success": False}).encode("utf-8"))
+                return
+
+        query = parse_qs(parsed.query)
+        status, headers, resp_body = handle_request("POST", path, query, dict(self.headers), body)
+        self.send_response(status)
+        for k, v in headers.items():
+            self.send_header(k, v)
+        self.end_headers()
+        self.wfile.write(resp_body)
 
 
 def run_server(port=8080):
