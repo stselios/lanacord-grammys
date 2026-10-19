@@ -102,9 +102,9 @@
           "avatar": "crown"
         },
         {
-          "id": "nom_cb800b47",
-          "name": "waffle_house_waitress",
-          "avatar": "coffee"
+          "id": "nom_df706428",
+          "name": "lovecasinos",
+          "avatar": "cherry"
         }
       ],
       "winnerId": null,
@@ -924,6 +924,24 @@
       "username": "hollywoodsdead",
       "balance": 0,
       "createdAt": 1792363186.8140259
+    },
+    "user_e3831a0e": {
+      "id": "user_e3831a0e",
+      "username": "lana_fan_99",
+      "balance": 1000,
+      "createdAt": 1792364847.2685409
+    },
+    "user_58f89f3d": {
+      "id": "user_58f89f3d",
+      "username": "fucking bitch",
+      "balance": 1000,
+      "createdAt": 1792365008.76261
+    },
+    "user_08fc38f6": {
+      "id": "user_08fc38f6",
+      "username": "lovecasinos",
+      "balance": 0,
+      "createdAt": 1792365371.9820108
     }
   },
   "bets": [
@@ -968,38 +986,32 @@
       "potentialPayout": 3000,
       "status": "pending",
       "timestamp": 1792363216.84456
+    },
+    {
+      "id": "bet_20936505",
+      "userId": "user_08fc38f6",
+      "username": "lovecasinos",
+      "categoryId": "cat_4_biggest_lfl_fan",
+      "categoryName": "Biggest LFL Fan",
+      "nomineeId": "nom_df706428",
+      "nomineeName": "lovecasinos",
+      "amount": 1000,
+      "oddsAtBet": 4.0,
+      "potentialPayout": 4000,
+      "status": "pending",
+      "timestamp": 1792365382.6476128
     }
   ],
   "activity": [
     {
       "id": "act_init",
-      "text": "🥂 Welcome to the 2026 Lanacord Grammys! Place your bets on server icons.",
-      "timestamp": 1792362557.940877
-    },
-    {
-      "id": "act_8bd73d",
-      "text": "🍒 @hi placed a 50 bet on ultraviolence_slut for 'Biggest Paradise Fan'!",
-      "timestamp": 1792362925.8139122
-    },
-    {
-      "id": "act_35f600",
-      "text": "🍒 @hi placed a 232 bet on ocean_blvd_ghost for 'Best Music Taste'!",
-      "timestamp": 1792362934.198228
-    },
-    {
-      "id": "act_59a9bd",
-      "text": "🏆 GRAMMY WINNER! @cinnamon_girl wins 'Biggest BTD Fan'! 0 winning bets paid out (0 🍒 total)!",
-      "timestamp": 1792362941.695553
-    },
-    {
-      "id": "act_994ab5",
-      "text": "🍒 @hollywoodsdead placed a 1000 bet on ultraviolence_slut for 'Biggest Paradise Fan'!",
-      "timestamp": 1792363216.8445811
+      "text": "The 2026 Lanacord Grammys prediction pools are officially open.",
+      "timestamp": 1792364800
     }
   ],
   "meta": {
-    "currencyName": "Lana Coins",
-    "currencySymbol": "🍒",
+    "currencyName": "Points",
+    "currencySymbol": "pts",
     "version": "1.0.0",
     "adminPassword": "lanacord2026"
   }

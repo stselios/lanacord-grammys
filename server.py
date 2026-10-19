@@ -151,13 +151,13 @@ def generate_default_state():
         "activity": [
             {
                 "id": "act_init",
-                "text": "🥂 Welcome to the 2026 Lanacord Grammys! Place your bets on server icons.",
+                "text": "The 2026 Lanacord Grammys prediction pools are officially open.",
                 "timestamp": time.time()
             }
         ],
         "meta": {
-            "currencyName": "Lana Coins",
-            "currencySymbol": "🍒",
+            "currencyName": "Points",
+            "currencySymbol": "pts",
             "adminPassword": default_pwd,
             "version": "1.0.0"
         }
@@ -435,7 +435,7 @@ def handle_request(method, path, query=None, headers=None, body=None):
                 
                 user = app_state["users"][user_id]
                 if user["balance"] < amount:
-                    return json_resp({"error": f"Insufficient funds! You have {user['balance']} 🍒.", "success": False}, 400)
+                    return json_resp({"error": f"Insufficient balance. You have {user['balance']} pts available.", "success": False}, 400)
 
                 category = next((c for c in app_state["categories"] if c["id"] == category_id), None)
                 if not category:
@@ -472,7 +472,7 @@ def handle_request(method, path, query=None, headers=None, body=None):
 
                 activity_item = {
                     "id": f"act_{uuid.uuid4().hex[:6]}",
-                    "text": f"🍒 @{user['username']} placed a {amount} bet on {nominee['name']} for '{category['name']}'!",
+                    "text": f"@{user['username']} staked {amount} pts on @{nominee['name']} for '{category['name']}'",
                     "timestamp": time.time()
                 }
                 app_state["activity"].append(activity_item)
@@ -529,7 +529,7 @@ def handle_request(method, path, query=None, headers=None, body=None):
                 app_state["categories"].append(new_cat)
                 app_state["activity"].append({
                     "id": f"act_{uuid.uuid4().hex[:6]}",
-                    "text": f"✨ New Grammys Category added: '{name}' in {section}!",
+                    "text": f"New category added: '{name}' in {section}.",
                     "timestamp": time.time()
                 })
                 save_state(app_state)
@@ -557,7 +557,7 @@ def handle_request(method, path, query=None, headers=None, body=None):
 
                 app_state["activity"].append({
                     "id": f"act_{uuid.uuid4().hex[:6]}",
-                    "text": f"🗑️ Category '{cat['name']}' was removed by an Admin ({refunded_count} bets refunded).",
+                    "text": f"Category '{cat['name']}' was removed ({refunded_count} stakes refunded).",
                     "timestamp": time.time()
                 })
                 save_state(app_state)
@@ -619,7 +619,7 @@ def handle_request(method, path, query=None, headers=None, body=None):
                 cat.setdefault("nominees", []).append(new_nominee)
                 app_state["activity"].append({
                     "id": f"act_{uuid.uuid4().hex[:6]}",
-                    "text": f"🌟 Nominee added: @{name} in '{cat['name']}'!",
+                    "text": f"Candidate registered: @{name} in '{cat['name']}'.",
                     "timestamp": time.time()
                 })
                 save_state(app_state)
@@ -637,7 +637,8 @@ def handle_request(method, path, query=None, headers=None, body=None):
                 if not cat:
                     return json_resp({"error": "Category not found", "success": False}, 404)
                 
-                nominee = next((n for n in cat.get("nominees", []) if n["id"] == nominee_id), None)
+                nominee = next((n for n in cat.get("nominees", []) if n["id"] != nominee_id), None)
+                target_nom = next((n for n in cat.get("nominees", []) if n["id"] == nominee_id), None)
                 cat["nominees"] = [n for n in cat.get("nominees", []) if n["id"] != nominee_id]
 
                 refunded_count = 0
@@ -649,10 +650,10 @@ def handle_request(method, path, query=None, headers=None, body=None):
                             refunded_count += 1
                         b["status"] = "refunded"
 
-                if nominee:
+                if target_nom:
                     app_state["activity"].append({
                         "id": f"act_{uuid.uuid4().hex[:6]}",
-                        "text": f"❌ @{nominee['name']} was removed from '{cat['name']}' ({refunded_count} bets refunded).",
+                        "text": f"Candidate @{target_nom['name']} removed from '{cat['name']}' ({refunded_count} stakes refunded).",
                         "timestamp": time.time()
                     })
 
@@ -724,7 +725,7 @@ def handle_request(method, path, query=None, headers=None, body=None):
 
                 app_state["activity"].append({
                     "id": f"act_{uuid.uuid4().hex[:6]}",
-                    "text": f"🏆 GRAMMY WINNER! @{winner_nominee['name']} wins '{cat['name']}'! {won_count} winning bets paid out ({total_payout_pool} 🍒 total)!",
+                    "text": f"Award decided: @{winner_nominee['name']} won '{cat['name']}' ({won_count} winning stakes settled).",
                     "timestamp": time.time()
                 })
                 save_state(app_state)
@@ -764,7 +765,7 @@ def handle_request(method, path, query=None, headers=None, body=None):
                 cat["isLocked"] = False
                 app_state["activity"].append({
                     "id": f"act_{uuid.uuid4().hex[:6]}",
-                    "text": f"🔄 Winner for '{cat['name']}' was reset. Bets returned to pending.",
+                    "text": f"Winner decision for '{cat['name']}' reverted. Stakes returned to pending.",
                     "timestamp": time.time()
                 })
                 save_state(app_state)
@@ -789,7 +790,7 @@ def handle_request(method, path, query=None, headers=None, body=None):
                         c["isLocked"] = False
                     app_state["activity"].append({
                         "id": f"act_{uuid.uuid4().hex[:6]}",
-                        "text": "🧹 Admin reset all betting pools and bets. Ready for a fresh round!",
+                        "text": "All prediction pools and active stakes have been reset.",
                         "timestamp": time.time()
                     })
 
@@ -799,7 +800,7 @@ def handle_request(method, path, query=None, headers=None, body=None):
                     app_state["bets"] = []
                     app_state["activity"] = [{
                         "id": "act_reset",
-                        "text": "✨ Board restored to default Lanacord Grammys categories and nominees!",
+                        "text": "Platform restored to standard 33 Lanacord Grammys categories.",
                         "timestamp": time.time()
                     }]
 
@@ -907,11 +908,27 @@ class GrammysHTTPRequestHandler(BaseHTTPRequestHandler):
 
 
 def run_server(port=8080):
-    server_address = ("0.0.0.0", port)
-    httpd = ThreadingHTTPServer(server_address, GrammysHTTPRequestHandler)
-    print(f"🎵 Lanacord Grammys Server running at http://localhost:{port}/")
-    print(f"👑 Voter Site: http://localhost:{port}/")
-    print(f"🛡️  Admin Site: http://localhost:{port}/admin")
+    candidates = [port] + [p for p in [8080, 8081, 8000, 3000] if p != port]
+    httpd = None
+    active_port = port
+    for p in candidates:
+        try:
+            server_address = ("0.0.0.0", p)
+            httpd = ThreadingHTTPServer(server_address, GrammysHTTPRequestHandler)
+            active_port = p
+            break
+        except OSError as e:
+            if e.errno == 48:
+                continue
+            raise
+
+    if not httpd:
+        print("Error: Could not bind to any port.")
+        sys.exit(1)
+
+    print(f"Lanacord Grammys Server running at http://localhost:{active_port}/")
+    print(f"Voter Site: http://localhost:{active_port}/")
+    print(f"Admin Site: http://localhost:{active_port}/admin")
     try:
         httpd.serve_forever()
     except KeyboardInterrupt:

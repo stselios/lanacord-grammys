@@ -1,10 +1,10 @@
 /**
- * Lanacord Grammys - Audio FX, Confetti, and Toast Utilities
- * 100% Zero-dependency native browser APIs
+ * Audio FX, Confetti, and Helper Utilities
+ * Clean, lightweight, professional
  */
 
 let audioCtx = null;
-let soundEnabled = true;
+let soundEnabled = false; // Muted by default for a clean, non-intrusive experience
 
 function initAudio() {
   if (!audioCtx) {
@@ -18,8 +18,9 @@ function initAudio() {
   }
 }
 
-// Click anywhere initializes audio context
-document.addEventListener('click', () => initAudio(), { once: true });
+document.addEventListener('click', () => {
+  if (soundEnabled) initAudio();
+}, { once: true });
 
 function playClick() {
   if (!soundEnabled) return;
@@ -29,16 +30,16 @@ function playClick() {
   const osc = audioCtx.createOscillator();
   const gain = audioCtx.createGain();
   osc.type = 'sine';
-  osc.frequency.setValueAtTime(800, audioCtx.currentTime);
-  osc.frequency.exponentialRampToValueAtTime(400, audioCtx.currentTime + 0.05);
+  osc.frequency.setValueAtTime(600, audioCtx.currentTime);
+  osc.frequency.exponentialRampToValueAtTime(300, audioCtx.currentTime + 0.04);
 
-  gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
-  gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.05);
+  gain.gain.setValueAtTime(0.04, audioCtx.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.04);
 
   osc.connect(gain);
   gain.connect(audioCtx.destination);
   osc.start();
-  osc.stop(audioCtx.currentTime + 0.05);
+  osc.stop(audioCtx.currentTime + 0.04);
 }
 
 function playBetSound() {
@@ -46,22 +47,20 @@ function playBetSound() {
   initAudio();
   if (!audioCtx) return;
 
-  // Dual tone coin chime
   const now = audioCtx.currentTime;
-  [987.77, 1318.51].forEach((freq, i) => {
-    const osc = audioCtx.createOscillator();
-    const gain = audioCtx.createGain();
-    osc.type = 'triangle';
-    osc.frequency.setValueAtTime(freq, now + i * 0.08);
+  const osc = audioCtx.createOscillator();
+  const gain = audioCtx.createGain();
+  osc.type = 'triangle';
+  osc.frequency.setValueAtTime(880, now);
+  osc.frequency.exponentialRampToValueAtTime(1320, now + 0.12);
 
-    gain.gain.setValueAtTime(0.15, now + i * 0.08);
-    gain.gain.exponentialRampToValueAtTime(0.001, now + i * 0.08 + 0.25);
+  gain.gain.setValueAtTime(0.06, now);
+  gain.gain.exponentialRampToValueAtTime(0.001, now + 0.18);
 
-    osc.connect(gain);
-    gain.connect(audioCtx.destination);
-    osc.start(now + i * 0.08);
-    osc.stop(now + i * 0.08 + 0.25);
-  });
+  osc.connect(gain);
+  gain.connect(audioCtx.destination);
+  osc.start(now);
+  osc.stop(now + 0.18);
 }
 
 function playFanfare() {
@@ -70,42 +69,32 @@ function playFanfare() {
   if (!audioCtx) return;
 
   const now = audioCtx.currentTime;
-  const notes = [
-    { freq: 523.25, time: 0, dur: 0.15 }, // C5
-    { freq: 659.25, time: 0.15, dur: 0.15 }, // E5
-    { freq: 783.99, time: 0.3, dur: 0.2 }, // G5
-    { freq: 1046.50, time: 0.5, dur: 0.5 } // C6
-  ];
-
-  notes.forEach(n => {
+  [523.25, 659.25, 783.99, 1046.50].forEach((freq, idx) => {
     const osc = audioCtx.createOscillator();
     const gain = audioCtx.createGain();
-    osc.type = 'sawtooth';
-    osc.frequency.setValueAtTime(n.freq, now + n.time);
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(freq, now + idx * 0.08);
 
-    // Warm filter
-    const filter = audioCtx.createBiquadFilter();
-    filter.type = 'lowpass';
-    filter.frequency.setValueAtTime(2400, now + n.time);
+    gain.gain.setValueAtTime(0.05, now + idx * 0.08);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.08 + 0.3);
 
-    gain.gain.setValueAtTime(0.12, now + n.time);
-    gain.gain.exponentialRampToValueAtTime(0.001, now + n.time + n.dur);
-
-    osc.connect(filter);
-    filter.connect(gain);
+    osc.connect(gain);
     gain.connect(audioCtx.destination);
-
-    osc.start(now + n.time);
-    osc.stop(now + n.time + n.dur);
+    osc.start(now + idx * 0.08);
+    osc.stop(now + idx * 0.08 + 0.3);
   });
 }
 
-// Confetti Particle System
+// Tasteful Champagne/Gold Confetti System
 function launchConfetti(originX = window.innerWidth / 2, originY = window.innerHeight / 2) {
   let canvas = document.getElementById('confetti-canvas');
   if (!canvas) {
     canvas = document.createElement('canvas');
     canvas.id = 'confetti-canvas';
+    canvas.style.position = 'fixed';
+    canvas.style.inset = '0';
+    canvas.style.pointerEvents = 'none';
+    canvas.style.zIndex = '2000';
     document.body.appendChild(canvas);
   }
 
@@ -114,22 +103,22 @@ function launchConfetti(originX = window.innerWidth / 2, originY = window.innerH
   canvas.height = window.innerHeight;
 
   const particles = [];
-  const colors = ['#fef08a', '#d4af37', '#e11d48', '#881337', '#ffffff', '#fb7185'];
+  const palette = ['#c5a059', '#dfc28d', '#ffffff', '#e2e8f0', '#881337'];
 
-  for (let i = 0; i < 90; i++) {
+  for (let i = 0; i < 60; i++) {
     const angle = Math.random() * Math.PI * 2;
-    const speed = Math.random() * 8 + 4;
+    const speed = Math.random() * 6 + 3;
     particles.push({
       x: originX,
       y: originY,
       vx: Math.cos(angle) * speed,
-      vy: Math.sin(angle) * speed - 3,
-      size: Math.random() * 8 + 4,
-      color: colors[Math.floor(Math.random() * colors.length)],
+      vy: Math.sin(angle) * speed - 2.5,
+      size: Math.random() * 6 + 3,
+      color: palette[Math.floor(Math.random() * palette.length)],
       rotation: Math.random() * 360,
-      vRot: (Math.random() - 0.5) * 10,
+      vRot: (Math.random() - 0.5) * 8,
       opacity: 1,
-      decay: Math.random() * 0.015 + 0.01
+      decay: Math.random() * 0.015 + 0.012
     });
   }
 
@@ -142,7 +131,7 @@ function launchConfetti(originX = window.innerWidth / 2, originY = window.innerH
         active = true;
         p.x += p.vx;
         p.y += p.vy;
-        p.vy += 0.2; // Gravity
+        p.vy += 0.16;
         p.rotation += p.vRot;
         p.opacity -= p.decay;
 
@@ -166,7 +155,7 @@ function launchConfetti(originX = window.innerWidth / 2, originY = window.innerH
   render();
 }
 
-// Toast System
+// Minimal Toast Notifications
 function showToast(message, type = 'info') {
   let container = document.getElementById('toast-container');
   if (!container) {
@@ -178,43 +167,51 @@ function showToast(message, type = 'info') {
   const toast = document.createElement('div');
   toast.className = 'toast';
   
-  let icon = '🍒';
-  if (type === 'success') icon = '🏆';
-  if (type === 'warning') icon = '⚠️';
-  if (type === 'error') icon = '❌';
+  let dotColor = '#c5a059';
+  if (type === 'success') dotColor = '#10b981';
+  if (type === 'warning') dotColor = '#f59e0b';
+  if (type === 'error') dotColor = '#f43f5e';
 
-  toast.innerHTML = `<span>${icon}</span><div style="flex:1;">${message}</div>`;
+  toast.innerHTML = `
+    <span style="width: 7px; height: 7px; border-radius: 50%; background: ${dotColor}; flex-shrink: 0;"></span>
+    <div style="flex: 1; color: var(--text-primary); font-size: 0.82rem;">${message}</div>
+  `;
   container.appendChild(toast);
 
   setTimeout(() => {
     toast.style.opacity = '0';
-    toast.style.transform = 'translateY(10px)';
-    toast.style.transition = 'all 0.3s ease';
-    setTimeout(() => toast.remove(), 300);
-  }, 4000);
+    toast.style.transform = 'translateY(6px)';
+    toast.style.transition = 'all 0.2s ease';
+    setTimeout(() => toast.remove(), 200);
+  }, 3500);
 }
 
-// Avatar Emoji Helper
-const AVATAR_MAP = {
-  cherry: '🍒',
-  crown: '👑',
-  flower: '🌸',
-  lipstick: '💄',
-  sunglasses: '🕶️',
-  ribbon: '🎀',
-  wine: '🍷',
-  mic: '🎤',
-  rose: '🌹',
-  sparkles: '✨',
-  can: '🥤',
-  coffee: '☕',
-  wave: '🌊',
-  sailor: '⚓',
-  flame: '🔥',
-  ghost: '👻',
-  star: '⭐'
-};
+// Elegant Avatar Initials & Color Palette
+const AVATAR_PALETTE = [
+  { bg: 'rgba(197, 160, 89, 0.15)', text: '#dfc28d', border: 'rgba(197, 160, 89, 0.35)' },
+  { bg: 'rgba(136, 19, 55, 0.2)', text: '#fda4af', border: 'rgba(136, 19, 55, 0.4)' },
+  { bg: 'rgba(16, 185, 129, 0.15)', text: '#6ee7b7', border: 'rgba(16, 185, 129, 0.35)' },
+  { bg: 'rgba(59, 130, 246, 0.15)', text: '#93c5fd', border: 'rgba(59, 130, 246, 0.35)' },
+  { bg: 'rgba(168, 85, 247, 0.15)', text: '#d8b4fe', border: 'rgba(168, 85, 247, 0.35)' },
+  { bg: 'rgba(245, 158, 11, 0.15)', text: '#fde68a', border: 'rgba(245, 158, 11, 0.35)' }
+];
 
-function getAvatarEmoji(key) {
-  return AVATAR_MAP[key] || '🍒';
+function getAvatarInitials(name) {
+  if (!name) return '??';
+  const clean = name.replace(/^@/, '').trim();
+  const parts = clean.split(/[_\s.-]+/);
+  if (parts.length >= 2 && parts[0] && parts[1]) {
+    return (parts[0][0] + parts[1][0]).toUpperCase();
+  }
+  return clean.substring(0, 2).toUpperCase();
+}
+
+function getAvatarColorStyle(name) {
+  if (!name) return AVATAR_PALETTE[0];
+  let hash = 0;
+  for (let i = 0; i < name.length; i++) {
+    hash = name.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  const idx = Math.abs(hash) % AVATAR_PALETTE.length;
+  return AVATAR_PALETTE[idx];
 }

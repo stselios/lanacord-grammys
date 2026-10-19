@@ -3,273 +3,284 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Lanacord Grammys 2026 — Fake Betting Gala</title>
+  <title>Lanacord Grammys 2026 — Community Awards & Predictions</title>
   <link rel="stylesheet" href="/static/style.css">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏆</text></svg>">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23c5a059%22 stroke-width=%222%22><path d=%22M6 9H4.5a2.5 2.5 0 0 1 0-5H6%22/><path d=%22M18 9h1.5a2.5 2.5 0 0 0 0-5H18%22/><path d=%22M4 22h16%22/><path d=%22M10 14.66V17c0 .55-.45 1-1 1H7c-.55 0-1-.45-1-1v-2.34%22/><path d=%22M14 14.66V17c0 .55.45 1 1 1h2c.55 0 1-.45 1-1v-2.34%22/><path d=%22M6 2h12v7a6 6 0 0 1-12 0V2Z%22/></svg>">
 </head>
 <body>
 
-  <!-- Navigation Bar -->
+  <!-- Top Navigation Bar -->
   <header class="navbar">
     <a href="/" class="nav-brand">
-      <div class="brand-trophy">🏆</div>
-      <div class="brand-text">
-        <h1>LANACORD GRAMMYS</h1>
-        <div class="brand-badge">Official Betting Suite • 2026 Gala</div>
+      <div class="brand-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/>
+          <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/>
+          <path d="M4 22h16"/>
+          <path d="M10 14.66V17c0 .55-.45 1-1 1H7c-.55 0-1-.45-1-1v-2.34"/>
+          <path d="M14 14.66V17c0 .55.45 1 1 1h2c.55 0 1-.45 1-1v-2.34"/>
+          <path d="M6 2h12v7a6 6 0 0 1-12 0V2Z"/>
+        </svg>
+      </div>
+      <div class="brand-text-wrap">
+        <span class="brand-title">Lanacord Grammys</span>
+        <span class="brand-subtitle">2026 Awards & Predictions</span>
       </div>
     </a>
 
     <div class="nav-center">
-      <div class="live-badge">
-        <span class="live-dot"></span>
-        Live Ceremony
+      <div class="live-pill">
+        <span class="live-indicator"></span>
+        Ceremony Active
       </div>
     </div>
 
     <div class="nav-actions">
       <!-- Audio Toggle -->
-      <button id="btn-audio" class="btn btn-outline btn-icon" title="Toggle Sound">
-        <span id="audio-icon">🔊</span>
+      <button id="btn-audio" class="btn btn-subtle btn-icon-only" title="Toggle audio cues">
+        <svg id="audio-icon-svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+          <line x1="23" y1="9" x2="17" y2="15"/>
+          <line x1="17" y1="9" x2="23" y2="15"/>
+        </svg>
       </button>
 
       <!-- Leaderboard Trigger -->
-      <button id="btn-open-leaderboard" class="btn btn-outline">
-        🏅 Leaderboard
+      <button id="btn-open-leaderboard" class="btn btn-secondary">
+        Leaderboard
       </button>
 
-      <!-- User Wallet Pill or Login -->
+      <!-- User Wallet Area -->
       <div id="nav-user-area" style="display: flex; align-items: center; gap: 8px;">
-        <!-- Injected via JS -->
+        <!-- Injected via JavaScript -->
       </div>
 
-      <!-- Link to Admin Site -->
-      <a href="/admin" class="btn btn-outline btn-sm" style="color: var(--text-muted); border-color: var(--border-subtle);" title="Executive Host Suite (Passcode Protected)">
-        🔒 Host Suite
+      <!-- Host Portal Link -->
+      <a href="/admin" class="btn btn-subtle" style="font-size: 0.78rem;" title="Host & Administration Portal">
+        Host Portal
       </a>
     </div>
   </header>
 
-  <!-- Marquee Ticker -->
-  <div class="ticker-bar">
-    <div class="ticker-label">Gala Wire</div>
-    <div class="ticker-track" id="ticker-track">
-      <div class="ticker-item">🥂 Welcome to the 2026 Lanacord Grammys! Place fake bets on your server favorites!</div>
-    </div>
-  </div>
-
   <main class="container">
-    <!-- Hero Gala Header -->
-    <section class="hero-gala">
-      <div class="hero-supertitle">✨ The Most Unhinged Night in Lanacord History ✨</div>
-      <h2 class="hero-title">PLACE YOUR BETS</h2>
-      <p class="hero-subtitle">
-        33 iconic categories honoring server royalty, tragic heartthrobs, chronically online legends, and Ultraviolence disciples. Wager your 🍒 Lana Coins wisely.
-      </p>
-
-      <!-- Gala Stats Ribbon -->
-      <div class="stats-ribbon" id="stats-ribbon">
-        <div class="stat-card">
-          <div class="stat-icon">🍒</div>
-          <div class="stat-content">
-            <div class="stat-val" id="stat-volume">0</div>
-            <div class="stat-label">Total Volume Wagered</div>
-          </div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-icon">🎟️</div>
-          <div class="stat-content">
-            <div class="stat-val" id="stat-bets">0</div>
-            <div class="stat-label">Total Bets Placed</div>
-          </div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-icon">🏆</div>
-          <div class="stat-content">
-            <div class="stat-val" id="stat-categories">33</div>
-            <div class="stat-label">Grammy Categories</div>
-          </div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-icon">👑</div>
-          <div class="stat-content">
-            <div class="stat-val" id="stat-voters">0</div>
-            <div class="stat-label">Registered Bettors</div>
-          </div>
-        </div>
+    <!-- Editorial Header Section -->
+    <section class="hero-header">
+      <div class="hero-meta">
+        <span class="hero-tag">Official Community Ceremony</span>
+        <span class="hero-divider"></span>
+        <span class="hero-season">Winter 2026</span>
       </div>
+      <h1 class="hero-title">
+        The Lanacord Grammys <em>Predictions</em>
+      </h1>
+      <p class="hero-description">
+        Browse candidate nominations across 33 official server categories. Back your nominees with simulated pool tokens, follow fluctuating odds, and see who takes the awards.
+      </p>
     </section>
 
-    <!-- Controls: Section Tabs, Search & Status Filters -->
-    <div class="controls-bar">
-      <div class="tabs-wrapper" id="section-tabs">
-        <button class="tab-btn active" data-section="all">
-          🏆 All Categories (<span id="count-all">0</span>)
+    <!-- Metrics Summary Strip -->
+    <div class="metrics-strip">
+      <div class="metric-cell">
+        <span class="metric-label">Total Staked</span>
+        <span class="metric-value" id="stat-volume">0 pts</span>
+      </div>
+      <div class="metric-cell">
+        <span class="metric-label">Predictions Placed</span>
+        <span class="metric-value" id="stat-bets">0</span>
+      </div>
+      <div class="metric-cell">
+        <span class="metric-label">Award Categories</span>
+        <span class="metric-value" id="stat-categories">33</span>
+      </div>
+      <div class="metric-cell">
+        <span class="metric-label">Registered Participants</span>
+        <span class="metric-value" id="stat-voters">0</span>
+      </div>
+    </div>
+
+    <!-- Muted Real-Time Activity Ticker -->
+    <div class="activity-banner">
+      <span class="activity-tag">Latest Activity</span>
+      <div class="activity-content" id="ticker-track">
+        Welcome to the 2026 Lanacord Grammys prediction pools.
+      </div>
+    </div>
+
+    <!-- Filter & Search Toolbar -->
+    <div class="filter-toolbar">
+      <div class="filter-segments" id="section-tabs">
+        <button class="segment-btn active" data-section="all">
+          All Categories <span class="segment-count" id="count-all">0</span>
         </button>
-        <button class="tab-btn" data-section="Album Fan Categories">
-          💿 Album Fan (<span id="count-album">0</span>)
+        <button class="segment-btn" data-section="Album Fan Categories">
+          Album Fan <span class="segment-count" id="count-album">0</span>
         </button>
-        <button class="tab-btn" data-section="Most Likely To Categories">
-          🚨 Most Likely To (<span id="count-likely">0</span>)
+        <button class="segment-btn" data-section="Most Likely To Categories">
+          Most Likely To <span class="segment-count" id="count-likely">0</span>
         </button>
-        <button class="tab-btn" data-section="Best/Most/Favorite Categories">
-          👑 Best / Most / Favorite (<span id="count-best">0</span>)
+        <button class="segment-btn" data-section="Best/Most/Favorite Categories">
+          Best & Favorite <span class="segment-count" id="count-best">0</span>
         </button>
       </div>
 
-      <div class="search-filter-row">
-        <div class="search-box">
-          <span class="search-icon">🔍</span>
-          <input type="text" id="category-search" placeholder="Search category, member name, or album...">
+      <div class="search-and-controls">
+        <div class="search-input-wrap">
+          <svg class="search-input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"/>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          </svg>
+          <input type="text" id="category-search" class="search-field" placeholder="Filter categories or nominees...">
         </div>
 
-        <div style="display: flex; gap: 10px; align-items: center;">
-          <select id="status-filter" class="form-select" style="width: auto; padding: 8px 14px; font-size: 0.85rem;">
+        <div style="display: flex; gap: 8px; align-items: center;">
+          <select id="status-filter" class="form-select" style="width: auto; padding: 7px 12px; font-size: 0.78rem;">
             <option value="all">All Statuses</option>
-            <option value="open">🟢 Open for Betting</option>
-            <option value="concluded">🏆 Winners Declared</option>
+            <option value="open">Open Markets</option>
+            <option value="concluded">Decided Categories</option>
           </select>
 
-          <button id="btn-open-mybets" class="btn btn-velvet btn-sm">
-            🎟️ My Betslip (<span id="mybets-count">0</span>)
+          <button id="btn-open-mybets" class="btn btn-secondary btn-sm">
+            My Stakes (<span id="mybets-count">0</span>)
           </button>
         </div>
       </div>
     </div>
 
-    <!-- Categories Grid -->
-    <div class="categories-grid" id="categories-grid">
-      <!-- Category cards rendered dynamically via JS -->
+    <!-- Category Prediction Cards Grid -->
+    <div class="category-grid" id="categories-grid">
+      <!-- Dynamically populated via JS -->
     </div>
+
+    <!-- Site Footer -->
+    <footer class="site-footer">
+      <div>The Lanacord Grammys • Annual Community Recognition & Predictions</div>
+      <div style="margin-top: 6px;">
+        <a href="/admin">Host Administration Access</a>
+      </div>
+    </footer>
   </main>
 
   <!-- ============================================== -->
-  <!-- MODAL: PLACE BET -->
+  <!-- MODAL: PLACE STAKE / ORDER SLIP -->
   <!-- ============================================== -->
   <div class="modal-overlay" id="bet-modal">
-    <div class="modal-content">
+    <div class="modal-dialog">
       <div class="modal-header">
         <div>
-          <span id="bet-modal-section" class="card-section-tag">Album Fan Categories</span>
+          <div id="bet-modal-section" class="card-section-label">Category Section</div>
           <h3 id="bet-modal-category-name" class="modal-title">Category Name</h3>
         </div>
-        <button class="modal-close" onclick="closeModal('bet-modal')">&times;</button>
+        <button class="modal-close-btn" onclick="closeModal('bet-modal')">&times;</button>
       </div>
 
-      <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 14px; margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between;">
-        <div style="display: flex; align-items: center; gap: 12px;">
-          <div id="bet-modal-avatar" class="nominee-avatar">🍒</div>
+      <!-- Candidate Card Preview -->
+      <div style="background: var(--bg-subtle); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); padding: 12px 14px; margin-bottom: 18px; display: flex; align-items: center; justify-content: space-between;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <div id="bet-modal-initials" class="nominee-badge-initials" style="width: 32px; height: 32px; font-size: 0.8rem;">
+            CG
+          </div>
           <div>
-            <div style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase;">Selected Nominee</div>
-            <div id="bet-modal-nominee-name" style="font-weight: 700; font-size: 1.1rem; color: #fff;">@username</div>
+            <div style="font-size: 0.68rem; color: var(--text-tertiary); text-transform: uppercase; font-weight: 600;">Selected Nominee</div>
+            <div id="bet-modal-nominee-name" style="font-weight: 600; font-size: 0.95rem; color: var(--text-primary);">@username</div>
           </div>
         </div>
         <div style="text-align: right;">
-          <div style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase;">Current Odds</div>
-          <div id="bet-modal-odds" class="odds-badge" style="font-size: 1.1rem;">2.50x</div>
+          <div style="font-size: 0.68rem; color: var(--text-tertiary); text-transform: uppercase; font-weight: 600;">Current Odds</div>
+          <div id="bet-modal-odds" class="odds-multiplier" style="font-size: 0.95rem;">2.50x</div>
         </div>
       </div>
 
+      <!-- Stake Amount Input -->
       <div class="form-group">
-        <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
-          <label class="form-label" style="margin: 0;">Bet Amount (🍒 Lana Coins)</label>
-          <span style="font-size: 0.8rem; color: var(--text-secondary);">
-            Balance: <strong id="bet-modal-user-balance" style="color: var(--gold-light);">1,000</strong> 🍒
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+          <label class="form-label" style="margin: 0;">Stake Amount</label>
+          <span style="font-size: 0.75rem; color: var(--text-tertiary); font-family: var(--font-mono);">
+            Available: <strong id="bet-modal-user-balance" style="color: var(--text-primary);">1,000</strong> pts
           </span>
         </div>
 
-        <input type="number" id="bet-amount-input" class="form-input" placeholder="Enter bet amount..." min="1" step="1" value="50">
+        <input type="number" id="bet-amount-input" class="form-input font-mono" placeholder="Amount..." min="1" step="1" value="50">
 
-        <!-- Quick Bet Presets -->
-        <div class="presets-grid">
-          <button type="button" class="preset-btn" onclick="setBetAmount(25)">25 🍒</button>
-          <button type="button" class="preset-btn" onclick="setBetAmount(50)">50 🍒</button>
-          <button type="button" class="preset-btn" onclick="setBetAmount(100)">100 🍒</button>
-          <button type="button" class="preset-btn" onclick="setBetAmount(250)">250 🍒</button>
-          <button type="button" class="preset-btn" onclick="setBetAmount(500)">500 🍒</button>
-          <button type="button" class="preset-btn" onclick="setBetMax()">ALL IN 🚀</button>
+        <!-- Stake Preset Chips -->
+        <div class="stake-presets">
+          <button type="button" class="preset-chip" onclick="setBetAmount(25)">+25</button>
+          <button type="button" class="preset-chip" onclick="setBetAmount(50)">+50</button>
+          <button type="button" class="preset-chip" onclick="setBetAmount(100)">+100</button>
+          <button type="button" class="preset-chip" onclick="setBetAmount(250)">+250</button>
+          <button type="button" class="preset-chip" onclick="setBetMax()">Max</button>
         </div>
       </div>
 
-      <!-- Potential Payout Box -->
-      <div style="background: rgba(212, 175, 55, 0.08); border: 1px solid var(--border-gold); border-radius: var(--radius-md); padding: 14px; margin-bottom: 20px;">
-        <div style="display: flex; justify-content: space-between; align-items: center;">
-          <span style="font-size: 0.85rem; color: var(--text-secondary);">Estimated Payout:</span>
-          <span id="bet-estimated-payout" style="font-size: 1.3rem; font-weight: 800; color: var(--gold-light);">
-            125 🍒
-          </span>
+      <!-- Payout Details -->
+      <div class="payout-card">
+        <div class="payout-row">
+          <span class="payout-label">Estimated Return</span>
+          <span id="bet-estimated-payout" class="payout-val">125 pts</span>
         </div>
-        <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 4px;">
-          Profit if <span id="bet-modal-nominee-name-small">@nominee</span> wins: <strong id="bet-estimated-profit" style="color: #6ee7b7;">+75 🍒</strong>
+        <div class="payout-row" style="font-size: 0.75rem; color: var(--text-tertiary);">
+          <span>Estimated Net Profit</span>
+          <span id="bet-estimated-profit" class="font-mono" style="color: #6ee7b7;">+75 pts</span>
         </div>
       </div>
 
-      <div style="display: flex; gap: 10px;">
-        <button type="button" class="btn btn-outline" style="flex: 1;" onclick="closeModal('bet-modal')">Cancel</button>
-        <button type="button" id="btn-submit-bet" class="btn btn-gold" style="flex: 2;" onclick="submitBet()">
-          💎 Confirm Bet
+      <!-- Actions -->
+      <div style="display: flex; gap: 8px;">
+        <button type="button" class="btn btn-secondary" style="flex: 1;" onclick="closeModal('bet-modal')">Cancel</button>
+        <button type="button" id="btn-submit-bet" class="btn btn-primary" style="flex: 2;" onclick="submitBet()">
+          Confirm Stake
         </button>
       </div>
     </div>
   </div>
 
   <!-- ============================================== -->
-  <!-- MODAL: LOGIN / SELECT VOTER -->
+  <!-- MODAL: PARTICIPANT IDENTITY / LOGIN -->
   <!-- ============================================== -->
   <div class="modal-overlay" id="login-modal">
-    <div class="modal-content">
+    <div class="modal-dialog">
       <div class="modal-header">
         <div>
-          <h3 class="modal-title">Enter the Gala</h3>
-          <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 4px;">
-            Identify yourself with your Lanacord username to place fake bets and climb the high roller leaderboard.
+          <h3 class="modal-title">Participant Identity</h3>
+          <p style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 4px;">
+            Set your Discord handle to record predictions and maintain your standing.
           </p>
         </div>
-        <button class="modal-close" onclick="closeModal('login-modal')">&times;</button>
+        <button class="modal-close-btn" onclick="closeModal('login-modal')">&times;</button>
       </div>
 
       <div class="form-group">
-        <label class="form-label">Lanacord Username</label>
+        <label class="form-label">Discord Username</label>
         <div style="position: relative;">
-          <span style="position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-weight: 700;">@</span>
-          <input type="text" id="login-username-input" class="form-input" style="padding-left: 34px;" placeholder="e.g. cinnamon_girl" maxlength="28">
+          <span style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-size: 0.85rem;">@</span>
+          <input type="text" id="login-username-input" class="form-input" style="padding-left: 28px;" placeholder="username" maxlength="28">
         </div>
-        <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 6px;">
-          ✨ New attendees start with <strong>1,000 🍒 Lana Coins</strong>. Free daily top-ups available if you go broke.
-        </div>
-      </div>
-
-      <!-- Quick Switch / Existing Voters -->
-      <div id="existing-voters-section" style="margin-bottom: 20px; display: none;">
-        <label class="form-label">Or switch to an active voter:</label>
-        <div id="existing-voters-list" style="display: flex; flex-wrap: wrap; gap: 8px; max-height: 120px; overflow-y: auto;">
-          <!-- Dynamically populated -->
+        <div style="font-size: 0.72rem; color: var(--text-tertiary); margin-top: 6px;">
+          New participants receive 1,000 initial prediction points.
         </div>
       </div>
 
-      <div style="display: flex; gap: 10px;">
-        <button type="button" class="btn btn-gold" style="width: 100%;" onclick="submitLogin()">
-          🥂 Enter & Get 1,000 🍒
-        </button>
-      </div>
+      <button type="button" class="btn btn-primary" style="width: 100%; padding: 10px;" onclick="submitLogin()">
+        Continue to Predictions
+      </button>
     </div>
   </div>
 
   <!-- ============================================== -->
-  <!-- MODAL: MY BETS -->
+  <!-- MODAL: MY PREDICTIONS LEDGER -->
   <!-- ============================================== -->
   <div class="modal-overlay" id="mybets-modal">
-    <div class="modal-content" style="max-width: 620px;">
+    <div class="modal-dialog" style="max-width: 580px;">
       <div class="modal-header">
         <div>
-          <h3 class="modal-title">My Betslip</h3>
-          <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 4px;">
-            Track all your active wagers and collected winnings.
+          <h3 class="modal-title">My Prediction Ledger</h3>
+          <p style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 4px;">
+            Review active predictions and historical returns.
           </p>
         </div>
-        <button class="modal-close" onclick="closeModal('mybets-modal')">&times;</button>
+        <button class="modal-close-btn" onclick="closeModal('mybets-modal')">&times;</button>
       </div>
 
-      <div id="mybets-list" style="display: flex; flex-direction: column; gap: 12px; max-height: 440px; overflow-y: auto; padding-right: 4px;">
+      <div id="mybets-list" style="display: flex; flex-direction: column; gap: 8px; max-height: 420px; overflow-y: auto;">
         <!-- Populated via JS -->
       </div>
     </div>
@@ -279,18 +290,18 @@
   <!-- MODAL: LEADERBOARD -->
   <!-- ============================================== -->
   <div class="modal-overlay" id="leaderboard-modal">
-    <div class="modal-content" style="max-width: 550px;">
+    <div class="modal-dialog" style="max-width: 520px;">
       <div class="modal-header">
         <div>
-          <h3 class="modal-title">🏆 Lanacord High Rollers</h3>
-          <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 4px;">
-            The wealthiest and most prophetic bettors of the Grammys.
+          <h3 class="modal-title">Standings</h3>
+          <p style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 4px;">
+            Participant rankings based on total points and returns.
           </p>
         </div>
-        <button class="modal-close" onclick="closeModal('leaderboard-modal')">&times;</button>
+        <button class="modal-close-btn" onclick="closeModal('leaderboard-modal')">&times;</button>
       </div>
 
-      <div id="leaderboard-list" style="display: flex; flex-direction: column; gap: 8px; max-height: 450px; overflow-y: auto;">
+      <div id="leaderboard-list" style="display: flex; flex-direction: column; gap: 6px; max-height: 440px; overflow-y: auto;">
         <!-- Populated via JS -->
       </div>
     </div>
@@ -302,7 +313,6 @@
   <!-- Scripts -->
   <script src="/static/effects.js"></script>
   <script>
-    // State storage
     let state = {
       categories: [],
       activity: [],
@@ -316,27 +326,21 @@
     let activeSection = 'all';
     let searchQuery = '';
     let statusFilter = 'all';
-    let activeBetSelection = null; // { categoryId, nomineeId, categoryName, nomineeName, odds, avatar }
+    let activeBetSelection = null;
 
-    // On Load
     document.addEventListener('DOMContentLoaded', () => {
-      // Check stored user ID
       const savedUserId = localStorage.getItem('lanacord_user_id');
       fetchState(savedUserId);
       initSSE();
-
-      // UI Listeners
       setupFilterListeners();
       setupAudioToggle();
 
-      // Fallback polling every 8s
       setInterval(() => {
         const uid = state.currentUser ? state.currentUser.id : localStorage.getItem('lanacord_user_id');
         fetchState(uid, true);
       }, 8000);
     });
 
-    // Fetch Public State
     async function fetchState(userId = null, silent = false) {
       try {
         const url = userId ? `/api/state?userId=${encodeURIComponent(userId)}` : '/api/state';
@@ -355,7 +359,6 @@
       }
     }
 
-    // Server-Sent Events (SSE) for Real-Time Instant Sync
     function initSSE() {
       const evtSource = new EventSource('/api/events');
 
@@ -363,39 +366,35 @@
         try {
           const payload = JSON.parse(e.data);
           handleRealtimeEvent(payload);
-        } catch (err) {
-          console.error('SSE parse error:', err);
-        }
+        } catch (err) {}
       };
 
-      evtSource.addEventListener('CATEGORY_ADDED', (e) => onBoardUpdated('New Category added!'));
-      evtSource.addEventListener('CATEGORY_DELETED', (e) => onBoardUpdated('A Category was deleted'));
-      evtSource.addEventListener('CATEGORY_EDITED', (e) => onBoardUpdated());
-      evtSource.addEventListener('CATEGORY_LOCKED', (e) => onBoardUpdated());
-      evtSource.addEventListener('NOMINEE_ADDED', (e) => onBoardUpdated('New Nominee added!'));
-      evtSource.addEventListener('NOMINEE_DELETED', (e) => onBoardUpdated('Nominee removed'));
-      evtSource.addEventListener('NOMINEES_BULK_ADDED', (e) => onBoardUpdated('Nominees updated'));
+      evtSource.addEventListener('CATEGORY_ADDED', () => onBoardUpdated('Category added'));
+      evtSource.addEventListener('CATEGORY_DELETED', () => onBoardUpdated('Category removed'));
+      evtSource.addEventListener('CATEGORY_EDITED', () => onBoardUpdated());
+      evtSource.addEventListener('CATEGORY_LOCKED', () => onBoardUpdated());
+      evtSource.addEventListener('NOMINEE_ADDED', () => onBoardUpdated('Nominee added'));
+      evtSource.addEventListener('NOMINEE_DELETED', () => onBoardUpdated('Nominee removed'));
+      evtSource.addEventListener('NOMINEES_BULK_ADDED', () => onBoardUpdated('Nominees updated'));
       
       evtSource.addEventListener('WINNER_DECLARED', (e) => {
-        const data = JSON.parse(e.data);
-        const name = data.payload ? data.payload.winnerName : 'Someone';
-        const cat = data.payload ? data.payload.categoryName : 'category';
-        showToast(`🏆 WINNER ANNOUNCED: @${name} won "${cat}"!`, 'success');
-        playFanfare();
-        launchConfetti();
+        try {
+          const data = JSON.parse(e.data);
+          const name = data.payload ? data.payload.winnerName : '';
+          const cat = data.payload ? data.payload.categoryName : '';
+          showToast(`Award decided: @${name} won "${cat}"`, 'success');
+          playFanfare();
+          launchConfetti();
+        } catch (err) {}
         onBoardUpdated();
       });
 
       evtSource.addEventListener('WINNER_CLEARED', () => onBoardUpdated());
       evtSource.addEventListener('BET_PLACED', () => onBoardUpdated());
       evtSource.addEventListener('BOARD_RESET', () => {
-        showToast('🔄 Grammys Board was reset by Admin', 'info');
+        showToast('Categories reset by host', 'info');
         onBoardUpdated();
       });
-
-      evtSource.onerror = (err) => {
-        // SSE error, will auto-reconnect
-      };
     }
 
     function onBoardUpdated(toastMessage = null) {
@@ -411,22 +410,30 @@
       fetchState(uid, true);
     }
 
-    // Audio button toggle
     function setupAudioToggle() {
       const btn = document.getElementById('btn-audio');
-      const icon = document.getElementById('audio-icon');
+      const icon = document.getElementById('audio-icon-svg');
       btn.addEventListener('click', () => {
         soundEnabled = !soundEnabled;
-        icon.textContent = soundEnabled ? '🔊' : '🔇';
-        btn.classList.toggle('btn-outline-gold', soundEnabled);
-        showToast(soundEnabled ? 'Sound FX Enabled' : 'Sound FX Muted', 'info');
+        if (soundEnabled) {
+          icon.innerHTML = `
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+            <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/>
+          `;
+          showToast('Audio cues enabled', 'info');
+        } else {
+          icon.innerHTML = `
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+            <line x1="23" y1="9" x2="17" y2="15"/>
+            <line x1="17" y1="9" x2="23" y2="15"/>
+          `;
+          showToast('Audio muted', 'info');
+        }
       });
     }
 
-    // Setup Section Tabs and Filters
     function setupFilterListeners() {
-      // Section tabs
-      const tabs = document.querySelectorAll('#section-tabs .tab-btn');
+      const tabs = document.querySelectorAll('#section-tabs .segment-btn');
       tabs.forEach(tab => {
         tab.addEventListener('click', () => {
           tabs.forEach(t => t.classList.remove('active'));
@@ -436,21 +443,18 @@
         });
       });
 
-      // Search input
       const searchInput = document.getElementById('category-search');
       searchInput.addEventListener('input', (e) => {
         searchQuery = e.target.value.toLowerCase().trim();
         renderCategories();
       });
 
-      // Status dropdown
       const statusSelect = document.getElementById('status-filter');
       statusSelect.addEventListener('change', (e) => {
         statusFilter = e.target.value;
         renderCategories();
       });
 
-      // Open Modals
       document.getElementById('btn-open-leaderboard').addEventListener('click', () => {
         renderLeaderboard();
         openModal('leaderboard-modal');
@@ -465,12 +469,10 @@
         }
       });
 
-      // Bet Amount input change
       const amountInput = document.getElementById('bet-amount-input');
       amountInput.addEventListener('input', updateEstimatedPayout);
     }
 
-    // Render Master UI
     function renderUI() {
       renderNavUser();
       renderStats();
@@ -479,59 +481,59 @@
       updateCategoryCounts();
     }
 
-    // Navigation User Info
     function renderNavUser() {
       const userArea = document.getElementById('nav-user-area');
       const u = state.currentUser;
 
       if (u) {
         const canClaim = u.balance < 250;
+        const initials = getAvatarInitials(u.username);
+        const palette = getAvatarColorStyle(u.username);
+
         userArea.innerHTML = `
-          <div class="wallet-pill">
-            <span class="wallet-user">@${escapeHtml(u.username)}</span>
-            <span class="wallet-balance">🍒 ${u.balance.toLocaleString()}</span>
+          <div class="wallet-box">
+            <span class="wallet-avatar-mini" style="background:${palette.bg}; color:${palette.text}; border-color:${palette.border};">
+              ${initials}
+            </span>
+            <span style="font-weight: 500; color: var(--text-secondary);">@${escapeHtml(u.username)}</span>
+            <span class="wallet-balance">${u.balance.toLocaleString()} pts</span>
           </div>
           ${canClaim ? `
-            <button class="btn btn-sm btn-gold" onclick="claimDailyCoins()" title="Free emergency Lana Coins!">
-              +250 Free 🍒
+            <button class="btn btn-sm btn-accent-subtle" onclick="claimDailyCoins()" title="Emergency point top-up">
+              +250 Free
             </button>
           ` : ''}
-          <button class="btn btn-sm btn-outline" onclick="openModal('login-modal')" title="Switch User">
+          <button class="btn btn-sm btn-subtle" onclick="openModal('login-modal')" title="Switch profile">
             Switch
           </button>
         `;
         document.getElementById('mybets-count').textContent = state.userBets.length;
       } else {
         userArea.innerHTML = `
-          <button class="btn btn-gold btn-sm" onclick="openModal('login-modal')">
-            🥂 Join / Log In
+          <button class="btn btn-primary btn-sm" onclick="openModal('login-modal')">
+            Sign In / Register
           </button>
         `;
         document.getElementById('mybets-count').textContent = '0';
       }
     }
 
-    // Render Hero Stats
     function renderStats() {
       const stats = state.stats || {};
-      document.getElementById('stat-volume').textContent = (stats.totalVolume || 0).toLocaleString() + ' 🍒';
+      document.getElementById('stat-volume').textContent = (stats.totalVolume || 0).toLocaleString() + ' pts';
       document.getElementById('stat-bets').textContent = (stats.totalBets || 0).toLocaleString();
       document.getElementById('stat-categories').textContent = (stats.totalCategories || 0);
       document.getElementById('stat-voters').textContent = (stats.activeVoters || 0);
     }
 
-    // Render Live Activity Ticker
     function renderTicker() {
       const track = document.getElementById('ticker-track');
       const items = state.activity || [];
       if (!items.length) return;
-
-      track.innerHTML = items.map(act => `
-        <div class="ticker-item">${escapeHtml(act.text)}</div>
-      `).join('');
+      const latest = items[items.length - 1];
+      track.textContent = latest.text.replace(/🍒|✨|🏆|🥂/g, '').trim();
     }
 
-    // Category Counts for Tabs
     function updateCategoryCounts() {
       const cats = state.categories || [];
       document.getElementById('count-all').textContent = cats.length;
@@ -545,24 +547,20 @@
       document.getElementById('count-best').textContent = bestCount;
     }
 
-    // Render Category Cards
     function renderCategories() {
       const grid = document.getElementById('categories-grid');
       let list = state.categories || [];
 
-      // Filter by section
       if (activeSection !== 'all') {
         list = list.filter(c => c.section === activeSection);
       }
 
-      // Filter by status
       if (statusFilter === 'open') {
         list = list.filter(c => !c.winnerId && !c.isLocked);
       } else if (statusFilter === 'concluded') {
         list = list.filter(c => c.winnerId !== null);
       }
 
-      // Filter by search query
       if (searchQuery) {
         list = list.filter(c => {
           const matchCat = c.name.toLowerCase().includes(searchQuery) || (c.description || '').toLowerCase().includes(searchQuery);
@@ -573,16 +571,14 @@
 
       if (list.length === 0) {
         grid.innerHTML = `
-          <div style="grid-column: 1 / -1; text-align: center; padding: 60px 20px; color: var(--text-muted);">
-            <div style="font-size: 40px; margin-bottom: 12px;">🥀</div>
-            <h3 style="color: var(--text-secondary); margin-bottom: 6px;">No Grammys categories found</h3>
-            <p>Try clearing your search filters or check another category tab.</p>
+          <div style="grid-column: 1 / -1; text-align: center; padding: 60px 20px; color: var(--text-tertiary);">
+            <div style="font-size: 1.1rem; color: var(--text-secondary); margin-bottom: 4px;">No categories found</div>
+            <p style="font-size: 0.85rem;">Try adjusting your filter or search query.</p>
           </div>
         `;
         return;
       }
 
-      // Set of nominee IDs the current user has bet on
       const userBetNomineeMap = {};
       if (state.userBets) {
         state.userBets.forEach(b => {
@@ -598,70 +594,74 @@
         const isLocked = cat.isLocked || hasWinner;
 
         return `
-          <div class="category-card ${hasWinner ? 'has-winner' : ''}" id="cat-card-${cat.id}">
-            <div class="card-header">
-              <span class="card-section-tag">${escapeHtml(cat.section)}</span>
+          <div class="category-card ${hasWinner ? 'is-settled' : ''}" id="cat-card-${cat.id}">
+            <div class="card-top">
+              <div class="card-section-label">${escapeHtml(cat.section)}</div>
               <h3 class="card-title">${escapeHtml(cat.name)}</h3>
               <p class="card-desc">${escapeHtml(cat.description || '')}</p>
             </div>
 
-            <!-- Pool and Bet Stats Bar -->
-            <div class="card-meta-bar">
-              <span>Pool: <strong class="pool-badge">${(cat.totalPool || 0).toLocaleString()} 🍒</strong></span>
-              <span>${cat.totalBets || 0} bets placed</span>
-              <span>${isLocked ? (hasWinner ? '🏆 Concluded' : '🔒 Locked') : '🟢 Open'}</span>
+            <div class="card-status-bar">
+              <span>Pool: <strong class="font-mono" style="color: var(--text-primary);">${(cat.totalPool || 0).toLocaleString()} pts</strong></span>
+              <span class="font-mono">${cat.totalBets || 0} stakes</span>
+              <span class="status-badge">
+                <span class="status-dot ${hasWinner ? 'winner' : (isLocked ? 'closed' : '')}"></span>
+                ${hasWinner ? 'Decided' : (isLocked ? 'Locked' : 'Open')}
+              </span>
             </div>
 
-            <!-- Winner announcement banner if settled -->
             ${hasWinner ? `
-              <div class="winner-banner">
-                <span class="winner-trophy">🏆</span>
-                <span>WINNER: <strong>@${escapeHtml(winnerNominee ? winnerNominee.name : 'Unknown')}</strong></span>
+              <div class="card-winner-banner">
+                <span class="card-winner-label">Category Winner</span>
+                <span class="card-winner-name">@${escapeHtml(winnerNominee ? winnerNominee.name : 'Unknown')}</span>
               </div>
             ` : ''}
 
-            <!-- Nominees List -->
-            <div class="nominees-list">
+            <div class="nominees-container">
               ${(cat.nominees && cat.nominees.length > 0) ? cat.nominees.map(nom => {
                 const oddsData = (cat.odds && cat.odds[nom.id]) || { odds: 2.50, pool: 0, betCount: 0, sharePercentage: 25 };
                 const isWinner = cat.winnerId === nom.id;
                 const userBet = userBetNomineeMap[cat.id + '_' + nom.id];
+                const initials = getAvatarInitials(nom.name);
+                const palette = getAvatarColorStyle(nom.name);
 
                 return `
-                  <div class="nominee-row ${isWinner ? 'is-winner' : ''}">
-                    <div class="nominee-info">
-                      <div class="nominee-avatar">${getAvatarEmoji(nom.avatar)}</div>
-                      <div class="nominee-name-wrap">
+                  <div class="nominee-item ${isWinner ? 'winner-highlight' : ''}">
+                    <div class="share-progress-fill" style="width: ${oddsData.sharePercentage}%;"></div>
+                    
+                    <div class="nominee-left">
+                      <div class="nominee-badge-initials" style="background:${palette.bg}; color:${palette.text}; border-color:${palette.border};">
+                        ${initials}
+                      </div>
+                      <div class="nominee-text">
                         <div class="nominee-name">
                           @${escapeHtml(nom.name)}
-                          ${isWinner ? ' 🏆' : ''}
+                          ${isWinner ? ' <span style="font-size:0.75rem; color:var(--gold-light);">• Winner</span>' : ''}
                         </div>
-                        <div class="nominee-stats">
-                          ${oddsData.pool} 🍒 (${oddsData.sharePercentage}%) • ${oddsData.betCount} bets
+                        <div class="nominee-pool-stats">
+                          ${oddsData.sharePercentage}% pool (${oddsData.pool} pts)
                         </div>
                         ${userBet ? `
-                          <div class="user-bet-pill">
-                            ✓ Your Bet: ${userBet.amount} 🍒 (Pays: ${userBet.potentialPayout} 🍒)
+                          <div class="user-bet-indicator">
+                            Staked: ${userBet.amount} pts → Est. ${userBet.potentialPayout} pts
                           </div>
                         ` : ''}
                       </div>
                     </div>
 
-                    <div class="nominee-action">
-                      <div class="odds-badge" title="Implied Multiplier">${oddsData.odds.toFixed(2)}x</div>
+                    <div class="nominee-right">
+                      <div class="odds-multiplier" title="Implied Return Multiplier">${oddsData.odds.toFixed(2)}x</div>
                       ${!isLocked ? `
-                        <button class="btn btn-sm btn-gold" onclick="openBetModal('${cat.id}', '${nom.id}', '${escapeAttr(cat.name)}', '${escapeAttr(nom.name)}', ${oddsData.odds}, '${nom.avatar}', '${escapeAttr(cat.section)}')">
-                          Bet
+                        <button class="btn btn-sm btn-secondary" onclick="openBetModal('${cat.id}', '${nom.id}', '${escapeAttr(cat.name)}', '${escapeAttr(nom.name)}', ${oddsData.odds}, '${nom.avatar}', '${escapeAttr(cat.section)}')">
+                          Stake
                         </button>
-                      ` : (isWinner ? `
-                        <span style="font-size: 0.8rem; font-weight: 700; color: var(--gold-light);">WON 👑</span>
-                      ` : '')}
+                      ` : ''}
                     </div>
                   </div>
                 `;
               }).join('') : `
-                <div style="text-align: center; padding: 20px; color: var(--text-muted); font-size: 0.85rem;">
-                  No nominees in this category yet.
+                <div style="text-align: center; padding: 20px; color: var(--text-tertiary); font-size: 0.8rem;">
+                  No nominees registered.
                 </div>
               `}
             </div>
@@ -670,33 +670,22 @@
       }).join('');
     }
 
-    // Open Betting Modal
     function openBetModal(categoryId, nomineeId, categoryName, nomineeName, odds, avatar, section) {
       if (!state.currentUser) {
-        showToast('Please sign in or select your username first!', 'warning');
+        showToast('Please sign in with your handle first', 'warning');
         openModal('login-modal');
         return;
       }
 
-      activeBetSelection = {
-        categoryId,
-        nomineeId,
-        categoryName,
-        nomineeName,
-        odds,
-        avatar,
-        section
-      };
+      activeBetSelection = { categoryId, nomineeId, categoryName, nomineeName, odds, avatar, section };
 
       document.getElementById('bet-modal-section').textContent = section;
       document.getElementById('bet-modal-category-name').textContent = categoryName;
       document.getElementById('bet-modal-nominee-name').textContent = '@' + nomineeName;
-      document.getElementById('bet-modal-nominee-name-small').textContent = '@' + nomineeName;
-      document.getElementById('bet-modal-avatar').textContent = getAvatarEmoji(avatar);
+      document.getElementById('bet-modal-initials').textContent = getAvatarInitials(nomineeName);
       document.getElementById('bet-modal-odds').textContent = odds.toFixed(2) + 'x';
       document.getElementById('bet-modal-user-balance').textContent = state.currentUser.balance.toLocaleString();
 
-      // Reset amount to default 50 or balance
       const defaultAmount = Math.min(50, state.currentUser.balance || 50);
       document.getElementById('bet-amount-input').value = defaultAmount;
       updateEstimatedPayout();
@@ -708,7 +697,8 @@
     function setBetAmount(val) {
       playClick();
       const input = document.getElementById('bet-amount-input');
-      input.value = val;
+      const current = parseInt(input.value) || 0;
+      input.value = current + val;
       updateEstimatedPayout();
     }
 
@@ -729,11 +719,10 @@
       const payout = Math.round(amount * activeBetSelection.odds);
       const profit = Math.max(0, payout - amount);
 
-      document.getElementById('bet-estimated-payout').textContent = payout.toLocaleString() + ' 🍒';
-      document.getElementById('bet-estimated-profit').textContent = '+' + profit.toLocaleString() + ' 🍒';
+      document.getElementById('bet-estimated-payout').textContent = payout.toLocaleString() + ' pts';
+      document.getElementById('bet-estimated-profit').textContent = '+' + profit.toLocaleString() + ' pts';
     }
 
-    // Submit Bet
     async function submitBet() {
       if (!activeBetSelection || !state.currentUser) return;
 
@@ -741,18 +730,18 @@
       const amount = parseInt(input.value);
 
       if (!amount || amount <= 0) {
-        showToast('Please enter a valid bet amount!', 'error');
+        showToast('Enter a valid stake amount', 'error');
         return;
       }
 
       if (amount > state.currentUser.balance) {
-        showToast(`Insufficient balance! You only have ${state.currentUser.balance} 🍒.`, 'error');
+        showToast(`Insufficient balance (${state.currentUser.balance} pts available)`, 'error');
         return;
       }
 
       const submitBtn = document.getElementById('btn-submit-bet');
       submitBtn.disabled = true;
-      submitBtn.textContent = 'Placing Bet...';
+      submitBtn.textContent = 'Processing...';
 
       try {
         const res = await fetch('/api/bet', {
@@ -768,13 +757,12 @@
 
         const data = await res.json();
         if (!res.ok || !data.success) {
-          throw new Error(data.error || 'Failed to place bet');
+          throw new Error(data.error || 'Failed to place prediction');
         }
 
-        // Success
         playBetSound();
         launchConfetti();
-        showToast(`Bet of ${amount} 🍒 on @${activeBetSelection.nomineeName} confirmed!`, 'success');
+        showToast(`Stake placed: ${amount} pts on @${activeBetSelection.nomineeName}`, 'success');
 
         closeModal('bet-modal');
         fetchState(state.currentUser.id);
@@ -782,17 +770,16 @@
         showToast(err.message, 'error');
       } finally {
         submitBtn.disabled = false;
-        submitBtn.textContent = '💎 Confirm Bet';
+        submitBtn.textContent = 'Confirm Stake';
       }
     }
 
-    // User Login / Registration
     async function submitLogin() {
       const input = document.getElementById('login-username-input');
       const username = input.value.trim().replace(/^@/, '');
 
       if (!username) {
-        showToast('Please enter a username!', 'warning');
+        showToast('Please enter a username', 'warning');
         return;
       }
 
@@ -809,15 +796,13 @@
         localStorage.setItem('lanacord_user_id', data.user.id);
         closeModal('login-modal');
         input.value = '';
-        showToast(`Welcome to the Gala, @${data.user.username}!`, 'success');
-        playChimeSound();
+        showToast(`Signed in as @${data.user.username}`, 'success');
         fetchState(data.user.id);
       } catch (err) {
         showToast(err.message, 'error');
       }
     }
 
-    // Claim daily free coins
     async function claimDailyCoins() {
       if (!state.currentUser) return;
       try {
@@ -830,94 +815,89 @@
         if (!res.ok || !data.success) throw new Error('Claim failed');
 
         playBetSound();
-        showToast('Claimed +250 🍒 emergency Lana Coins!', 'success');
+        showToast('Claimed +250 points', 'success');
         fetchState(state.currentUser.id);
       } catch (err) {
         showToast(err.message, 'error');
       }
     }
 
-    // Render My Bets Modal
     function renderMyBets() {
       const list = document.getElementById('mybets-list');
       const bets = state.userBets || [];
 
       if (!bets.length) {
         list.innerHTML = `
-          <div style="text-align: center; padding: 40px 20px; color: var(--text-muted);">
-            <div style="font-size: 36px; margin-bottom: 8px;">🎟️</div>
-            <div>No bets placed yet! Browse categories and back your favorites.</div>
+          <div style="text-align: center; padding: 40px 20px; color: var(--text-tertiary); font-size: 0.85rem;">
+            No predictions placed yet.
           </div>
         `;
         return;
       }
 
       list.innerHTML = bets.map(b => {
-        let statusBadge = `<span class="badge" style="background: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.4); padding: 3px 8px; border-radius: 6px; font-size: 0.75rem; font-weight: 700;">PENDING ⏳</span>`;
+        let statusTag = `<span style="font-size:0.72rem; color:var(--amber); font-weight:600;">PENDING</span>`;
         if (b.status === 'won') {
-          statusBadge = `<span class="badge" style="background: rgba(16, 185, 129, 0.2); color: #6ee7b7; border: 1px solid rgba(16, 185, 129, 0.4); padding: 3px 8px; border-radius: 6px; font-size: 0.75rem; font-weight: 700;">WON 🏆 (+${b.payoutReceived} 🍒)</span>`;
+          statusTag = `<span style="font-size:0.72rem; color:#6ee7b7; font-weight:600;">WON (+${b.payoutReceived} pts)</span>`;
         } else if (b.status === 'lost') {
-          statusBadge = `<span class="badge" style="background: rgba(225, 29, 72, 0.2); color: #fda4af; border: 1px solid rgba(225, 29, 72, 0.4); padding: 3px 8px; border-radius: 6px; font-size: 0.75rem; font-weight: 700;">LOST ❌</span>`;
+          statusTag = `<span style="font-size:0.72rem; color:#fda4af; font-weight:600;">SETTLED</span>`;
         } else if (b.status === 'refunded') {
-          statusBadge = `<span class="badge" style="background: rgba(148, 163, 184, 0.2); color: #cbd5e1; border: 1px solid rgba(148, 163, 184, 0.4); padding: 3px 8px; border-radius: 6px; font-size: 0.75rem; font-weight: 700;">REFUNDED ↩️</span>`;
+          statusTag = `<span style="font-size:0.72rem; color:var(--text-tertiary); font-weight:600;">REFUNDED</span>`;
         }
 
         return `
-          <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 12px 16px;">
-            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 6px;">
+          <div style="background: var(--bg-subtle); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); padding: 10px 14px;">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 4px;">
               <div>
-                <span style="font-size: 0.75rem; color: var(--gold-light); font-weight: 700; text-transform: uppercase;">${escapeHtml(b.categoryName)}</span>
-                <div style="font-weight: 700; font-size: 1rem; color: #fff;">@${escapeHtml(b.nomineeName)}</div>
+                <span style="font-size: 0.68rem; color: var(--gold-primary); text-transform: uppercase; font-weight: 600;">${escapeHtml(b.categoryName)}</span>
+                <div style="font-weight: 600; font-size: 0.92rem; color: var(--text-primary);">@${escapeHtml(b.nomineeName)}</div>
               </div>
-              <div>${statusBadge}</div>
+              <div>${statusTag}</div>
             </div>
-            <div style="display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--text-muted); border-top: 1px solid rgba(255,255,255,0.05); padding-top: 6px; margin-top: 6px;">
-              <span>Wager: <strong style="color: #fff;">${b.amount} 🍒</strong> (${b.oddsAtBet}x)</span>
-              <span>Potential: <strong style="color: var(--gold-light);">${b.potentialPayout} 🍒</strong></span>
+            <div style="display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--text-tertiary); border-top: 1px solid var(--border-subtle); padding-top: 6px; margin-top: 6px; font-family: var(--font-mono);">
+              <span>Stake: ${b.amount} pts (${b.oddsAtBet}x)</span>
+              <span>Potential Return: <strong style="color: var(--gold-light);">${b.potentialPayout} pts</strong></span>
             </div>
           </div>
         `;
       }).join('');
     }
 
-    // Render Leaderboard Modal
     function renderLeaderboard() {
       const list = document.getElementById('leaderboard-list');
       const leaders = state.leaderboard || [];
 
       if (!leaders.length) {
-        list.innerHTML = `<div style="text-align: center; color: var(--text-muted); padding: 20px;">No bettors registered yet.</div>`;
+        list.innerHTML = `<div style="text-align: center; color: var(--text-tertiary); padding: 20px; font-size: 0.85rem;">No participants yet.</div>`;
         return;
       }
 
       list.innerHTML = leaders.map((u, idx) => {
-        let medal = `#${idx + 1}`;
-        if (idx === 0) medal = '🥇';
-        if (idx === 1) medal = '🥈';
-        if (idx === 2) medal = '🥉';
-
         const isMe = state.currentUser && state.currentUser.id === u.id;
+        const initials = getAvatarInitials(u.username);
+        const palette = getAvatarColorStyle(u.username);
 
         return `
-          <div style="display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; background: ${isMe ? 'rgba(212, 175, 55, 0.15)' : 'rgba(255,255,255,0.03)'}; border: 1px solid ${isMe ? 'var(--gold-primary)' : 'var(--border-subtle)'}; border-radius: var(--radius-md);">
-            <div style="display: flex; align-items: center; gap: 12px;">
-              <span style="font-size: 1.1rem; width: 24px; text-align: center;">${medal}</span>
+          <div style="display: flex; align-items: center; justify-content: space-between; padding: 8px 12px; background: ${isMe ? 'var(--gold-subtle)' : 'var(--bg-subtle)'}; border: 1px solid ${isMe ? 'var(--border-accent)' : 'var(--border-subtle)'}; border-radius: var(--radius-sm);">
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <span class="font-mono" style="font-size: 0.8rem; color: var(--text-tertiary); width: 18px;">#${idx + 1}</span>
+              <div class="nominee-badge-initials" style="width: 26px; height: 26px; font-size: 0.7rem; background:${palette.bg}; color:${palette.text}; border-color:${palette.border};">
+                ${initials}
+              </div>
               <div>
-                <strong style="color: ${isMe ? 'var(--gold-light)' : '#fff'};">@${escapeHtml(u.username)}</strong>
-                ${isMe ? '<span style="font-size: 0.7rem; background: var(--gold-primary); color: #000; padding: 1px 6px; border-radius: 4px; font-weight: 800; margin-left: 6px;">YOU</span>' : ''}
-                <div style="font-size: 0.72rem; color: var(--text-muted);">${u.betsPlaced} bets placed</div>
+                <strong style="color: ${isMe ? 'var(--gold-light)' : 'var(--text-primary)'}; font-size: 0.88rem;">@${escapeHtml(u.username)}</strong>
+                ${isMe ? '<span style="font-size: 0.65rem; background: var(--gold-primary); color: #000; padding: 1px 4px; border-radius: 2px; font-weight: 700; margin-left: 4px;">YOU</span>' : ''}
               </div>
             </div>
-            <div style="text-align: right;">
-              <div style="font-weight: 800; color: var(--gold-light); font-size: 1rem;">🍒 ${u.balance.toLocaleString()}</div>
-              <div style="font-size: 0.72rem; color: #6ee7b7;">+${u.totalWon.toLocaleString()} won</div>
+            <div style="text-align: right;" class="font-mono">
+              <div style="font-weight: 600; color: var(--gold-light); font-size: 0.9rem;">${u.balance.toLocaleString()} pts</div>
+              <div style="font-size: 0.68rem; color: #6ee7b7;">+${u.totalWon.toLocaleString()} won</div>
             </div>
           </div>
         `;
       }).join('');
     }
 
-    // Modal Helpers
     function openModal(id) {
       document.getElementById(id).classList.add('open');
     }
@@ -939,10 +919,6 @@
     function escapeAttr(str) {
       if (!str) return '';
       return String(str).replace(/'/g, "\\'").replace(/"/g, '&quot;');
-    }
-
-    function playChimeSound() {
-      playBetSound();
     }
   </script>
 </body>

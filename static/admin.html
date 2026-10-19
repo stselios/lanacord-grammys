@@ -3,75 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Lanacord Grammys 2026 — Executive Admin Suite</title>
+  <title>Lanacord Grammys — Ceremony Administration</title>
   <link rel="stylesheet" href="/static/style.css">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🛡️</text></svg>">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23c5a059%22 stroke-width=%222%22><rect x=%223%22 y=%2211%22 width=%2218%22 height=%2211%22 rx=%222%22 ry=%222%22/><path d=%22M7 11V7a5 5 0 0 1 10 0v4%22/></svg>">
   <style>
-    .admin-badge {
-      background: rgba(212, 175, 55, 0.15);
-      border: 1px solid var(--border-gold);
-      color: var(--gold-light);
-      padding: 4px 10px;
-      border-radius: var(--radius-full);
-      font-size: 0.75rem;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .admin-card {
-      background: #141013;
-      border: 1px solid var(--border-subtle);
-      border-radius: var(--radius-lg);
-      padding: 22px;
-      margin-bottom: 24px;
-      transition: border-color 0.2s, box-shadow 0.2s;
-    }
-    .admin-card:hover {
-      border-color: rgba(212, 175, 55, 0.35);
-    }
-    .admin-card.card-winner {
-      border-color: var(--gold-primary);
-      box-shadow: 0 0 25px rgba(212, 175, 55, 0.15);
-    }
-    .nominee-admin-pill {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      padding: 10px 14px;
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid var(--border-subtle);
-      border-radius: var(--radius-md);
-      transition: all 0.2s;
-    }
-    .nominee-admin-pill:hover {
-      background: rgba(255, 255, 255, 0.06);
-      border-color: rgba(255, 255, 255, 0.15);
-    }
-    .nominee-admin-pill.is-winner {
-      background: rgba(212, 175, 55, 0.15);
-      border-color: var(--gold-primary);
-    }
-    .sync-status {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 0.78rem;
-      color: #6ee7b7;
-      font-weight: 600;
-    }
-    .sync-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: #10b981;
-      box-shadow: 0 0 8px #10b981;
-    }
-
-    /* Auth Gate Screen */
     #auth-gate-screen {
       min-height: 80vh;
       display: flex;
@@ -80,185 +15,207 @@
       padding: 20px;
     }
     .auth-gate-box {
-      background: #161014;
-      border: 1px solid var(--border-gold);
-      border-radius: var(--radius-lg);
-      padding: 36px 30px;
-      max-width: 440px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-medium);
+      border-radius: var(--radius-md);
+      padding: 36px 32px;
+      max-width: 400px;
       width: 100%;
-      text-align: center;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8), var(--shadow-gold);
-      animation: fadeIn 0.3s ease-out;
+      box-shadow: var(--shadow-lg);
+    }
+    .admin-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      margin-bottom: 20px;
+      transition: border-color 0.15s ease;
+    }
+    .admin-card:hover {
+      border-color: var(--border-medium);
+    }
+    .admin-card.is-settled {
+      border-color: var(--border-accent);
+    }
+    .nominee-admin-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 8px 12px;
+      background: var(--bg-subtle);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      transition: all 0.12s ease;
+    }
+    .nominee-admin-row:hover {
+      border-color: var(--border-medium);
+    }
+    .nominee-admin-row.winner-row {
+      background: var(--gold-subtle);
+      border-color: var(--border-accent);
     }
   </style>
 </head>
 <body>
 
   <!-- ============================================== -->
-  <!-- AUTHENTICATION GATE SCREEN (SHOWN WHEN LOCKED) -->
+  <!-- AUTHENTICATION GATE SCREEN -->
   <!-- ============================================== -->
   <div id="auth-gate-screen">
     <div class="auth-gate-box">
-      <div style="font-size: 48px; margin-bottom: 14px; filter: drop-shadow(0 0 12px rgba(212, 175, 55, 0.5));">🔒</div>
-      <div class="admin-badge" style="margin-bottom: 10px;">Executive Verification</div>
-      <h2 style="font-size: 1.6rem; font-weight: 900; color: #fff; margin-bottom: 8px;">
-        Admin Suite Restricted
+      <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
+        <span class="admin-badge">Host Restricted</span>
+      </div>
+      <h2 style="font-family: var(--font-serif); font-size: 1.8rem; font-weight: 600; color: var(--text-primary); margin-bottom: 6px; line-height: 1.1;">
+        Ceremony Director Access
       </h2>
-      <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 24px; line-height: 1.5;">
-        This portal is reserved for Lanacord Grammys hosts. Enter your executive passcode to manage categories, server nominees, and declare winners.
+      <p style="font-size: 0.82rem; color: var(--text-secondary); margin-bottom: 24px; line-height: 1.5;">
+        Enter your administrative passcode to configure categories, manage nominees, and record winners.
       </p>
 
       <form id="auth-form" onsubmit="handleAuthSubmit(event)">
-        <div class="form-group" style="text-align: left; margin-bottom: 20px;">
-          <label class="form-label">Executive Passcode</label>
+        <div class="form-group" style="margin-bottom: 20px;">
+          <label class="form-label">Administrative Passcode</label>
           <div style="position: relative;">
-            <input type="password" id="admin-passcode-input" class="form-input" placeholder="Enter admin passcode..." autocomplete="current-password" autofocus required>
-            <button type="button" onclick="togglePasswordVisibility()" style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 1.1rem;">
-              👁️
+            <input type="password" id="admin-passcode-input" class="form-input font-mono" placeholder="Passcode..." autocomplete="current-password" autofocus required>
+            <button type="button" onclick="togglePasswordVisibility()" style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 0.85rem;">
+              Show
             </button>
           </div>
-          <div id="auth-error-msg" style="color: #fda4af; font-size: 0.8rem; margin-top: 8px; display: none;"></div>
+          <div id="auth-error-msg" style="color: #fda4af; font-size: 0.75rem; margin-top: 8px; display: none;"></div>
         </div>
 
-        <button type="submit" id="btn-unlock-suite" class="btn btn-gold" style="width: 100%; padding: 12px; font-size: 1rem;">
-          🔓 Unlock Admin Suite
+        <button type="submit" id="btn-unlock-suite" class="btn btn-primary" style="width: 100%; padding: 10px;">
+          Authenticate
         </button>
       </form>
 
-      <div style="margin-top: 24px; padding-top: 18px; border-top: 1px solid var(--border-subtle); display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem;">
-        <span style="color: var(--text-muted);">Accidental click?</span>
-        <a href="/" class="btn btn-outline btn-sm">👑 Return to Voter Gala</a>
+      <div style="margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--border-subtle); display: flex; justify-content: space-between; align-items: center; font-size: 0.78rem;">
+        <span style="color: var(--text-tertiary);">Public visitor?</span>
+        <a href="/" class="btn btn-subtle btn-sm">Return to Gala</a>
       </div>
     </div>
   </div>
 
   <!-- ============================================== -->
-  <!-- MAIN ADMIN DASHBOARD (SHOWN WHEN UNLOCKED)     -->
+  <!-- MAIN ADMIN CONSOLE (SHOWN WHEN AUTHENTICATED)  -->
   <!-- ============================================== -->
   <div id="admin-dashboard-container" style="display: none;">
-    <!-- Navbar -->
     <header class="navbar">
       <a href="/admin" class="nav-brand">
-        <div class="brand-trophy">🛡️</div>
-        <div class="brand-text">
-          <h1>LANACORD GRAMMYS</h1>
-          <div class="brand-badge">Executive Admin & Ceremony Director</div>
+        <div class="brand-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+          </svg>
+        </div>
+        <div class="brand-text-wrap">
+          <span class="brand-title">Lanacord Console</span>
+          <span class="brand-subtitle">Ceremony Administration</span>
         </div>
       </a>
 
       <div class="nav-center">
-        <div class="sync-status">
-          <span class="sync-dot"></span>
-          Real-Time Live Sync Active (SSE)
+        <div class="live-pill">
+          <span class="live-indicator"></span>
+          Live Sync Active
         </div>
       </div>
 
       <div class="nav-actions">
-        <!-- Audio Toggle -->
-        <button id="btn-audio" class="btn btn-outline btn-icon" title="Toggle Sound">
-          <span id="audio-icon">🔊</span>
+        <!-- Sound Toggle -->
+        <button id="btn-audio" class="btn btn-subtle btn-icon-only" title="Toggle audio cues">
+          <svg id="audio-icon-svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+            <line x1="23" y1="9" x2="17" y2="15"/>
+            <line x1="17" y1="9" x2="23" y2="15"/>
+          </svg>
         </button>
 
-        <!-- Change Passcode Button -->
-        <button class="btn btn-outline" onclick="openModal('change-passcode-modal')">
-          🔑 Change Passcode
+        <button class="btn btn-secondary btn-sm" onclick="openModal('change-passcode-modal')">
+          Change Passcode
         </button>
 
-        <!-- Reset & Defaults Menu Button -->
-        <button class="btn btn-outline" onclick="openModal('reset-modal')">
-          ⚙️ Reset / Presets
+        <button class="btn btn-secondary btn-sm" onclick="openModal('reset-modal')">
+          Reset Options
         </button>
 
-        <!-- View Public Voter Site -->
-        <a href="/" target="_blank" class="btn btn-gold">
-          👑 View Voter Site ↗
+        <a href="/" target="_blank" class="btn btn-primary btn-sm">
+          View Voter Site ↗
         </a>
 
-        <!-- Lock / Log Out Button -->
-        <button class="btn btn-velvet btn-sm" onclick="handleLockOut()" title="Lock Admin Suite">
-          🔒 Lock Suite
+        <button class="btn btn-subtle btn-sm" onclick="handleLockOut()">
+          Lock
         </button>
       </div>
     </header>
 
     <main class="container">
-      <!-- Header Summary & Quick Actions -->
-      <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 24px; flex-wrap: wrap; gap: 16px;">
+      <!-- Header Summary -->
+      <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 28px; flex-wrap: wrap; gap: 16px;">
         <div>
-          <div class="admin-badge">Ceremony Controls</div>
-          <h2 style="font-size: 2.2rem; font-weight: 900; margin-top: 6px; color: #fff;">
-            Category & Member Manager
+          <span class="admin-badge" style="margin-bottom: 8px;">Event Controls</span>
+          <h2 style="font-family: var(--font-serif); font-size: 2.2rem; font-weight: 600; color: var(--text-primary); margin-top: 4px;">
+            Categories & Nominee Roster
           </h2>
-          <p style="color: var(--text-muted); font-size: 0.95rem; max-width: 650px;">
-            Add or remove categories, manage nominated Discord members, lock betting pools, and declare winners. All actions update the voter site <strong>instantly in real time</strong>.
+          <p style="color: var(--text-secondary); font-size: 0.88rem; max-width: 600px; margin-top: 4px;">
+            Configure categories, update candidate members, lock open prediction pools, and record official award winners. Changes propagate in real time.
           </p>
         </div>
 
-        <div style="display: flex; gap: 12px; flex-wrap: wrap;">
-          <button class="btn btn-gold" onclick="openAddCategoryModal()">
-            ✨ + Add New Category
-          </button>
+        <button class="btn btn-primary" onclick="openAddCategoryModal()">
+          + Add Category
+        </button>
+      </div>
+
+      <!-- Metrics Strip -->
+      <div class="metrics-strip" style="margin-bottom: 28px;">
+        <div class="metric-cell">
+          <span class="metric-label">Total Categories</span>
+          <span class="metric-value" id="admin-stat-categories">0</span>
+        </div>
+        <div class="metric-cell">
+          <span class="metric-label">Registered Nominees</span>
+          <span class="metric-value" id="admin-stat-nominees">0</span>
+        </div>
+        <div class="metric-cell">
+          <span class="metric-label">Predictions Placed</span>
+          <span class="metric-value" id="admin-stat-bets">0</span>
+        </div>
+        <div class="metric-cell">
+          <span class="metric-label">Pool Volume</span>
+          <span class="metric-value" id="admin-stat-volume">0 pts</span>
         </div>
       </div>
 
-      <!-- Stats Ribbon -->
-      <div class="stats-ribbon" style="margin-bottom: 30px;">
-        <div class="stat-card">
-          <div class="stat-icon">🏆</div>
-          <div class="stat-content">
-            <div class="stat-val" id="admin-stat-categories">0</div>
-            <div class="stat-label">Total Categories</div>
-          </div>
+      <!-- Controls -->
+      <div class="filter-toolbar">
+        <div class="filter-segments" id="admin-section-tabs">
+          <button class="segment-btn active" data-section="all">
+            All Categories <span class="segment-count" id="count-all">0</span>
+          </button>
+          <button class="segment-btn" data-section="Album Fan Categories">
+            Album Fan <span class="segment-count" id="count-album">0</span>
+          </button>
+          <button class="segment-btn" data-section="Most Likely To Categories">
+            Most Likely To <span class="segment-count" id="count-likely">0</span>
+          </button>
+          <button class="segment-btn" data-section="Best/Most/Favorite Categories">
+            Best & Favorite <span class="segment-count" id="count-best">0</span>
+          </button>
         </div>
-        <div class="stat-card">
-          <div class="stat-icon">👥</div>
-          <div class="stat-content">
-            <div class="stat-val" id="admin-stat-nominees">0</div>
-            <div class="stat-label">Total Nominees</div>
-          </div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-icon">🎟️</div>
-          <div class="stat-content">
-            <div class="stat-val" id="admin-stat-bets">0</div>
-            <div class="stat-label">Bets Placed</div>
-          </div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-icon">🍒</div>
-          <div class="stat-content">
-            <div class="stat-val" id="admin-stat-volume">0</div>
-            <div class="stat-label">Total Pool Volume</div>
-          </div>
+
+        <div class="search-input-wrap">
+          <svg class="search-input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"/>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          </svg>
+          <input type="text" id="admin-category-search" class="search-field" placeholder="Filter categories or nominees...">
         </div>
       </div>
 
-      <!-- Filter & Search Controls -->
-      <div class="controls-bar">
-        <div class="tabs-wrapper" id="admin-section-tabs">
-          <button class="tab-btn active" data-section="all">
-            All Categories (<span id="count-all">0</span>)
-          </button>
-          <button class="tab-btn" data-section="Album Fan Categories">
-            💿 Album Fan (<span id="count-album">0</span>)
-          </button>
-          <button class="tab-btn" data-section="Most Likely To Categories">
-            🚨 Most Likely To (<span id="count-likely">0</span>)
-          </button>
-          <button class="tab-btn" data-section="Best/Most/Favorite Categories">
-            👑 Best / Most / Favorite (<span id="count-best">0</span>)
-          </button>
-        </div>
-
-        <div class="search-filter-row">
-          <div class="search-box">
-            <span class="search-icon">🔍</span>
-            <input type="text" id="admin-category-search" placeholder="Filter categories or nominees...">
-          </div>
-        </div>
-      </div>
-
-      <!-- Categories Management List -->
+      <!-- Category Management List -->
       <div id="admin-categories-list">
         <!-- Injected dynamically via JS -->
       </div>
@@ -269,10 +226,10 @@
   <!-- MODAL: ADD CATEGORY -->
   <!-- ============================================== -->
   <div class="modal-overlay" id="add-category-modal">
-    <div class="modal-content">
+    <div class="modal-dialog">
       <div class="modal-header">
-        <h3 class="modal-title">✨ Add Grammys Category</h3>
-        <button class="modal-close" onclick="closeModal('add-category-modal')">&times;</button>
+        <h3 class="modal-title">Add Award Category</h3>
+        <button class="modal-close-btn" onclick="closeModal('add-category-modal')">&times;</button>
       </div>
 
       <div class="form-group">
@@ -291,13 +248,13 @@
       </div>
 
       <div class="form-group">
-        <label class="form-label">Description / Subtitle</label>
-        <textarea id="new-cat-desc" class="form-textarea" rows="3" placeholder="Explain the criteria or vibe for this category..."></textarea>
+        <label class="form-label">Description</label>
+        <textarea id="new-cat-desc" class="form-textarea" rows="2" placeholder="Description of the nomination criteria..."></textarea>
       </div>
 
-      <div style="display: flex; gap: 10px; margin-top: 20px;">
-        <button class="btn btn-outline" style="flex: 1;" onclick="closeModal('add-category-modal')">Cancel</button>
-        <button class="btn btn-gold" style="flex: 2;" onclick="submitNewCategory()">Create Category</button>
+      <div style="display: flex; gap: 8px; margin-top: 20px;">
+        <button class="btn btn-secondary" style="flex: 1;" onclick="closeModal('add-category-modal')">Cancel</button>
+        <button class="btn btn-primary" style="flex: 2;" onclick="submitNewCategory()">Create Category</button>
       </div>
     </div>
   </div>
@@ -306,28 +263,28 @@
   <!-- MODAL: BULK ADD NOMINEES -->
   <!-- ============================================== -->
   <div class="modal-overlay" id="bulk-nominees-modal">
-    <div class="modal-content">
+    <div class="modal-dialog">
       <div class="modal-header">
         <div>
-          <h3 class="modal-title">⚡ Bulk Add Members</h3>
-          <p id="bulk-modal-category-name" style="font-size: 0.85rem; color: var(--gold-light); margin-top: 4px;">
-            Category
+          <h3 class="modal-title">Bulk Nominate Members</h3>
+          <p id="bulk-modal-category-name" style="font-size: 0.8rem; color: var(--gold-light); margin-top: 2px;">
+            Target Category
           </p>
         </div>
-        <button class="modal-close" onclick="closeModal('bulk-nominees-modal')">&times;</button>
+        <button class="modal-close-btn" onclick="closeModal('bulk-nominees-modal')">&times;</button>
       </div>
 
       <div class="form-group">
-        <label class="form-label">Member Usernames</label>
-        <p style="font-size: 0.78rem; color: var(--text-muted); margin-bottom: 8px;">
-          Paste multiple usernames separated by commas, spaces, or line breaks (with or without @):
+        <label class="form-label">Usernames</label>
+        <p style="font-size: 0.75rem; color: var(--text-tertiary); margin-bottom: 8px;">
+          Paste multiple handles separated by commas or line breaks (with or without @):
         </p>
-        <textarea id="bulk-nominees-input" class="form-textarea" rows="6" placeholder="@cinnamon_girl, @venice_bitch, @ultraviolence&#10;norman_stan&#10;diet_mtn_dew"></textarea>
+        <textarea id="bulk-nominees-input" class="form-textarea font-mono" rows="6" placeholder="@cinnamon_girl, @venice_bitch, @ultraviolence&#10;norman_stan&#10;diet_mtn_dew"></textarea>
       </div>
 
-      <div style="display: flex; gap: 10px;">
-        <button class="btn btn-outline" style="flex: 1;" onclick="closeModal('bulk-nominees-modal')">Cancel</button>
-        <button class="btn btn-gold" style="flex: 2;" onclick="submitBulkNominees()">Add All Members</button>
+      <div style="display: flex; gap: 8px;">
+        <button class="btn btn-secondary" style="flex: 1;" onclick="closeModal('bulk-nominees-modal')">Cancel</button>
+        <button class="btn btn-primary" style="flex: 2;" onclick="submitBulkNominees()">Add Members</button>
       </div>
     </div>
   </div>
@@ -336,20 +293,20 @@
   <!-- MODAL: CHANGE ADMIN PASSCODE -->
   <!-- ============================================== -->
   <div class="modal-overlay" id="change-passcode-modal">
-    <div class="modal-content">
+    <div class="modal-dialog">
       <div class="modal-header">
-        <h3 class="modal-title">🔑 Change Admin Passcode</h3>
-        <button class="modal-close" onclick="closeModal('change-passcode-modal')">&times;</button>
+        <h3 class="modal-title">Update Passcode</h3>
+        <button class="modal-close-btn" onclick="closeModal('change-passcode-modal')">&times;</button>
       </div>
 
       <div class="form-group">
         <label class="form-label">New Passcode</label>
-        <input type="password" id="new-admin-passcode-input" class="form-input" placeholder="Enter new secret passcode (min 4 chars)..." minlength="4">
+        <input type="password" id="new-admin-passcode-input" class="form-input font-mono" placeholder="Minimum 4 characters..." minlength="4">
       </div>
 
-      <div style="display: flex; gap: 10px; margin-top: 20px;">
-        <button class="btn btn-outline" style="flex: 1;" onclick="closeModal('change-passcode-modal')">Cancel</button>
-        <button class="btn btn-gold" style="flex: 2;" onclick="submitChangePasscode()">Save Passcode</button>
+      <div style="display: flex; gap: 8px; margin-top: 20px;">
+        <button class="btn btn-secondary" style="flex: 1;" onclick="closeModal('change-passcode-modal')">Cancel</button>
+        <button class="btn btn-primary" style="flex: 2;" onclick="submitChangePasscode()">Save Passcode</button>
       </div>
     </div>
   </div>
@@ -358,30 +315,30 @@
   <!-- MODAL: RESET & DEFAULTS -->
   <!-- ============================================== -->
   <div class="modal-overlay" id="reset-modal">
-    <div class="modal-content">
+    <div class="modal-dialog">
       <div class="modal-header">
-        <h3 class="modal-title">⚙️ Reset & Presets</h3>
-        <button class="modal-close" onclick="closeModal('reset-modal')">&times;</button>
+        <h3 class="modal-title">Reset Operations</h3>
+        <button class="modal-close-btn" onclick="closeModal('reset-modal')">&times;</button>
       </div>
 
-      <div style="display: flex; flex-direction: column; gap: 14px;">
-        <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-subtle); padding: 16px; border-radius: var(--radius-md);">
-          <div style="font-weight: 700; color: #fff; margin-bottom: 4px;">🧹 Reset All Bets</div>
-          <div style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 12px;">
-            Clears all placed bets and resets pending pools and winners, refunding active wagers back to users.
+      <div style="display: flex; flex-direction: column; gap: 12px;">
+        <div style="background: var(--bg-subtle); border: 1px solid var(--border-subtle); padding: 14px; border-radius: var(--radius-sm);">
+          <div style="font-weight: 600; color: var(--text-primary); margin-bottom: 2px;">Reset All Stakes</div>
+          <div style="font-size: 0.78rem; color: var(--text-tertiary); margin-bottom: 10px;">
+            Clears all prediction records and refunds stakes to participants. Category structures remain intact.
           </div>
-          <button class="btn btn-outline-gold btn-sm" onclick="executeReset('bets_only')">
-            Clear Bets & Results
+          <button class="btn btn-secondary btn-sm" onclick="executeReset('bets_only')">
+            Clear Active Stakes
           </button>
         </div>
 
-        <div style="background: rgba(225, 29, 72, 0.08); border: 1px solid rgba(225, 29, 72, 0.3); padding: 16px; border-radius: var(--radius-md);">
-          <div style="font-weight: 700; color: #fda4af; margin-bottom: 4px;">🔄 Restore 33 Default Categories</div>
-          <div style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 12px;">
-            Restores the original 33 Lanacord Grammys categories (Album Fan, Most Likely To, Best/Most/Favorite) with fresh nominee rosters.
+        <div style="background: var(--crimson-muted); border: 1px solid rgba(136, 19, 55, 0.3); padding: 14px; border-radius: var(--radius-sm);">
+          <div style="font-weight: 600; color: #fda4af; margin-bottom: 2px;">Restore 33 Default Categories</div>
+          <div style="font-size: 0.78rem; color: var(--text-tertiary); margin-bottom: 10px;">
+            Rebuilds the standard 33 Lanacord Grammys categories with fresh nominee rosters and clears all stakes.
           </div>
-          <button class="btn btn-velvet btn-sm" onclick="executeReset('defaults')">
-            Restore Default 33 Categories
+          <button class="btn btn-danger-subtle btn-sm" onclick="executeReset('defaults')">
+            Restore 33 Defaults
           </button>
         </div>
       </div>
@@ -402,7 +359,6 @@
     let searchQuery = '';
     let currentBulkCategoryId = null;
 
-    // Check Authentication on Page Load
     document.addEventListener('DOMContentLoaded', async () => {
       setupFilters();
       setupAudioToggle();
@@ -416,11 +372,9 @@
         }
       }
 
-      // If not authenticated, show gate screen
       showAuthGate();
     });
 
-    // Passcode Verification API call
     async function verifyPasscode(pwd) {
       try {
         const res = await fetch('/api/admin/verify', {
@@ -435,7 +389,6 @@
       }
     }
 
-    // Handle Form Submit on Login Gate
     async function handleAuthSubmit(e) {
       e.preventDefault();
       const input = document.getElementById('admin-passcode-input');
@@ -451,18 +404,16 @@
 
       const ok = await verifyPasscode(pwd);
       btn.disabled = false;
-      btn.textContent = '🔓 Unlock Admin Suite';
+      btn.textContent = 'Authenticate';
 
       if (ok) {
         sessionStorage.setItem('lanacord_admin_pwd', pwd);
-        showToast('Executive Access Granted!', 'success');
-        playFanfare();
+        showToast('Authenticated as Ceremony Host', 'success');
         unlockDashboard();
       } else {
-        errBox.textContent = '❌ Incorrect admin passcode. Access denied.';
+        errBox.textContent = 'Invalid administrator passcode.';
         errBox.style.display = 'block';
         input.select();
-        playClick();
       }
     }
 
@@ -483,7 +434,6 @@
       fetchState();
       initSSE();
 
-      // Polling fallback
       setInterval(() => {
         if (sessionStorage.getItem('lanacord_admin_pwd')) {
           fetchState(true);
@@ -492,12 +442,10 @@
     }
 
     function handleLockOut() {
-      playClick();
       showAuthGate();
-      showToast('Admin suite locked.', 'info');
+      showToast('Console locked', 'info');
     }
 
-    // Authenticated API Fetch Wrapper
     async function adminFetch(url, options = {}) {
       const pwd = sessionStorage.getItem('lanacord_admin_pwd') || '';
       options.headers = options.headers || {};
@@ -506,7 +454,7 @@
 
       const res = await fetch(url, options);
       if (res.status === 401) {
-        showToast('Session expired or passcode invalid. Please re-enter passcode.', 'error');
+        showToast('Session expired. Please re-authenticate.', 'error');
         showAuthGate();
         throw new Error('Unauthorized');
       }
@@ -524,10 +472,8 @@
       }
     }
 
-    // Server-Sent Events (SSE)
     function initSSE() {
       const evtSource = new EventSource('/api/events');
-
       evtSource.onmessage = () => fetchState(true);
       evtSource.addEventListener('CATEGORY_ADDED', () => fetchState(true));
       evtSource.addEventListener('CATEGORY_DELETED', () => fetchState(true));
@@ -544,17 +490,28 @@
 
     function setupAudioToggle() {
       const btn = document.getElementById('btn-audio');
-      const icon = document.getElementById('audio-icon');
+      const icon = document.getElementById('audio-icon-svg');
       btn.addEventListener('click', () => {
         soundEnabled = !soundEnabled;
-        icon.textContent = soundEnabled ? '🔊' : '🔇';
-        btn.classList.toggle('btn-outline-gold', soundEnabled);
-        showToast(soundEnabled ? 'Audio FX Enabled' : 'Audio FX Muted');
+        if (soundEnabled) {
+          icon.innerHTML = `
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+            <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/>
+          `;
+          showToast('Audio cues enabled', 'info');
+        } else {
+          icon.innerHTML = `
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+            <line x1="23" y1="9" x2="17" y2="15"/>
+            <line x1="17" y1="9" x2="23" y2="15"/>
+          `;
+          showToast('Audio muted', 'info');
+        }
       });
     }
 
     function setupFilters() {
-      const tabs = document.querySelectorAll('#admin-section-tabs .tab-btn');
+      const tabs = document.querySelectorAll('#admin-section-tabs .segment-btn');
       tabs.forEach(tab => {
         tab.addEventListener('click', () => {
           tabs.forEach(t => t.classList.remove('active'));
@@ -582,7 +539,7 @@
       document.getElementById('admin-stat-categories').textContent = stats.totalCategories || 0;
       document.getElementById('admin-stat-nominees').textContent = stats.totalNominees || 0;
       document.getElementById('admin-stat-bets').textContent = (stats.totalBets || 0).toLocaleString();
-      document.getElementById('admin-stat-volume').textContent = (stats.totalVolume || 0).toLocaleString() + ' 🍒';
+      document.getElementById('admin-stat-volume').textContent = (stats.totalVolume || 0).toLocaleString() + ' pts';
     }
 
     function renderCounts() {
@@ -611,9 +568,8 @@
 
       if (!list.length) {
         container.innerHTML = `
-          <div style="text-align: center; padding: 60px 20px; color: var(--text-muted); background: var(--bg-card); border-radius: var(--radius-lg);">
-            <div style="font-size: 32px; margin-bottom: 8px;">🥀</div>
-            <h3>No categories match your filters</h3>
+          <div style="text-align: center; padding: 48px 20px; color: var(--text-tertiary); background: var(--bg-surface); border-radius: var(--radius-md);">
+            No matching categories found.
           </div>
         `;
         return;
@@ -624,114 +580,99 @@
         const winnerNominee = hasWinner ? (cat.nominees || []).find(n => n.id === cat.winnerId) : null;
 
         return `
-          <div class="admin-card ${hasWinner ? 'card-winner' : ''}" id="admin-cat-${cat.id}">
-            <!-- Card Header -->
-            <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; margin-bottom: 16px; flex-wrap: wrap;">
+          <div class="admin-card ${hasWinner ? 'is-settled' : ''}" id="admin-cat-${cat.id}">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; margin-bottom: 14px; flex-wrap: wrap;">
               <div>
-                <span class="card-section-tag">${escapeHtml(cat.section)}</span>
-                <h3 style="font-size: 1.4rem; font-weight: 800; color: #fff;">${escapeHtml(cat.name)}</h3>
-                <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 4px;">${escapeHtml(cat.description || '')}</p>
+                <span class="card-section-label">${escapeHtml(cat.section)}</span>
+                <h3 style="font-family: var(--font-serif); font-size: 1.35rem; font-weight: 600; color: var(--text-primary);">${escapeHtml(cat.name)}</h3>
+                <p style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 2px;">${escapeHtml(cat.description || '')}</p>
               </div>
 
-              <!-- Header Actions: Lock, Delete -->
-              <div style="display: flex; gap: 8px; align-items: center;">
-                <button class="btn btn-sm ${cat.isLocked ? 'btn-velvet' : 'btn-outline'}" onclick="toggleLock('${cat.id}', ${!cat.isLocked})" title="${cat.isLocked ? 'Betting Locked' : 'Betting Open'}">
-                  ${cat.isLocked ? '🔒 Locked' : '🟢 Open for Bets'}
+              <div style="display: flex; gap: 6px; align-items: center;">
+                <button class="btn btn-sm ${cat.isLocked ? 'btn-danger-subtle' : 'btn-secondary'}" onclick="toggleLock('${cat.id}', ${!cat.isLocked})">
+                  ${cat.isLocked ? 'Locked' : 'Open'}
                 </button>
 
-                <button class="btn btn-sm btn-outline" style="color: #fda4af; border-color: rgba(225,29,72,0.4);" onclick="deleteCategory('${cat.id}', '${escapeAttr(cat.name)}')">
-                  🗑️ Delete
+                <button class="btn btn-sm btn-subtle" style="color: #fda4af;" onclick="deleteCategory('${cat.id}', '${escapeAttr(cat.name)}')">
+                  Delete
                 </button>
               </div>
             </div>
 
-            <!-- Winner announcement banner if settled -->
             ${hasWinner ? `
-              <div style="background: rgba(212, 175, 55, 0.18); border: 1px solid var(--gold-primary); border-radius: var(--radius-md); padding: 12px 18px; margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between;">
-                <div style="display: flex; align-items: center; gap: 10px; font-weight: 700; color: var(--gold-light);">
-                  <span style="font-size: 1.4rem;">🏆</span>
-                  <span>WINNER DECLARED: <strong>@${escapeHtml(winnerNominee ? winnerNominee.name : 'Unknown')}</strong> (Bets Settled & Paid Out)</span>
+              <div style="background: var(--gold-muted); border: 1px solid var(--border-accent); border-radius: var(--radius-sm); padding: 8px 14px; margin-bottom: 14px; display: flex; align-items: center; justify-content: space-between;">
+                <div style="font-size: 0.82rem; color: var(--gold-light);">
+                  Winner Recorded: <strong style="color: #fff;">@${escapeHtml(winnerNominee ? winnerNominee.name : 'Unknown')}</strong> (Stakes settled)
                 </div>
-                <button class="btn btn-sm btn-outline" style="border-color: var(--border-gold);" onclick="clearWinner('${cat.id}')">
-                  ↩️ Undo / Clear Winner
+                <button class="btn btn-sm btn-subtle" onclick="clearWinner('${cat.id}')">
+                  Revert Winner
                 </button>
               </div>
             ` : ''}
 
-            <!-- Nominees Management Box -->
-            <div style="background: rgba(0,0,0,0.25); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 16px;">
-              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 10px;">
-                <h4 style="font-size: 0.9rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-secondary);">
-                  Nominated Members (${(cat.nominees || []).length})
-                </h4>
+            <!-- Nominees Panel -->
+            <div style="background: var(--bg-subtle); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); padding: 14px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                <span style="font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-tertiary);">
+                  Candidates (${(cat.nominees || []).length})
+                </span>
 
-                <button class="btn btn-sm btn-outline-gold" onclick="openBulkNomineesModal('${cat.id}', '${escapeAttr(cat.name)}')">
-                  ⚡ Bulk Add Members
+                <button class="btn btn-sm btn-secondary" onclick="openBulkNomineesModal('${cat.id}', '${escapeAttr(cat.name)}')">
+                  + Bulk Import
                 </button>
               </div>
 
-              <!-- Nominees list -->
-              <div style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 14px;">
+              <div style="display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px;">
                 ${(cat.nominees && cat.nominees.length) ? cat.nominees.map(nom => {
                   const oddsData = (cat.odds && cat.odds[nom.id]) || { odds: 2.50, pool: 0, betCount: 0, sharePercentage: 0 };
                   const isWinner = cat.winnerId === nom.id;
+                  const initials = getAvatarInitials(nom.name);
+                  const palette = getAvatarColorStyle(nom.name);
 
                   return `
-                    <div class="nominee-admin-pill ${isWinner ? 'is-winner' : ''}">
+                    <div class="nominee-admin-row ${isWinner ? 'winner-row' : ''}">
                       <div style="display: flex; align-items: center; gap: 10px; min-width: 0;">
-                        <span style="font-size: 1.2rem;">${getAvatarEmoji(nom.avatar)}</span>
+                        <div class="nominee-badge-initials" style="width: 24px; height: 24px; font-size: 0.65rem; background:${palette.bg}; color:${palette.text}; border-color:${palette.border};">
+                          ${initials}
+                        </div>
                         <div>
-                          <strong style="color: ${isWinner ? 'var(--gold-light)' : '#fff'}; font-size: 0.95rem;">@${escapeHtml(nom.name)}</strong>
-                          ${isWinner ? '<span style="font-size: 0.72rem; font-weight: 800; color: var(--gold-light); margin-left: 6px;">WINNER 🏆</span>' : ''}
-                          <div style="font-size: 0.75rem; color: var(--text-muted);">
-                            ${oddsData.pool} 🍒 (${oddsData.sharePercentage}%) • ${oddsData.betCount} bets • Odds: ${oddsData.odds}x
+                          <strong style="color: ${isWinner ? 'var(--gold-light)' : 'var(--text-primary)'}; font-size: 0.85rem;">@${escapeHtml(nom.name)}</strong>
+                          ${isWinner ? '<span style="font-size: 0.68rem; font-weight: 700; color: var(--gold-light); margin-left: 6px;">WINNER</span>' : ''}
+                          <div class="font-mono" style="font-size: 0.7rem; color: var(--text-tertiary);">
+                            ${oddsData.pool} pts (${oddsData.sharePercentage}%) • ${oddsData.betCount} stakes • ${oddsData.odds}x
                           </div>
                         </div>
                       </div>
 
-                      <div style="display: flex; align-items: center; gap: 8px; flex-shrink: 0;">
+                      <div style="display: flex; align-items: center; gap: 6px; flex-shrink: 0;">
                         ${!isWinner ? `
-                          <button class="btn btn-sm btn-gold" onclick="declareWinner('${cat.id}', '${nom.id}', '${escapeAttr(nom.name)}')">
-                            🏆 Declare Winner
+                          <button class="btn btn-sm btn-accent-subtle" onclick="declareWinner('${cat.id}', '${nom.id}', '${escapeAttr(nom.name)}')">
+                            Declare Winner
                           </button>
                         ` : ''}
 
-                        <button class="btn btn-sm btn-outline" style="padding: 5px 8px; color: #fda4af;" onclick="deleteNominee('${cat.id}', '${nom.id}', '${escapeAttr(nom.name)}')" title="Remove Nominee">
+                        <button class="btn btn-sm btn-subtle" style="padding: 4px 6px; color: var(--text-muted);" onclick="deleteNominee('${cat.id}', '${nom.id}', '${escapeAttr(nom.name)}')">
                           &times;
                         </button>
                       </div>
                     </div>
                   `;
                 }).join('') : `
-                  <div style="text-align: center; color: var(--text-muted); padding: 12px; font-size: 0.85rem;">
-                    No members nominated yet. Add members below.
+                  <div style="text-align: center; color: var(--text-tertiary); padding: 10px; font-size: 0.78rem;">
+                    No candidates registered yet.
                   </div>
                 `}
               </div>
 
-              <!-- Quick Add Single Member Input -->
-              <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
-                <div style="position: relative; flex: 1; min-width: 180px;">
-                  <span style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-weight: 700;">@</span>
-                  <input type="text" id="quick-nom-name-${cat.id}" class="form-input" style="padding: 8px 12px 8px 30px; font-size: 0.88rem;" placeholder="Member username...">
+              <!-- Quick Add Single Nominee -->
+              <div style="display: flex; gap: 8px; align-items: center;">
+                <div style="position: relative; flex: 1;">
+                  <span style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-size: 0.8rem;">@</span>
+                  <input type="text" id="quick-nom-name-${cat.id}" class="form-input font-mono" style="padding: 6px 10px 6px 24px; font-size: 0.82rem;" placeholder="username...">
                 </div>
 
-                <select id="quick-nom-avatar-${cat.id}" class="form-select" style="width: auto; padding: 8px 10px; font-size: 0.88rem;">
-                  <option value="cherry">🍒 Cherry</option>
-                  <option value="crown">👑 Crown</option>
-                  <option value="flower">🌸 Flower</option>
-                  <option value="lipstick">💄 Lipstick</option>
-                  <option value="sunglasses">🕶️ Shades</option>
-                  <option value="ribbon">🎀 Ribbon</option>
-                  <option value="wine">🍷 Wine</option>
-                  <option value="mic">🎤 Mic</option>
-                  <option value="rose">🌹 Rose</option>
-                  <option value="coffee">☕ Coffee</option>
-                  <option value="wave">🌊 Wave</option>
-                </select>
-
-                <button class="btn btn-sm btn-gold" onclick="submitQuickNominee('${cat.id}')">
-                  + Add Member
+                <button class="btn btn-sm btn-secondary" onclick="submitQuickNominee('${cat.id}')">
+                  Add Member
                 </button>
               </div>
             </div>
@@ -740,9 +681,7 @@
       }).join('');
     }
 
-    // Add New Category
     function openAddCategoryModal() {
-      playClick();
       document.getElementById('new-cat-name').value = '';
       document.getElementById('new-cat-desc').value = '';
       openModal('add-category-modal');
@@ -754,7 +693,7 @@
       const description = document.getElementById('new-cat-desc').value.trim();
 
       if (!name) {
-        showToast('Please enter a category title!', 'warning');
+        showToast('Category name is required', 'warning');
         return;
       }
 
@@ -767,17 +706,15 @@
         if (!res.ok || !data.success) throw new Error(data.error || 'Failed to create category');
 
         closeModal('add-category-modal');
-        showToast(`Category "${name}" created!`, 'success');
-        playClick();
+        showToast(`Category "${name}" created`, 'success');
         fetchState();
       } catch (err) {
         showToast(err.message, 'error');
       }
     }
 
-    // Delete Category
     async function deleteCategory(categoryId, categoryName) {
-      if (!confirm(`Are you sure you want to delete "${categoryName}"?\nAny pending bets on this category will be refunded.`)) {
+      if (!confirm(`Delete category "${categoryName}"?\nPending stakes on this category will be refunded.`)) {
         return;
       }
 
@@ -789,16 +726,14 @@
         const data = await res.json();
         if (!res.ok || !data.success) throw new Error(data.error || 'Failed to delete category');
 
-        showToast(`Category "${categoryName}" deleted.`, 'info');
+        showToast(`Category removed`, 'info');
         fetchState();
       } catch (err) {
         showToast(err.message, 'error');
       }
     }
 
-    // Toggle Category Lock
     async function toggleLock(categoryId, lockState) {
-      playClick();
       try {
         const res = await adminFetch('/api/admin/category/lock', {
           method: 'POST',
@@ -807,46 +742,40 @@
         const data = await res.json();
         if (!res.ok || !data.success) throw new Error(data.error || 'Lock toggle failed');
 
-        showToast(lockState ? 'Betting locked for category.' : 'Betting reopened.', 'info');
+        showToast(lockState ? 'Pool locked' : 'Pool reopened', 'info');
         fetchState();
       } catch (err) {
         showToast(err.message, 'error');
       }
     }
 
-    // Quick Add Single Nominee
     async function submitQuickNominee(categoryId) {
       const nameInput = document.getElementById(`quick-nom-name-${categoryId}`);
-      const avatarSelect = document.getElementById(`quick-nom-avatar-${categoryId}`);
-
       const name = nameInput.value.trim().replace(/^@/, '');
-      const avatar = avatarSelect.value;
 
       if (!name) {
-        showToast('Please enter a username!', 'warning');
+        showToast('Username is required', 'warning');
         return;
       }
 
       try {
         const res = await adminFetch('/api/admin/nominee/add', {
           method: 'POST',
-          body: JSON.stringify({ categoryId, name, avatar })
+          body: JSON.stringify({ categoryId, name })
         });
         const data = await res.json();
         if (!res.ok || !data.success) throw new Error(data.error || 'Failed to add nominee');
 
         nameInput.value = '';
-        showToast(`@${name} added to category!`, 'success');
-        playClick();
+        showToast(`@${name} added`, 'success');
         fetchState();
       } catch (err) {
         showToast(err.message, 'error');
       }
     }
 
-    // Delete Nominee
     async function deleteNominee(categoryId, nomineeId, nomineeName) {
-      if (!confirm(`Remove @${nomineeName} from this category?\nAny bets placed on them will be refunded.`)) {
+      if (!confirm(`Remove @${nomineeName}? Stakes on this candidate will be refunded.`)) {
         return;
       }
 
@@ -856,19 +785,18 @@
           body: JSON.stringify({ categoryId, nomineeId })
         });
         const data = await res.json();
-        if (!res.ok || !data.success) throw new Error(data.error || 'Failed to remove nominee');
+        if (!res.ok || !data.success) throw new Error(data.error || 'Failed to remove candidate');
 
-        showToast(`@${nomineeName} removed.`, 'info');
+        showToast(`@${nomineeName} removed`, 'info');
         fetchState();
       } catch (err) {
         showToast(err.message, 'error');
       }
     }
 
-    // Bulk Add Nominees
     function openBulkNomineesModal(categoryId, categoryName) {
       currentBulkCategoryId = categoryId;
-      document.getElementById('bulk-modal-category-name').textContent = 'Target Category: ' + categoryName;
+      document.getElementById('bulk-modal-category-name').textContent = categoryName;
       document.getElementById('bulk-nominees-input').value = '';
       openModal('bulk-nominees-modal');
     }
@@ -882,7 +810,7 @@
         .filter(s => s.length > 0);
 
       if (!names.length) {
-        showToast('Please enter at least one member name!', 'warning');
+        showToast('Please enter at least one candidate handle', 'warning');
         return;
       }
 
@@ -895,17 +823,15 @@
         if (!res.ok || !data.success) throw new Error(data.error || 'Bulk add failed');
 
         closeModal('bulk-nominees-modal');
-        showToast(`Added ${data.addedCount} members to category!`, 'success');
-        playClick();
+        showToast(`Added ${data.addedCount} candidates`, 'success');
         fetchState();
       } catch (err) {
         showToast(err.message, 'error');
       }
     }
 
-    // Declare Winner
     async function declareWinner(categoryId, nomineeId, nomineeName) {
-      if (!confirm(`🏆 Declare @${nomineeName} as the WINNER of this category?\nThis will immediately settle all bets and distribute winnings to all victorious bettors!`)) {
+      if (!confirm(`Declare @${nomineeName} as winner?\nThis will settle all stakes and credit winning predictions.`)) {
         return;
       }
 
@@ -919,16 +845,15 @@
 
         playFanfare();
         launchConfetti();
-        showToast(`🏆 @${nomineeName} officially crowned Grammy Winner! Paid out ${data.totalPayout} 🍒.`, 'success');
+        showToast(`Winner confirmed: @${nomineeName}`, 'success');
         fetchState();
       } catch (err) {
         showToast(err.message, 'error');
       }
     }
 
-    // Clear / Undo Winner
     async function clearWinner(categoryId) {
-      if (!confirm('Undo winner declaration? Winnings will be reversed and bets returned to pending.')) {
+      if (!confirm('Revert winner decision? Winnings will be reversed and stakes returned to pending.')) {
         return;
       }
 
@@ -938,22 +863,21 @@
           body: JSON.stringify({ categoryId })
         });
         const data = await res.json();
-        if (!res.ok || !data.success) throw new Error(data.error || 'Failed to clear winner');
+        if (!res.ok || !data.success) throw new Error(data.error || 'Failed to revert winner');
 
-        showToast('Winner cleared. Bets reverted to pending.', 'info');
+        showToast('Winner decision reverted', 'info');
         fetchState();
       } catch (err) {
         showToast(err.message, 'error');
       }
     }
 
-    // Change Admin Passcode
     async function submitChangePasscode() {
       const input = document.getElementById('new-admin-passcode-input');
       const newPwd = input.value.trim();
 
       if (!newPwd || newPwd.length < 4) {
-        showToast('New passcode must be at least 4 characters long!', 'warning');
+        showToast('Passcode must be at least 4 characters long', 'warning');
         return;
       }
 
@@ -968,17 +892,16 @@
         sessionStorage.setItem('lanacord_admin_pwd', newPwd);
         closeModal('change-passcode-modal');
         input.value = '';
-        showToast('Admin passcode updated successfully!', 'success');
+        showToast('Passcode updated successfully', 'success');
       } catch (err) {
         showToast(err.message, 'error');
       }
     }
 
-    // Reset Actions
     async function executeReset(type) {
       const confirmMsg = type === 'defaults'
-        ? 'RESTORE DEFAULT 33 CATEGORIES?\nThis will overwrite custom categories and reset all bets!'
-        : 'CLEAR ALL BETS?\nThis will refund pending bets and reset pools.';
+        ? 'Restore standard 33 categories and reset all active stakes?'
+        : 'Clear all active stakes and pools?';
 
       if (!confirm(confirmMsg)) return;
 
@@ -991,14 +914,13 @@
         if (!res.ok || !data.success) throw new Error('Reset failed');
 
         closeModal('reset-modal');
-        showToast('Reset executed successfully!', 'info');
+        showToast('Reset completed', 'info');
         fetchState();
       } catch (err) {
         showToast(err.message, 'error');
       }
     }
 
-    // Modal helpers
     function openModal(id) {
       document.getElementById(id).classList.add('open');
     }

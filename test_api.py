@@ -6,7 +6,9 @@ import time
 import sys
 
 def test_api():
-    base_url = "http://127.0.0.1:8080"
+    port = sys.argv[1] if len(sys.argv) > 1 else "8081"
+    base_url = f"http://127.0.0.1:{port}"
+    admin_headers = {"Content-Type": "application/json", "X-Admin-Password": "lanacord2026"}
     print("Testing GET /api/state...")
     req = urllib.request.Request(f"{base_url}/api/state")
     with urllib.request.urlopen(req) as resp:
@@ -55,7 +57,7 @@ def test_api():
         "name": "brand_new_stan",
         "avatar": "lipstick"
     }).encode('utf-8')
-    req = urllib.request.Request(f"{base_url}/api/admin/nominee/add", data=nom_data, headers={"Content-Type": "application/json"})
+    req = urllib.request.Request(f"{base_url}/api/admin/nominee/add", data=nom_data, headers=admin_headers)
     with urllib.request.urlopen(req) as resp:
         nom_res = json.loads(resp.read().decode('utf-8'))
         assert nom_res["success"] is True
@@ -67,7 +69,7 @@ def test_api():
         "categoryId": target_cat["id"],
         "nomineeId": target_nom["id"]
     }).encode('utf-8')
-    req = urllib.request.Request(f"{base_url}/api/admin/category/declare-winner", data=win_data, headers={"Content-Type": "application/json"})
+    req = urllib.request.Request(f"{base_url}/api/admin/category/declare-winner", data=win_data, headers=admin_headers)
     with urllib.request.urlopen(req) as resp:
         win_res = json.loads(resp.read().decode('utf-8'))
         assert win_res["success"] is True
